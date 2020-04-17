@@ -45,6 +45,15 @@
 
   <title>test | Thimble's Blog</title>
   
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-20637187-2"></script>
+    <script>
+      if (CONFIG.hostname === location.hostname) {
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-20637187-2');
+      }
+    </script>
 
 
 
