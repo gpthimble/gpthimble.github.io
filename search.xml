@@ -1,6 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>test</title>
+    <url>/2020/test-1/</url>
+    <content><![CDATA[]]></content>
+  </entry>
+  <entry>
+    <title>test image</title>
+    <url>/2020/test-image/</url>
+    <content><![CDATA[<p>image test</p>
+<p><img src="test-image/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20200309203237.jpg" alt="a image"><br>爽</p>
+<p>$$<br>\alpha<br>$$</p>
+<p>flow chart te $\sum ss$ st <a href="hello!">^1</a> </p>
+<p><del>dijo</del></p>
+<p>this is <a href="https://www.google.com" target="_blank" rel="noopener">a link</a></p>
+<p><kbd>text</kbd> <kbd>tex2t</kbd></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">graph TD;</span><br><span class="line">    A--&gt;B;</span><br><span class="line">    A--&gt;C;</span><br><span class="line">    B--&gt;D;</span><br><span class="line">    C--&gt;D;</span><br></pre></td></tr></table></figure>
+
+]]></content>
+  </entry>
+  <entry>
+    <title>test</title>
+    <url>/2020/test/</url>
+    <content><![CDATA[<p>###标题</p>
+<p>hello</p>
+]]></content>
+      <tags>
+        <tag>随便写写</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Hello World</title>
     <url>/2020/hello-world/</url>
     <content><![CDATA[<p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
@@ -17,10 +46,5 @@
 
 <p>More info: <a href="https://hexo.io/docs/one-command-deployment.html" target="_blank" rel="noopener">Deployment</a></p>
 ]]></content>
-  </entry>
-  <entry>
-    <title>test</title>
-    <url>/2020/test/</url>
-    <content><![CDATA[]]></content>
   </entry>
 </search>
