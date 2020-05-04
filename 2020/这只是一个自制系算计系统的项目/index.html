@@ -20,28 +20,33 @@
     var CONFIG = {"hostname":"gpthimble.github.io","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"left","width":280,"display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"gitalk","storage":true,"lazyload":false,"nav":null,"activeClass":"gitalk"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":true,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Thimble&#39;s Blog">
-<meta property="og:url" content="https://gpthimble.github.io/index.html">
+  <meta name="description" content="该项目是一个自制计算机系统的项目，其目标包括cpu设计、外围的控制器如内存、cache、IO、中断等设计、外设如打印机、存储器等的设计，编译器和操作系统的移植。项目本身并不追求极限性能，和完美的安全性，只是在力所能及的条件下做一些优化。功能完善、易于测试和扩展是本项目的首要目标。 硬件设计目标本项目所使用的CPU为类MIPS架构，硬线逻辑仅支持整数指令，没有硬件乘法器、除法器。在FPGA中综合，不">
+<meta property="og:type" content="article">
+<meta property="og:title" content="这只是一个自制系算计系统的项目">
+<meta property="og:url" content="https://gpthimble.github.io/2020/%E8%BF%99%E5%8F%AA%E6%98%AF%E4%B8%80%E4%B8%AA%E8%87%AA%E5%88%B6%E7%B3%BB%E7%AE%97%E8%AE%A1%E7%B3%BB%E7%BB%9F%E7%9A%84%E9%A1%B9%E7%9B%AE/index.html">
 <meta property="og:site_name" content="Thimble&#39;s Blog">
+<meta property="og:description" content="该项目是一个自制计算机系统的项目，其目标包括cpu设计、外围的控制器如内存、cache、IO、中断等设计、外设如打印机、存储器等的设计，编译器和操作系统的移植。项目本身并不追求极限性能，和完美的安全性，只是在力所能及的条件下做一些优化。功能完善、易于测试和扩展是本项目的首要目标。 硬件设计目标本项目所使用的CPU为类MIPS架构，硬线逻辑仅支持整数指令，没有硬件乘法器、除法器。在FPGA中综合，不">
 <meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2020-05-04T01:45:52.000Z">
+<meta property="article:modified_time" content="2020-05-04T03:52:07.856Z">
 <meta property="article:author" content="Thimble">
+<meta property="article:tag" content="home brew computer system, summarize, development log">
 <meta name="twitter:card" content="summary">
 
-<link rel="canonical" href="https://gpthimble.github.io/">
+<link rel="canonical" href="https://gpthimble.github.io/2020/%E8%BF%99%E5%8F%AA%E6%98%AF%E4%B8%80%E4%B8%AA%E8%87%AA%E5%88%B6%E7%B3%BB%E7%AE%97%E8%AE%A1%E7%B3%BB%E7%BB%9F%E7%9A%84%E9%A1%B9%E7%9B%AE/">
 
 
 <script id="page-configurations">
   // https://hexo.io/docs/variables.html
   CONFIG.page = {
     sidebar: "",
-    isHome : true,
-    isPost : false,
+    isHome : false,
+    isPost : true,
     lang   : 'en'
   };
 </script>
 
-  <title>Thimble's Blog</title>
+  <title>这只是一个自制系算计系统的项目 | Thimble's Blog</title>
   
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-20637187-2"></script>
     <script>
@@ -193,9 +198,10 @@
         <div class="content-wrap">
           
 
-          <div class="content index posts-expand">
+          <div class="content post posts-expand">
             
-      
+
+    
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
@@ -211,10 +217,9 @@
       <meta itemprop="name" content="Thimble's Blog">
     </span>
       <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/%E8%BF%99%E5%8F%AA%E6%98%AF%E4%B8%80%E4%B8%AA%E8%87%AA%E5%88%B6%E7%B3%BB%E7%AE%97%E8%AE%A1%E7%B3%BB%E7%BB%9F%E7%9A%84%E9%A1%B9%E7%9B%AE/" class="post-title-link" itemprop="url">这只是一个自制系算计系统的项目</a>
-        </h2>
+        <h1 class="post-title" itemprop="name headline">
+          这只是一个自制系算计系统的项目
+        </h1>
 
         <div class="post-meta">
             <span class="post-meta-item">
@@ -247,7 +252,7 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p>该项目是一个自制<strong>计算机系统</strong>的项目，其目标包括cpu设计、外围的控制器如内存、cache、IO、中断等设计、外设如打印机、存储器等的设计，编译器和操作系统的移植。项目本身并不追求极限性能，和完美的安全性，只是在力所能及的条件下做一些优化。功能完善、易于测试和扩展是本项目的首要目标。</p>
+        <p>该项目是一个自制<strong>计算机系统</strong>的项目，其目标包括cpu设计、外围的控制器如内存、cache、IO、中断等设计、外设如打印机、存储器等的设计，编译器和操作系统的移植。项目本身并不追求极限性能，和完美的安全性，只是在力所能及的条件下做一些优化。功能完善、易于测试和扩展是本项目的首要目标。</p>
 <h3 id="硬件设计目标"><a href="#硬件设计目标" class="headerlink" title="硬件设计目标"></a>硬件设计目标</h3><p>本项目所使用的CPU为类MIPS架构，硬线逻辑仅支持整数指令，没有硬件乘法器、除法器。在FPGA中综合，不使用任何基于厂商的IP。采用5级流水线，精确中断，集成SDRAM双端口控制器，包含一级指令和数据cache。</p>
 <p>CPU的整体结构与李亚民所著的《计算机原理与设计》中的相似，但调整了一些指令的实现，并期望引入微代码来增加CPU的可扩展性，降低编译器移植和系统编程的难度。</p>
 <h3 id="编译器移植目标"><a href="#编译器移植目标" class="headerlink" title="编译器移植目标"></a>编译器移植目标</h3><p>本项目计划移植lcc编译器到该平台，以实现工具链软件。由于本项目所使用的CPU与MIPS结构相似，所以移植基于lcc编译器的MIPS后端md文件进行。由于本项目所使用的CPU与MIPS结构不完全相同，修改lcc的后端的工作可能包括：</p>
@@ -291,104 +296,40 @@
 <li>Lcc-A Retargetable C Compiler: Design and Implementation. lcc是一个很有名的编译器，它本身是一个文本程序，这本书详细的介绍了其实现的每一个细节。只是笔者水平有限，读起来十分吃力，花了将近四个月时间才读完，掌握了对其修改的能力，也深入了解了ANSI C标准的实现。值得一提的是，这本书有一中文译本，但是很遗憾，不同章节翻译的质量有很大的波动，而且也有一些翻译上的错误，在这里笔者就不推荐了。</li>
 </ol>
 
-      
     </div>
 
     
     
     
+
       <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
+          <div class="post-tags">
+              <a href="/tags/home-brew-computer-system-summarize-development-log/" rel="tag"># home brew computer system, summarize, development log</a>
+          </div>
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="https://gpthimble.github.io/2020/hello-world/">
+        
 
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Thimble">
-      <meta itemprop="description" content="">
-    </span>
 
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Thimble's Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/hello-world/" class="post-title-link" itemprop="url">Hello World</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2020-04-17 19:53:36" itemprop="dateCreated datePublished" datetime="2020-04-17T19:53:36+08:00">2020-04-17</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-04-18 11:22:43" itemprop="dateModified" datetime="2020-04-18T11:22:43+08:00">2020-04-18</time>
-              </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html" target="_blank" rel="noopener">Deployment</a></p>
-
-      
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/hello-world/" rel="prev" title="Hello World">
+      <i class="fa fa-chevron-left"></i> Hello World
+    </a></div>
+      <div class="post-nav-item"></div>
     </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
       </footer>
+    
   </article>
   
   
-  
-
-
   
 
 
 
           </div>
           
+    <div class="comments" id="gitalk-container"></div>
 
 <script>
   window.addEventListener('tabs:register', () => {
@@ -435,6 +376,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#硬件设计目标"><span class="nav-number">1.</span> <span class="nav-text">硬件设计目标</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#编译器移植目标"><span class="nav-number">2.</span> <span class="nav-text">编译器移植目标</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#其他工具链软件的设计"><span class="nav-number">3.</span> <span class="nav-text">其他工具链软件的设计</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#操作系统的移植目标"><span class="nav-number">4.</span> <span class="nav-text">操作系统的移植目标</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参考资料"><span class="nav-number">5.</span> <span class="nav-text">参考资料</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#硬件系统的设计"><span class="nav-number">5.1.</span> <span class="nav-text">硬件系统的设计</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#软件系统的设计"><span class="nav-number">5.2.</span> <span class="nav-text">软件系统的设计</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -567,6 +509,25 @@ if (document.querySelectorAll('pre.mermaid').length) {
 
   
 
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID    : 'ad6ae0a709b4ba94e7a1',
+      clientSecret: '5cffb7b459889f3bd15131de8ce1d28cd1316871',
+      repo        : 'gpthimble.github.io',
+      owner       : 'gpthimble',
+      admin       : ['gpthimble'],
+      id          : '8eb7005abd8b9053d55489fdaf55b329',
+        language: '',
+      distractionFreeMode: true
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
+</script>
 
 </body>
 </html>
