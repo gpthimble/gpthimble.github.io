@@ -29,11 +29,12 @@
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="https://gpthimble.github.io/2020/%E5%9C%A8MIPS-CPU%E4%B8%AD%E5%BC%95%E5%85%A5%E5%BE%AE%E4%BB%A3%E7%A0%81/IF_with_micro_code.png">
 <meta property="article:published_time" content="2020-05-04T04:44:34.000Z">
-<meta property="article:modified_time" content="2020-05-05T02:27:06.452Z">
+<meta property="article:modified_time" content="2020-05-05T04:51:26.497Z">
 <meta property="article:author" content="Thimble">
 <meta property="article:tag" content="home brew computer system">
 <meta property="article:tag" content="cpu design">
 <meta property="article:tag" content="micro program">
+<meta property="article:tag" content="development log">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://gpthimble.github.io/2020/%E5%9C%A8MIPS-CPU%E4%B8%AD%E5%BC%95%E5%85%A5%E5%BE%AE%E4%BB%A3%E7%A0%81/IF_with_micro_code.png">
 
@@ -239,7 +240,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-05-05 10:27:06" itemprop="dateModified" datetime="2020-05-05T10:27:06+08:00">2020-05-05</time>
+                <time title="Modified: 2020-05-05 12:51:26" itemprop="dateModified" datetime="2020-05-05T12:51:26+08:00">2020-05-05</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -257,14 +258,14 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">Symbols count in article: </span>
-              <span>3.6k</span>
+              <span>4k</span>
             </span>
             <span class="post-meta-item" title="Reading time">
               <span class="post-meta-item-icon">
                 <i class="far fa-clock"></i>
               </span>
                 <span class="post-meta-item-text">Reading time &asymp;</span>
-              <span>3 mins.</span>
+              <span>4 mins.</span>
             </span>
 
         </div>
@@ -384,7 +385,7 @@ class Head{
 <td>0</td>
 </tr>
 <tr>
-<td>u-&gt;n</td>
+<td>u-&gt;u</td>
 <td>1</td>
 <td>1</td>
 <td>1</td>
@@ -436,7 +437,18 @@ class Head{
 <p>由对上述三种情况的分析可以知道，我所设计的微指令系统时可以正常工作的。对这些情况的分析是多余的，是因为npc和nupc的值是由ID级的指令决定的。ID级是硬件指令，IF正在处理微指令，这种情况（enter）upc是特殊处理的，并不会影响pc的更新。同理ID级时微指令，IF级正在处理硬件指令，这种情况下upc和pc都直接加4，upc+4后跨越了终结符，其值在下一次进入时在被更新。其余的情况ID级时硬件指令，IF级也是硬件指令或者ID级是微指令，IF级也是微指令，这两种情况与未加入微指令系统的情况相同，只是选择性的对pc和upc的写入进行使能控制。</p>
 <h2 id="微指令系统对精确中断的影响"><a href="#微指令系统对精确中断的影响" class="headerlink" title="微指令系统对精确中断的影响"></a>微指令系统对精确中断的影响</h2><p>在流水线中实现精确中断并不是一件容易的事，尤其是在有分支、有延时槽的情况下。所以笔者不打算采用列举各种情况来分析引入微指令对精确中断的影响，而是试图从更高的层面去思考这个问题，以对终端系统进行针对性的修改。</p>
 <p>中断和异常会在ID级或者EXE级到来。ID级的异常，可以是硬件中断，未实现的指令或者是系统调用systemcall。EXE级的异常可以是算术指令的溢出。</p>
-<p>分析引入微指令对精确中断的影响，要分析IF阶段的取指结果，和那些因素有关。如果中断到来，所保存的现场能够在恢复时确保取出的指令是正确的，那么引入微指令对中断就是兼容的。</p>
+<h3 id="该微指令系统对原有精确中断的兼容性分析"><a href="#该微指令系统对原有精确中断的兼容性分析" class="headerlink" title="该微指令系统对原有精确中断的兼容性分析"></a>该微指令系统对原有精确中断的兼容性分析</h3><p>分析引入微指令对精确中断的影响，要分析IF阶段的取指结果，和那些因素有关。如果中断到来，所保存的现场能够在恢复时确保取出的指令是正确的，那么引入微指令对中断就是兼容的。</p>
+<p>时钟到来时，存入IR的指令与下面因素有关：</p>
+<ol>
+<li>pc的值</li>
+<li>upc的值</li>
+<li>IF的状态state</li>
+</ol>
+<p>初看上一张的真值表，可以发现存入IR的指令还和当前指令是否是硬件实现的，和当前微指令是否是结束符有关。但如果考虑存储器中的内容在是固定的（对于指令和微指令而言，存储器的内容都是固定的），那么当前指令和当前微指令均是由pc和upc决定的。</p>
+<p>也就是说，只要保存pc、upc和state，在恢复时就可以恢复这一个时钟到来时所取的指令。</p>
+<p>而精确中断的机制，就是根据发生异常的位置，保存中断返回地址取指时的IF状态，因此，对原有终端系统的修改，只需要将过去只保存PC，改为同时保存PC、uPC和state即可。</p>
+<h3 id="中断到来对取指的影响"><a href="#中断到来对取指的影响" class="headerlink" title="中断到来对取指的影响"></a>中断到来对取指的影响</h3><p>如果没有中断机制，IF级的状态转移如上一节的表格所示。但是中断机制的引入使IF级变得更加复杂。</p>
+<p>中断相当于强制跳转并保存现场。</p>
 
     </div>
 
@@ -449,6 +461,7 @@ class Head{
               <a href="/tags/home-brew-computer-system/" rel="tag"># home brew computer system</a>
               <a href="/tags/cpu-design/" rel="tag"># cpu design</a>
               <a href="/tags/micro-program/" rel="tag"># micro program</a>
+              <a href="/tags/development-log/" rel="tag"># development log</a>
           </div>
 
         
@@ -457,8 +470,8 @@ class Head{
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2020/%E8%BF%99%E5%8F%AA%E6%98%AF%E4%B8%80%E4%B8%AA%E8%87%AA%E5%88%B6%E7%B3%BB%E7%AE%97%E8%AE%A1%E7%B3%BB%E7%BB%9F%E7%9A%84%E9%A1%B9%E7%9B%AE/" rel="prev" title="这只是一个自制系算计系统的项目">
-      <i class="fa fa-chevron-left"></i> 这只是一个自制系算计系统的项目
+    <a href="/2020/%E8%BF%99%E5%8F%AA%E6%98%AF%E4%B8%80%E4%B8%AA%E8%87%AA%E5%88%B6%E7%B3%BB%E7%AE%97%E8%AE%A1%E7%B3%BB%E7%BB%9F%E7%9A%84%E9%A1%B9%E7%9B%AE/" rel="prev" title="这只是一个自制计算机系统的项目">
+      <i class="fa fa-chevron-left"></i> 这只是一个自制计算机系统的项目
     </a></div>
       <div class="post-nav-item"></div>
     </div>
@@ -520,7 +533,7 @@ class Head{
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#带有微指令的IF级"><span class="nav-number">1.</span> <span class="nav-text">带有微指令的IF级</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#微指令存储器的结构"><span class="nav-number">2.</span> <span class="nav-text">微指令存储器的结构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#微指令工作过程"><span class="nav-number">3.</span> <span class="nav-text">微指令工作过程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#微指令系统对精确中断的影响"><span class="nav-number">4.</span> <span class="nav-text">微指令系统对精确中断的影响</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#带有微指令的IF级"><span class="nav-number">1.</span> <span class="nav-text">带有微指令的IF级</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#微指令存储器的结构"><span class="nav-number">2.</span> <span class="nav-text">微指令存储器的结构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#微指令工作过程"><span class="nav-number">3.</span> <span class="nav-text">微指令工作过程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#微指令系统对精确中断的影响"><span class="nav-number">4.</span> <span class="nav-text">微指令系统对精确中断的影响</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#该微指令系统对原有精确中断的兼容性分析"><span class="nav-number">4.1.</span> <span class="nav-text">该微指令系统对原有精确中断的兼容性分析</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#中断到来对取指的影响"><span class="nav-number">4.2.</span> <span class="nav-text">中断到来对取指的影响</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -590,7 +603,7 @@ class Head{
       <i class="fa fa-coffee"></i>
     </span>
       <span class="post-meta-item-text">Reading time total &asymp;</span>
-    <span title="Reading time total">6 mins.</span>
+    <span title="Reading time total">7 mins.</span>
 </div>
   <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://mist.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a>
   </div>
