@@ -230,7 +230,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-05-05 12:51:26" itemprop="dateModified" datetime="2020-05-05T12:51:26+08:00">2020-05-05</time>
+                <time title="Modified: 2020-05-05 14:17:18" itemprop="dateModified" datetime="2020-05-05T14:17:18+08:00">2020-05-05</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -248,7 +248,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">Symbols count in article: </span>
-              <span>4k</span>
+              <span>4.9k</span>
             </span>
             <span class="post-meta-item" title="Reading time">
               <span class="post-meta-item-icon">
@@ -438,7 +438,17 @@ class Head{
 <p>也就是说，只要保存pc、upc和state，在恢复时就可以恢复这一个时钟到来时所取的指令。</p>
 <p>而精确中断的机制，就是根据发生异常的位置，保存中断返回地址取指时的IF状态，因此，对原有终端系统的修改，只需要将过去只保存PC，改为同时保存PC、uPC和state即可。</p>
 <h3 id="中断到来对取指的影响"><a href="#中断到来对取指的影响" class="headerlink" title="中断到来对取指的影响"></a>中断到来对取指的影响</h3><p>如果没有中断机制，IF级的状态转移如上一节的表格所示。但是中断机制的引入使IF级变得更加复杂。</p>
-<p>中断相当于强制跳转并保存现场。</p>
+<p>中断相当于强制跳转并保存现场，也就是说中断到来时应当强制更新pc的值。但是IF级所取的下一条指令是由上文所说的pc,upc以及state决定的，而ID给出的中断信号，只能改变PC_INT多路器的选择信号。由此可知，上文中的状态转移过程，若wpc是1，则中断来临时，pc会在时钟到来时更新到中断向量所指的位置。</p>
+<p>但有一种特殊情况，若此时IF级处于微指令状态，state=1，并且下一条微指令不是终结符，那么wpc=0，则pc在时钟到来时不会更新为中断向量所指的地址。这会造成错误。</p>
+<p>再考虑IF级的输出。IF级输出也由pc,upc以及state决定，如果只对pc进行修改，使得pc在中断来临时强制修改，仍然不能使得中断向量正确向ID级传送。</p>
+<p>所以作者在状态寄存器向IF控制器的输入处增加了一个多路器，在中断到来时强制设置state=0，但又不修改state寄存器的内容，让原有的state寄存器内容可以向下传递，使中断控制电路可以正确的保存中断前的状态，与此同时制造enter或者normal的假象，正确处理中断时的跳转问题。</p>
+<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><p>这篇文章描述了该自制计算机系统中处理器使如何处理微指令的。本文所描述的方法，可以充分利用硬线逻辑控制器的速度优势，又可以提供一个完整的微指令环境对指令集进行扩充。该方法区别于在很多书中记载的微指令实现方法，不使用微指令解码来控制各个功能部件实现不同的功能，而是直接以硬件实现的指令作为微指令。一条由微指令实现的指令，像一个汇编语言中的宏，如果没有这个微指令模块，这些功能自然可以通过汇编语言的宏来实现。但是，微指令模块的意义仍然存在，经过精心调试的微指令，可以充分利用延时槽、流水线冲突避免等特性来获得比用户自定义的宏更好的性能，也可以减少系统编程时出错的概率，还可以减少可执行代码的体积。在某些必须使用多周期才能实现的硬件指令，把他转换成这样的微指令，只需要付出极少的硬件代价，并且其执行可以高效的利用流水线。</p>
+<p>该系统实现的难点有二：</p>
+<ol>
+<li>IF级的指令选择设计</li>
+<li>IF级的指令选择与中断系统的结合和兼容设计</li>
+</ol>
+<p>关于该系统的进一步验证，等到具体实现，会用EDA工具仿真实验，届时笔者会把硬件逻辑描述和测试用例同步更新在文章中。</p>
 
       
     </div>
@@ -791,13 +801,13 @@ class Head{
       <i class="fa fa-chart-area"></i>
     </span>
       <span class="post-meta-item-text">Symbols count total: </span>
-    <span title="Symbols count total">7k</span>
+    <span title="Symbols count total">8k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span class="post-meta-item-text">Reading time total &asymp;</span>
-    <span title="Reading time total">7 mins.</span>
+    <span title="Reading time total">8 mins.</span>
 </div>
   <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://mist.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a>
   </div>
