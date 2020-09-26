@@ -20,17 +20,19 @@
     var CONFIG = {"hostname":"gpthimble.github.io","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"left","width":280,"display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"gitalk","storage":true,"lazyload":false,"nav":null,"activeClass":"gitalk"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":true,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Tags">
-<meta property="og:url" content="https://gpthimble.github.io/tags/index.html">
+  <meta name="description" content="对C语言的声明的处理是编译器前端最复杂的工作。C语言声明的语法非常灵活，也使得对于声明的分析变得困难。考虑下面这些声明： 1234567891011121314151617181920212223242526&#x2F;&#x2F;a is a pointer to a array of 5 int.int (*a) [5];&#x2F;&#x2F;b is a pointer to a function which returns a">
+<meta property="og:type" content="article">
+<meta property="og:title" content="从编译器角度看C语言的声明">
+<meta property="og:url" content="https://gpthimble.github.io/2020/%E4%BB%8E%E7%BC%96%E8%AF%91%E5%99%A8%E8%A7%92%E5%BA%A6%E7%9C%8BC%E8%AF%AD%E8%A8%80%E7%9A%84%E5%A3%B0%E6%98%8E/index.html">
 <meta property="og:site_name" content="Thimble&#39;s Blog">
+<meta property="og:description" content="对C语言的声明的处理是编译器前端最复杂的工作。C语言声明的语法非常灵活，也使得对于声明的分析变得困难。考虑下面这些声明： 1234567891011121314151617181920212223242526&#x2F;&#x2F;a is a pointer to a array of 5 int.int (*a) [5];&#x2F;&#x2F;b is a pointer to a function which returns a">
 <meta property="og:locale" content="en_US">
-<meta property="article:published_time" content="2020-04-17T12:52:00.000Z">
-<meta property="article:modified_time" content="2020-04-17T12:56:17.000Z">
+<meta property="article:published_time" content="2020-05-13T06:58:50.000Z">
+<meta property="article:modified_time" content="2020-09-26T02:15:27.950Z">
 <meta property="article:author" content="Thimble">
 <meta name="twitter:card" content="summary">
 
-<link rel="canonical" href="https://gpthimble.github.io/tags/">
+<link rel="canonical" href="https://gpthimble.github.io/2020/%E4%BB%8E%E7%BC%96%E8%AF%91%E5%99%A8%E8%A7%92%E5%BA%A6%E7%9C%8BC%E8%AF%AD%E8%A8%80%E7%9A%84%E5%A3%B0%E6%98%8E/">
 
 
 <script id="page-configurations">
@@ -38,13 +40,12 @@
   CONFIG.page = {
     sidebar: "",
     isHome : false,
-    isPost : false,
+    isPost : true,
     lang   : 'en'
   };
 </script>
 
-  <title>Tags | Thimble's Blog
-</title>
+  <title>从编译器角度看C语言的声明 | Thimble's Blog</title>
   
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-20637187-2"></script>
     <script>
@@ -195,55 +196,109 @@
       <div class="main-inner">
         <div class="content-wrap">
           
-  
-  
 
-          <div class="content page posts-expand">
+          <div class="content post posts-expand">
             
 
     
-    
-    
-    <div class="post-block" lang="en">
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://gpthimble.github.io/2020/%E4%BB%8E%E7%BC%96%E8%AF%91%E5%99%A8%E8%A7%92%E5%BA%A6%E7%9C%8BC%E8%AF%AD%E8%A8%80%E7%9A%84%E5%A3%B0%E6%98%8E/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Thimble">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Thimble's Blog">
+    </span>
       <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          从编译器角度看C语言的声明
+        </h1>
 
-<h1 class="post-title" itemprop="name headline">Tags
-</h1>
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
 
-<div class="post-meta">
+              <time title="Created: 2020-05-13 14:58:50" itemprop="dateCreated datePublished" datetime="2020-05-13T14:58:50+08:00">2020-05-13</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-09-26 10:15:27" itemprop="dateModified" datetime="2020-09-26T10:15:27+08:00">2020-09-26</time>
+              </span>
+
+          <br>
+            <span class="post-meta-item" title="Symbols count in article">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">Symbols count in article: </span>
+              <span>951</span>
+            </span>
+            <span class="post-meta-item" title="Reading time">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">Reading time &asymp;</span>
+              <span>1 mins.</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>对C语言的声明的处理是编译器前端最复杂的工作。C语言声明的语法非常灵活，也使得对于声明的分析变得困难。<br>考虑下面这些声明：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//a is a pointer to a array of 5 int.</span></span><br><span class="line"><span class="keyword">int</span> (*a) [<span class="number">5</span>];</span><br><span class="line"></span><br><span class="line"><span class="comment">//b is a pointer to a function which returns a int and takes void as its parameter.</span></span><br><span class="line"><span class="keyword">int</span> (*b) (<span class="keyword">void</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">//c is a function which returns a int and takes void as its parameter.</span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">c</span> <span class="params">(<span class="keyword">void</span>)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// d is a function which returns a pointer of int and takes void as its parameter.</span></span><br><span class="line"><span class="function"><span class="keyword">int</span> *<span class="title">d</span> <span class="params">(<span class="keyword">void</span>)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">//e is a array of 5 int.</span></span><br><span class="line"><span class="keyword">int</span> e [<span class="number">5</span>];</span><br><span class="line"></span><br><span class="line"><span class="comment">//f is a array of 5 pointers to int.</span></span><br><span class="line"><span class="keyword">int</span> *f [<span class="number">5</span>];</span><br><span class="line"></span><br><span class="line"><span class="comment">//p is a pointer to a constant volatile pointer to a constant pointer to an integer. The order of qualifiers is irrelevant.</span></span><br><span class="line"><span class="keyword">int</span> *<span class="keyword">const</span> *<span class="keyword">const</span> <span class="keyword">volatile</span> *p;</span><br><span class="line"></span><br><span class="line"><span class="comment">//g is a custom type of a pointer to function which returns a int and takes void as parameter.</span></span><br><span class="line"><span class="function"><span class="keyword">typedef</span> <span class="title">int</span>  <span class="params">(*g)</span> <span class="params">(<span class="keyword">void</span>)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">//h is a custom type of a pointer to function which returns a pointer to function likes g and takes void as parameter. The order of keyword typedef is irrelevant.</span></span><br><span class="line"><span class="function">g <span class="title">typedef</span>  <span class="params">(*h)</span> <span class="params">(<span class="keyword">void</span>)</span></span>;</span><br></pre></td></tr></table></figure>
+
+<p>这些声明都是合法的声明，而且很多在代码中经常出现，可见C语言声明语法的灵活程度。事实上，笔者使用C语言多年，每次看到不常用的声明，还需要翻书或是Google。即便有多年的使用经验，笔者也不敢说自己掌握C语言。通过阅读lcc的源码，笔者对C语言标准和其实现都有了更进一步的理解。</p>
+<p>test</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/%E5%9C%A8MIPS-CPU%E4%B8%AD%E5%BC%95%E5%85%A5%E5%BE%AE%E4%BB%A3%E7%A0%81/" rel="prev" title="在MIPS CPU中引入微代码">
+      <i class="fa fa-chevron-left"></i> 在MIPS CPU中引入微代码
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
   
 
-</div>
-
-</header>
-
-      
-      
-      
-      <div class="post-body">
-          <div class="tag-cloud">
-            <div class="tag-cloud-title">
-              5 tags in total
-            </div>
-            <div class="tag-cloud-tags">
-              <a href="/tags/cpu-design/" style="font-size: 12px; color: #ccc">cpu design</a> <a href="/tags/development-log/" style="font-size: 30px; color: #111">development log</a> <a href="/tags/home-brew-computer-system/" style="font-size: 30px; color: #111">home brew computer system</a> <a href="/tags/micro-program/" style="font-size: 12px; color: #ccc">micro program</a> <a href="/tags/summarize/" style="font-size: 12px; color: #ccc">summarize</a>
-            </div>
-          </div>
-        
-      </div>
-      
-      
-      
-    </div>
-    
-
-    
-    
-    
 
 
           </div>
           
+    <div class="comments" id="gitalk-container"></div>
 
 <script>
   window.addEventListener('tabs:register', () => {
@@ -434,6 +489,25 @@ if (document.querySelectorAll('pre.mermaid').length) {
 
   
 
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID    : 'ad6ae0a709b4ba94e7a1',
+      clientSecret: '5cffb7b459889f3bd15131de8ce1d28cd1316871',
+      repo        : 'gpthimble.github.io',
+      owner       : 'gpthimble',
+      admin       : ['gpthimble'],
+      id          : '2709b8c25a32a1743e38793a8aaf8d65',
+        language: '',
+      distractionFreeMode: true
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
+</script>
 
 </body>
 </html>
