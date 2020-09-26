@@ -199,6 +199,107 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://gpthimble.github.io/2020/2020-09-26-%E8%AF%BB%E5%AE%8CLCC%E5%AE%8C%E6%95%B4%E6%BA%90%E4%BB%A3%E7%A0%81/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Thimble">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Thimble's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/2020-09-26-%E8%AF%BB%E5%AE%8CLCC%E5%AE%8C%E6%95%B4%E6%BA%90%E4%BB%A3%E7%A0%81/" class="post-title-link" itemprop="url">2020-09-26 读完LCC完整源代码</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2020-09-26 15:31:08" itemprop="dateCreated datePublished" datetime="2020-09-26T15:31:08+08:00">2020-09-26</time>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="Symbols count in article">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">Symbols count in article: </span>
+              <span>3.1k</span>
+            </span>
+            <span class="post-meta-item" title="Reading time">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">Reading time &asymp;</span>
+              <span>3 mins.</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>经过了几个月，终于完整的读完了lcc 3.6 的代码，这一阶段工作基本告一段落。对于我来说，lcc是一个十分复杂的软件，虽然我能感受到作者在解释其实现所用的极大努力，但理解起来仍然十分困难。但是当我完整的看完lcc的代码包括其后端后，得到的收获确实很大。通过阅读，基本可以确定对，于我来说，lcc的移植工作技术上是可行的。</p>
+<h1 id="LCC的结构"><a href="#LCC的结构" class="headerlink" title="LCC的结构"></a>LCC的结构</h1><p>先谈一下lcc的结构。原书中的叙述方法，更多的是从功能模块的角度进行叙述的，详细的描述了每一个模块的实现，但是从纵深的角度来看，缺乏对模块之间相互调用相互配合的描述，因此需要阅读时特别留意整个编译程序运行过程中函数之间的调用，才能把握这个复杂的编译程序的整体脉络。</p>
+<p>如果从传统的前端-后端角度去看这个编译器，很难去理解。我认为前端-后端这样的分法，实际上是从功能的逻辑层面去考虑的。虽然整个lcc确实在实现上区分了前端和后端，但是在运行过程中，前端和后端的代码始终在相互配合，难以在运行过程明确分离。在我尚未意识到这一点时，阅读代码基本是在关注某个模块的实现，比如语法分析。而这些模块如语法语法分析，实际上是运行过程中比较深得一层，但从这个角度，很难看到阅读编译器的代码如何带给人与仅上编译原理课程不同的好处，填补理论和实践之间的鸿沟。<br>因为这些一个一个的模块，尤其是语法分析，实际上与编译原理的课程内容很相似，事实上，编译原理课程与语法分析这部分的实现重叠很大。</p>
+<p>从语法分析到语义分析，这部分内容就开始显现与计算机课程之间的区别了，编译器实现了ANSI C完整的语义，阅读这部分，更像是阅读C语言标准，这里面可以提炼出一些话题进行深入讨论，如C语言中的空指针定义，强制类型转换，函数调用，可变参数函数，参数的估值顺序，结构体中数据的对齐，C语言中复杂的声明等等。从编译器角度看这些问题，的确给人耳目一新的感觉，但是仅仅读到这里，仍然会有许多疑惑尚未被解释。例如函数调用、参数传递，这些都需要和计算平台配合，这些功能的具体实现，还要继续深入了解。我读到这里的时候，最大的疑惑就是程序中的数据是如何和各个标识符相关联的，内存的地址是如何和变量名相关联的。</p>
+<p>继续深入下去，lcc的结构就渐渐浮出水面。按照c语言的文法，一个translation unit是c语言程序的基本处理单元，translation unit 包括声明，可以是变量或者是函数的声明，一个c语言文件可以包括若干translation unit。变量的声明，只是处理了标识符、类型、值在编译器内的内部表示。对于变量的初始化，全局变量不产生代码，而是直接将符号和值相互对应起来。只有进行函数定义的时候，才会生成代码。所以分析lcc的整体脉络，需要知道书中讨论的各种功能模块，实际上是以函数定义为单元，往复进行调用。所以分析应从函数定义开始，逐步深入。便可理解一个简单的c语言程序是如何被lcc处理的。</p>
+<p>处理函数定义的函数funcdefn第一部分处理要定义的函数的类型，参数列表，处理局部变量和参数（主要是通过后端指定名字，将名字指定为相对于栈的offset），然后对函数定义的compound statement进行语法语义分析，一边分析，一边生成中间语言（森林形式的中间语言），生成中间语言的过程加以优化（如消除公共子式，常量折叠）。然后调用后端function函数，对中间语言进行处理。</p>
+<p>function函数，首先根据funcdefn传递过来的参数和局部变量offset计算栈偏移，如果需要，则为生成复制参数的代码（如原来参数由寄存器传入，需要用另一个寄存器或放入栈中），为生成保存函数调用约定中要保存的寄存器的代码做准备，然后调用gencode，对中间语言进行处理。</p>
+<p>gencode首先生成对参数进行复制的中间语言，然后根据中间代码森林中树的类型，调用相应的后端函数。Blockbeg对于compound statement中的局部变量以for循环的形式逐个调用local，分配寄存器变量或在栈中划分空间；Local，address节点专门处理临时生成的local变量。gen节点是重中之重，负责生成主要的代码。</p>
+<p>gencode—&gt;gen,处理树状的中间语言。这部分书中表13.1描述的较为清晰，prelabel处理已经确定了寄存器的节点的target，_label在树上用树文法与后端模板进行匹配，reduce选择最好的指令输出。prune删去一些不生成指令的子节点，linerize对指令进行排序，最后ralloc对需要寄存器的节点分配寄存器。</p>
+<p>然后function 函数开始真正生成代码，首先先输出函数名作为label，作为函数的入口，然后计算framesize和sp，并将sp移动的指令输出（划分栈空间），然后输出保存寄存器的代码，接下来是移动参数的代码。这些工作做完，function调用emitcode函数，生成函数中的语句生成的代码（从已经被标记修减的中间语言树中，按模板生成汇编指令）。最后生成函数的出口，包括恢复保存的寄存器，栈弹出，跳转返回指令。</p>
+<h1 id="变量的标识符和值"><a href="#变量的标识符和值" class="headerlink" title="变量的标识符和值"></a>变量的标识符和值</h1><p>我在阅读代码的时候，十分关注标识符和值是如何关联的。实际上lcc将于C语言的变量名，处理为在数据段中的一个标签。对于未初始化的全局变量，lcc将变量名标签放入bss段；对于初始化的全局变量，lcc根据情况将【变量名标签：值】对放入LIT（read only）或data段，实际的地址生成是汇编器的工作。对于局部变量，则全部表示为栈偏移的形式，不同于全局变量，局部变量的初始化是用生成的代码实现的。</p>
+<p>对于一些特殊的变量，如数组、字符串的初始化，首先将常量的内容放入LIT段，然后生成一个临时变量保存这个常量内容的标签。</p>
+<h1 id="lcc中mips后端的帧结构"><a href="#lcc中mips后端的帧结构" class="headerlink" title="lcc中mips后端的帧结构"></a>lcc中mips后端的帧结构</h1><pre><code>高地址
+    --------------------------------
+    | 调用者的帧                    |
+    --------------------------------
+    |调用者传递的参数               |
+    --------------------------------        ——
+    |局部变量                       |        |
+    --------------------------------
+    |被调用者保存的现场             |       Framesize
+    -------------------------------
+    |被调用者调用其他函数时传递的参数|         |
+    -------------------------------         ——-----&gt;sp
+    |另一个帧                       |
+低地址        </code></pre><p>这里值得一提的是，参数的偏移是相对于sp+framesize的正偏移，因此是从调用者的帧中获取参数的值（参数传递），而局部变量的偏移是相对于sp+framesize的负偏移。</p>
+<p>另一处值得说明的是，被调用者如果调用了其他的函数，那么就需要在当前栈中开辟存放outgoing argument的空间，一个函数可以调用很多个其他的函数，这个空间如何确定？在生成函数的代码的过程中，对所有的子函数调用的参数进行统计，得到最大的outgoing argument数量，这里这个空间是这样确定的。</p>
+<h1 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h1><p>了解了lcc的结构，理解了一个简单的c语言程序是如何由lcc一步一步生成汇编语言的，就可以进行移植工作了。</p>
+<p>移植工作主要包括：修改指令模板，修改寄存器分配规则，修改函数调用规则，修改各个基本类型的长度和对齐，修改各种名称约定（如各数据段的名字）等。</p>
+<p>对于我即将进行的工作，主要的修改应该包括修改类型的长度和对齐（由于cpu取数操作与mips不同），对于乘法除法指令模板应该为函数调用（cpu无乘法器、除法器，这里还需修改clobber函数），对于浮点操作，需要先用编译器编译生成计算函数，然后将指令模板修改为函数调用。修改个数据段名字与汇编器配合。</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
     <link itemprop="mainEntityOfPage" href="https://gpthimble.github.io/2020/%E5%9C%A8MIPS-CPU%E4%B8%AD%E5%BC%95%E5%85%A5%E5%BE%AE%E4%BB%A3%E7%A0%81/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -660,7 +761,7 @@ class Head{
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">2</span>
+          <span class="site-state-item-count">3</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -710,13 +811,13 @@ class Head{
       <i class="fa fa-chart-area"></i>
     </span>
       <span class="post-meta-item-text">Symbols count total: </span>
-    <span title="Symbols count total">8k</span>
+    <span title="Symbols count total">11k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span class="post-meta-item-text">Reading time total &asymp;</span>
-    <span title="Reading time total">7 mins.</span>
+    <span title="Reading time total">10 mins.</span>
 </div>
   <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://mist.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a>
   </div>
