@@ -28,7 +28,7 @@
 <meta property="og:description" content="经过了几个月，终于完整的读完了lcc 3.6 的代码，这一阶段工作基本告一段落。对于我来说，lcc是一个十分复杂的软件，虽然我能感受到作者在解释其实现所用的极大努力，但理解起来仍然十分困难。但是当我完整的看完lcc的代码包括其后端后，得到的收获确实很大。通过阅读，基本可以确定对，于我来说，lcc的移植工作技术上是可行的。 LCC的结构先谈一下lcc的结构。原书中的叙述方法，更多的是从功能模块的角度">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2020-09-26T07:31:08.000Z">
-<meta property="article:modified_time" content="2020-09-26T07:31:08.254Z">
+<meta property="article:modified_time" content="2020-09-26T07:36:47.749Z">
 <meta property="article:author" content="Thimble">
 <meta name="twitter:card" content="summary">
 
@@ -226,8 +226,9 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">Posted on</span>
+              
 
-              <time title="Created: 2020-09-26 15:31:08" itemprop="dateCreated datePublished" datetime="2020-09-26T15:31:08+08:00">2020-09-26</time>
+              <time title="Created: 2020-09-26 15:31:08 / Modified: 15:36:47" itemprop="dateCreated datePublished" datetime="2020-09-26T15:31:08+08:00">2020-09-26</time>
             </span>
 
           <br>
@@ -236,7 +237,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">Symbols count in article: </span>
-              <span>3.1k</span>
+              <span>3.2k</span>
             </span>
             <span class="post-meta-item" title="Reading time">
               <span class="post-meta-item-icon">
@@ -265,7 +266,7 @@
 <p>gencode首先生成对参数进行复制的中间语言，然后根据中间代码森林中树的类型，调用相应的后端函数。Blockbeg对于compound statement中的局部变量以for循环的形式逐个调用local，分配寄存器变量或在栈中划分空间；Local，address节点专门处理临时生成的local变量。gen节点是重中之重，负责生成主要的代码。</p>
 <p>gencode—&gt;gen,处理树状的中间语言。这部分书中表13.1描述的较为清晰，prelabel处理已经确定了寄存器的节点的target，_label在树上用树文法与后端模板进行匹配，reduce选择最好的指令输出。prune删去一些不生成指令的子节点，linerize对指令进行排序，最后ralloc对需要寄存器的节点分配寄存器。</p>
 <p>然后function 函数开始真正生成代码，首先先输出函数名作为label，作为函数的入口，然后计算framesize和sp，并将sp移动的指令输出（划分栈空间），然后输出保存寄存器的代码，接下来是移动参数的代码。这些工作做完，function调用emitcode函数，生成函数中的语句生成的代码（从已经被标记修减的中间语言树中，按模板生成汇编指令）。最后生成函数的出口，包括恢复保存的寄存器，栈弹出，跳转返回指令。</p>
-<h1 id="变量的标识符和值"><a href="#变量的标识符和值" class="headerlink" title="变量的标识符和值"></a>变量的标识符和值</h1><p>我在阅读代码的时候，十分关注标识符和值是如何关联的。实际上lcc将于C语言的变量名，处理为在数据段中的一个标签。对于未初始化的全局变量，lcc将变量名标签放入bss段；对于初始化的全局变量，lcc根据情况将【变量名标签：值】对放入LIT（read only）或data段，实际的地址生成是汇编器的工作。对于局部变量，则全部表示为栈偏移的形式，不同于全局变量，局部变量的初始化是用生成的代码实现的。</p>
+<h1 id="变量的标识符和值"><a href="#变量的标识符和值" class="headerlink" title="变量的标识符和值"></a>变量的标识符和值</h1><p>我在阅读代码的时候，十分关注标识符和值是如何关联的。实际上lcc将于C语言的变量名，处理为在数据段中的一个标签。对于未初始化的全局变量，lcc将变量名标签放入bss段；对于初始化的全局变量，lcc根据情况将【变量名标签：值】对放入LIT（read only）或data段，实际的地址生成是汇编器的工作。对于局部变量，则全部表示为栈偏移的形式。这样做的原因是显而易见的：程序运行时的函数调用是动态的，很难确定局部变量的绝对地址，所以使用相对于栈的偏移来解决问题。不同于全局变量，局部变量的初始化是用生成的代码实现的。</p>
 <p>对于一些特殊的变量，如数组、字符串的初始化，首先将常量的内容放入LIT段，然后生成一个临时变量保存这个常量内容的标签。</p>
 <h1 id="lcc中mips后端的帧结构"><a href="#lcc中mips后端的帧结构" class="headerlink" title="lcc中mips后端的帧结构"></a>lcc中mips后端的帧结构</h1><pre><code>高地址
     --------------------------------
