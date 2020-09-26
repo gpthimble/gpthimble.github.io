@@ -313,5 +313,12 @@ class Head{
 <p>移植工作主要包括：修改指令模板，修改寄存器分配规则，修改函数调用规则，修改各个基本类型的长度和对齐，修改各种名称约定（如各数据段的名字）等。</p>
 <p>对于我即将进行的工作，主要的修改应该包括修改类型的长度和对齐（由于cpu取数操作与mips不同），对于乘法除法指令模板应该为函数调用（cpu无乘法器、除法器，这里还需修改clobber函数），对于浮点操作，需要先用编译器编译生成计算函数，然后将指令模板修改为函数调用。修改个数据段名字与汇编器配合。</p>
 ]]></content>
+      <categories>
+        <category>home brew computer system</category>
+      </categories>
+      <tags>
+        <tag>development log</tag>
+        <tag>compiler</tag>
+      </tags>
   </entry>
 </search>
