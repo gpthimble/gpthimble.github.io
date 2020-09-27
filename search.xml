@@ -253,7 +253,7 @@ class Head{
       </tags>
   </entry>
   <entry>
-    <title>2020-09-26 下一步的计划</title>
+    <title>下一步的计划</title>
     <url>/2020/%E4%B8%8B%E4%B8%80%E6%AD%A5%E7%9A%84%E8%AE%A1%E5%88%92/</url>
     <content><![CDATA[<p>现在lcc的代码已读完，下一步要做的是soc的设计和验证，以及lcc的移植、汇编器的移植。<br>对于汇编器，我准备使用<a href="https://github.com/hlorenzi/customasm" target="_blank" rel="noopener">customasm</a>.<br>如果使用这个汇编器，可能在移植lcc时需要修改lcc模板中的一些伪指令如ld,lcomm等。</p>
 <p>对于soc的设计，这些天一直在思考的问题是异步通讯的问题。我所希望的系统，cpu运行的速度应该是可变的，甚至可以是单步的。而我又希望能使用de0 nao板载的SDRAM，因此内存控制系统与cpu的通讯一定是异步的。异步通讯要有ready信号，由于我希望cpu运行的速度可变，因此我需要在cache控制器中设置一个双触发的触发器，在ready信号变化时记录并保持ready信号，直至cpu的下一个周期到来，用这个信号控制cpu中cache控制器和ram控制器的异步通讯。</p>
@@ -265,7 +265,7 @@ class Head{
 <ul>
 <li>考虑是否增加不同长度的取数操作</li>
 <li>回顾已有的cpu代码，分析那些代码可以与cache、IO、中断等独立，并对这些代码进行测试。</li>
-<li>定义存储控制和io控制的接口，与cpu对接</li>
+<li>定义存储控制和io控制的接口，与cpu对接，测试cpu的中断</li>
 <li>设计存储控制</li>
 <li>设计io控制</li>
 <li>工具链的移植</li>
