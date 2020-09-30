@@ -1,26 +1,24 @@
 <!DOCTYPE html>
-<html lang="en,zh-ch,default">
+<html class="has-navbar-fixed-top">
 <head>
-  <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
-<meta name="theme-color" content="#222">
-<meta name="generator" content="Hexo 4.2.0">
-  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
-  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
-  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+    <meta charset="utf-8">
+<title>Tag: compiler - Thimble&#39;s Blog</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
-<link rel="stylesheet" href="/css/main.css">
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/outdated-browser/1.1.5/outdatedbrowser.min.css">
 
 
-<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+<link href="/zh-ch/tags/compiler/index.html" rel="alternate" hreflang="zh-CH" />
+    
 
-<script id="hexo-configurations">
-    var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"gpthimble.github.io","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"left","width":280,"display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"gitalk","storage":true,"lazyload":false,"nav":null,"activeClass":"gitalk"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":true,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
-  </script>
 
-  <meta property="og:type" content="website">
+<meta name="description" content="">
+
+
+
+
+
+    <meta property="og:type" content="website">
 <meta property="og:title" content="Thimble&#39;s Blog">
 <meta property="og:url" content="https://gpthimble.github.io/tags/compiler/index.html">
 <meta property="og:site_name" content="Thimble&#39;s Blog">
@@ -28,412 +26,301 @@
 <meta property="article:author" content="Thimble">
 <meta name="twitter:card" content="summary">
 
-<link rel="canonical" href="https://gpthimble.github.io/tags/compiler/">
-
-
-<script id="page-configurations">
-  // https://hexo.io/docs/variables.html
-  CONFIG.page = {
-    sidebar: "",
-    isHome : false,
-    isPost : false,
-    lang   : 'en'
-  };
-</script>
-
-  <title>Tag: compiler | Thimble's Blog</title>
-  
-    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-20637187-2"></script>
-    <script>
-      if (CONFIG.hostname === location.hostname) {
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-        gtag('config', 'UA-20637187-2');
-      }
-    </script>
 
 
 
 
+<link rel="icon" href="/favicon.png">
 
 
-  <noscript>
-  <style>
-  .use-motion .brand,
-  .use-motion .menu-item,
-  .sidebar-inner,
-  .use-motion .post-block,
-  .use-motion .pagination,
-  .use-motion .comments,
-  .use-motion .post-header,
-  .use-motion .post-body,
-  .use-motion .collection-header { opacity: initial; }
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Ovo|Source+Code+Pro">
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bulma/0.6.2/css/bulma.min.css">
 
-  .use-motion .site-title,
-  .use-motion .site-subtitle {
-    opacity: initial;
-    top: initial;
-  }
 
-  .use-motion .logo-line-before i { left: initial; }
-  .use-motion .logo-line-after i { right: initial; }
-  </style>
-</noscript>
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/lightgallery/1.6.8/css/lightgallery.min.css">
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/justifiedGallery/3.6.5/css/justifiedGallery.min.css">
 
-</head>
 
-<body itemscope itemtype="http://schema.org/WebPage">
-  <div class="container use-motion">
-    <div class="headband"></div>
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/atom-one-light.min.css">
 
-    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
-      <div class="header-inner"><div class="site-brand-container">
-  <div class="site-nav-toggle">
-    <div class="toggle" aria-label="Toggle navigation bar">
-      <span class="toggle-line toggle-line-first"></span>
-      <span class="toggle-line toggle-line-middle"></span>
-      <span class="toggle-line toggle-line-last"></span>
+
+<link rel="stylesheet" href="/css/style.css">
+
+
+<script defer src="//use.fontawesome.com/releases/v5.0.8/js/all.js"></script>
+
+
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+<body>
+    
+<nav class="navbar is-transparent is-fixed-top navbar-main" role="navigation" aria-label="main navigation">
+    <div class="container">
+        <div class="navbar-brand">
+            <a class="navbar-item navbar-logo" href="/">
+                
+                <img src="/images/logo.png" alt="" height="28">
+                
+            </a>
+            <div class="navbar-burger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+        
+        <div class="navbar-menu navbar-start">
+            
+            <a class="navbar-item "
+               href="/archives">Archives</a>
+            
+            <a class="navbar-item "
+               href="/categories/LifeStyle">Lifestyle</a>
+            
+            <a class="navbar-item "
+               href="/categories/Music">Music</a>
+            
+            <a class="navbar-item "
+               href="/categories/Technology">Technology</a>
+            
+            <a class="navbar-item "
+               href="/about">About</a>
+            
+        </div>
+        
+        <div class="navbar-menu navbar-end">
+            
+            <a class="navbar-item search" title="Search" href="javascript:;">
+                <i class="fas fa-search"></i>
+            </a>
+            
+            
+            
+            <a class="navbar-item" title="GitHub" href="https://github.com/ppoffice/hexo-theme-minos" target="_blank" rel="noopener">
+                
+                <i class="fab fa-github"></i>
+                
+            </a>
+               
+            
+        </div>
     </div>
-  </div>
-
-  <div class="site-meta">
-
-    <a href="/" class="brand" rel="start">
-      <span class="logo-line-before"><i></i></span>
-      <h1 class="site-title">Thimble's Blog</h1>
-      <span class="logo-line-after"><i></i></span>
-    </a>
-  </div>
-
-  <div class="site-nav-right">
-    <div class="toggle popup-trigger">
-        <i class="fa fa-search fa-fw fa-lg"></i>
-    </div>
-  </div>
-</div>
-
-
-
-
-<nav class="site-nav">
-  <ul id="menu" class="main-menu menu">
-        <li class="menu-item menu-item-home">
-
-    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
-
-  </li>
-        <li class="menu-item menu-item-about">
-
-    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a>
-
-  </li>
-        <li class="menu-item menu-item-tags">
-
-    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a>
-
-  </li>
-        <li class="menu-item menu-item-categories">
-
-    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a>
-
-  </li>
-        <li class="menu-item menu-item-archives">
-
-    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
-
-  </li>
-      <li class="menu-item menu-item-search">
-        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
-        </a>
-      </li>
-  </ul>
 </nav>
 
-
-
-  <div class="search-pop-overlay">
-    <div class="popup search-popup">
-        <div class="search-header">
-  <span class="search-icon">
-    <i class="fa fa-search"></i>
-  </span>
-  <div class="search-input-container">
-    <input autocomplete="off" autocapitalize="off"
-           placeholder="Searching..." spellcheck="false"
-           type="search" class="search-input">
-  </div>
-  <span class="popup-btn-close">
-    <i class="fa fa-times-circle"></i>
-  </span>
-</div>
-<div id="search-result">
-  <div id="no-result">
-    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
-  </div>
-</div>
-
+    <section class="section section-heading">
+    <div class="container">
+        <div class="content">
+            <h5>#compiler</h5>
+        </div>
     </div>
-  </div>
-
-</div>
-    </header>
+</section>
+<section class="section">
+    <div class="container">
+    
+        <article class="article content gallery" itemscope itemprop="blogPost">
+    <h1 class="article-title is-size-3 is-size-4-mobile" itemprop="name">
+        
+            <a href="/2020/%E8%AF%BB%E5%AE%8CLCC%E5%AE%8C%E6%95%B4%E6%BA%90%E4%BB%A3%E7%A0%81/" itemprop="url">读完LCC完整源代码</a>
+        
+    </h1>
+    <div class="article-meta columns is-variable is-1 is-multiline is-mobile is-size-7-mobile">
+        <span class="column is-narrow">
+            
+                <time datetime="2020-09-26T07:31:08.000Z" itemprop="datePublished">Sep 26 2020</time>
+            
+        </span>
+        
+        <span class="column is-narrow article-category">
+            <i class="far fa-folder"></i>
+            <a class="article-category-link" href="/categories/home-brew-computer-system/">home brew computer system</a>
+        </span>
+        
+        
+        <span class="column is-narrow">
+            
+            
+            17 minutes read (About 2618 words)
+        </span>
+        
+    </div>
+    <div class="article-entry is-size-6-mobile" itemprop="articleBody">
+    
+        <p>&#x7ECF;&#x8FC7;&#x4E86;&#x51E0;&#x4E2A;&#x6708;&#xFF0C;&#x7EC8;&#x4E8E;&#x5B8C;&#x6574;&#x7684;&#x8BFB;&#x5B8C;&#x4E86;lcc 3.6 &#x7684;&#x4EE3;&#x7801;&#xFF0C;&#x8FD9;&#x4E00;&#x9636;&#x6BB5;&#x5DE5;&#x4F5C;&#x57FA;&#x672C;&#x544A;&#x4E00;&#x6BB5;&#x843D;&#x3002;&#x5BF9;&#x4E8E;&#x6211;&#x6765;&#x8BF4;&#xFF0C;lcc&#x662F;&#x4E00;&#x4E2A;&#x5341;&#x5206;&#x590D;&#x6742;&#x7684;&#x8F6F;&#x4EF6;&#xFF0C;&#x867D;&#x7136;&#x6211;&#x80FD;&#x611F;&#x53D7;&#x5230;&#x4F5C;&#x8005;&#x5728;&#x89E3;&#x91CA;&#x5176;&#x5B9E;&#x73B0;&#x6240;&#x7528;&#x7684;&#x6781;&#x5927;&#x52AA;&#x529B;&#xFF0C;&#x4F46;&#x7406;&#x89E3;&#x8D77;&#x6765;&#x4ECD;&#x7136;&#x5341;&#x5206;&#x56F0;&#x96BE;&#x3002;&#x4F46;&#x662F;&#x5F53;&#x6211;&#x5B8C;&#x6574;&#x7684;&#x770B;&#x5B8C;lcc&#x7684;&#x4EE3;&#x7801;&#x5305;&#x62EC;&#x5176;&#x540E;&#x7AEF;&#x540E;&#xFF0C;&#x5F97;&#x5230;&#x7684;&#x6536;&#x83B7;&#x786E;&#x5B9E;&#x5F88;&#x5927;&#x3002;&#x901A;&#x8FC7;&#x9605;&#x8BFB;&#xFF0C;&#x57FA;&#x672C;&#x53EF;&#x4EE5;&#x786E;&#x5B9A;&#x5BF9;&#xFF0C;&#x4E8E;&#x6211;&#x6765;&#x8BF4;&#xFF0C;lcc&#x7684;&#x79FB;&#x690D;&#x5DE5;&#x4F5C;&#x6280;&#x672F;&#x4E0A;&#x662F;&#x53EF;&#x884C;&#x7684;&#x3002;</p>
+<h1 id="LCC&#x7684;&#x7ED3;&#x6784;"><a href="#LCC&#x7684;&#x7ED3;&#x6784;" class="headerlink" title="LCC&#x7684;&#x7ED3;&#x6784;"></a>LCC&#x7684;&#x7ED3;&#x6784;</h1><p>&#x5148;&#x8C08;&#x4E00;&#x4E0B;lcc&#x7684;&#x7ED3;&#x6784;&#x3002;&#x539F;&#x4E66;&#x4E2D;&#x7684;&#x53D9;&#x8FF0;&#x65B9;&#x6CD5;&#xFF0C;&#x66F4;&#x591A;&#x7684;&#x662F;&#x4ECE;&#x529F;&#x80FD;&#x6A21;&#x5757;&#x7684;&#x89D2;&#x5EA6;&#x8FDB;&#x884C;&#x53D9;&#x8FF0;&#x7684;&#xFF0C;&#x8BE6;&#x7EC6;&#x7684;&#x63CF;&#x8FF0;&#x4E86;&#x6BCF;&#x4E00;&#x4E2A;&#x6A21;&#x5757;&#x7684;&#x5B9E;&#x73B0;&#xFF0C;&#x4F46;&#x662F;&#x4ECE;&#x7EB5;&#x6DF1;&#x7684;&#x89D2;&#x5EA6;&#x6765;&#x770B;&#xFF0C;&#x7F3A;&#x4E4F;&#x5BF9;&#x6A21;&#x5757;&#x4E4B;&#x95F4;&#x76F8;&#x4E92;&#x8C03;&#x7528;&#x76F8;&#x4E92;&#x914D;&#x5408;&#x7684;&#x63CF;&#x8FF0;&#xFF0C;&#x56E0;&#x6B64;&#x9700;&#x8981;&#x9605;&#x8BFB;&#x65F6;&#x7279;&#x522B;&#x7559;&#x610F;&#x6574;&#x4E2A;&#x7F16;&#x8BD1;&#x7A0B;&#x5E8F;&#x8FD0;&#x884C;&#x8FC7;&#x7A0B;&#x4E2D;&#x51FD;&#x6570;&#x4E4B;&#x95F4;&#x7684;&#x8C03;&#x7528;&#xFF0C;&#x624D;&#x80FD;&#x628A;&#x63E1;&#x8FD9;&#x4E2A;&#x590D;&#x6742;&#x7684;&#x7F16;&#x8BD1;&#x7A0B;&#x5E8F;&#x7684;&#x6574;&#x4F53;&#x8109;&#x7EDC;&#x3002;</p>
+<p>&#x5982;&#x679C;&#x4ECE;&#x4F20;&#x7EDF;&#x7684;&#x524D;&#x7AEF;-&#x540E;&#x7AEF;&#x89D2;&#x5EA6;&#x53BB;&#x770B;&#x8FD9;&#x4E2A;&#x7F16;&#x8BD1;&#x5668;&#xFF0C;&#x5F88;&#x96BE;&#x53BB;&#x7406;&#x89E3;&#x3002;&#x6211;&#x8BA4;&#x4E3A;&#x524D;&#x7AEF;-&#x540E;&#x7AEF;&#x8FD9;&#x6837;&#x7684;&#x5206;&#x6CD5;&#xFF0C;&#x5B9E;&#x9645;&#x4E0A;&#x662F;&#x4ECE;&#x529F;&#x80FD;&#x7684;&#x903B;&#x8F91;&#x5C42;&#x9762;&#x53BB;&#x8003;&#x8651;&#x7684;&#x3002;&#x867D;&#x7136;&#x6574;&#x4E2A;lcc&#x786E;&#x5B9E;&#x5728;&#x5B9E;&#x73B0;&#x4E0A;&#x533A;&#x5206;&#x4E86;&#x524D;&#x7AEF;&#x548C;&#x540E;&#x7AEF;&#xFF0C;&#x4F46;&#x662F;&#x5728;&#x8FD0;&#x884C;&#x8FC7;&#x7A0B;&#x4E2D;&#xFF0C;&#x524D;&#x7AEF;&#x548C;&#x540E;&#x7AEF;&#x7684;&#x4EE3;&#x7801;&#x59CB;&#x7EC8;&#x5728;&#x76F8;&#x4E92;&#x914D;&#x5408;&#xFF0C;&#x96BE;&#x4EE5;&#x5728;&#x8FD0;&#x884C;&#x8FC7;&#x7A0B;&#x660E;&#x786E;&#x5206;&#x79BB;&#x3002;&#x5728;&#x6211;&#x5C1A;&#x672A;&#x610F;&#x8BC6;&#x5230;&#x8FD9;&#x4E00;&#x70B9;&#x65F6;&#xFF0C;&#x9605;&#x8BFB;&#x4EE3;&#x7801;&#x57FA;&#x672C;&#x662F;&#x5728;&#x5173;&#x6CE8;&#x67D0;&#x4E2A;&#x6A21;&#x5757;&#x7684;&#x5B9E;&#x73B0;&#xFF0C;&#x6BD4;&#x5982;&#x8BED;&#x6CD5;&#x5206;&#x6790;&#x3002;&#x800C;&#x8FD9;&#x4E9B;&#x6A21;&#x5757;&#x5982;&#x8BED;&#x6CD5;&#x8BED;&#x6CD5;&#x5206;&#x6790;&#xFF0C;&#x5B9E;&#x9645;&#x4E0A;&#x662F;&#x8FD0;&#x884C;&#x8FC7;&#x7A0B;&#x4E2D;&#x6BD4;&#x8F83;&#x6DF1;&#x5F97;&#x4E00;&#x5C42;&#xFF0C;&#x4F46;&#x4ECE;&#x8FD9;&#x4E2A;&#x89D2;&#x5EA6;&#xFF0C;&#x5F88;&#x96BE;&#x770B;&#x5230;&#x9605;&#x8BFB;&#x7F16;&#x8BD1;&#x5668;&#x7684;&#x4EE3;&#x7801;&#x5982;&#x4F55;&#x5E26;&#x7ED9;&#x4EBA;&#x4E0E;&#x4EC5;&#x4E0A;&#x7F16;&#x8BD1;&#x539F;&#x7406;&#x8BFE;&#x7A0B;&#x4E0D;&#x540C;&#x7684;&#x597D;&#x5904;&#xFF0C;&#x586B;&#x8865;&#x7406;&#x8BBA;&#x548C;&#x5B9E;&#x8DF5;&#x4E4B;&#x95F4;&#x7684;&#x9E3F;&#x6C9F;&#x3002;<br>&#x56E0;&#x4E3A;&#x8FD9;&#x4E9B;&#x4E00;&#x4E2A;&#x4E00;&#x4E2A;&#x7684;&#x6A21;&#x5757;&#xFF0C;&#x5C24;&#x5176;&#x662F;&#x8BED;&#x6CD5;&#x5206;&#x6790;&#xFF0C;&#x5B9E;&#x9645;&#x4E0A;&#x4E0E;&#x7F16;&#x8BD1;&#x539F;&#x7406;&#x7684;&#x8BFE;&#x7A0B;&#x5185;&#x5BB9;&#x5F88;&#x76F8;&#x4F3C;&#xFF0C;&#x4E8B;&#x5B9E;&#x4E0A;&#xFF0C;&#x7F16;&#x8BD1;&#x539F;&#x7406;&#x8BFE;&#x7A0B;&#x4E0E;&#x8BED;&#x6CD5;&#x5206;&#x6790;&#x8FD9;&#x90E8;&#x5206;&#x7684;&#x5B9E;&#x73B0;&#x91CD;&#x53E0;&#x5F88;&#x5927;&#x3002;</p>
+<p>&#x4ECE;&#x8BED;&#x6CD5;&#x5206;&#x6790;&#x5230;&#x8BED;&#x4E49;&#x5206;&#x6790;&#xFF0C;&#x8FD9;&#x90E8;&#x5206;&#x5185;&#x5BB9;&#x5C31;&#x5F00;&#x59CB;&#x663E;&#x73B0;&#x4E0E;&#x8BA1;&#x7B97;&#x673A;&#x8BFE;&#x7A0B;&#x4E4B;&#x95F4;&#x7684;&#x533A;&#x522B;&#x4E86;&#xFF0C;&#x7F16;&#x8BD1;&#x5668;&#x5B9E;&#x73B0;&#x4E86;ANSI C&#x5B8C;&#x6574;&#x7684;&#x8BED;&#x4E49;&#xFF0C;&#x9605;&#x8BFB;&#x8FD9;&#x90E8;&#x5206;&#xFF0C;&#x66F4;&#x50CF;&#x662F;&#x9605;&#x8BFB;C&#x8BED;&#x8A00;&#x6807;&#x51C6;&#xFF0C;&#x8FD9;&#x91CC;&#x9762;&#x53EF;&#x4EE5;&#x63D0;&#x70BC;&#x51FA;&#x4E00;&#x4E9B;&#x8BDD;&#x9898;&#x8FDB;&#x884C;&#x6DF1;&#x5165;&#x8BA8;&#x8BBA;&#xFF0C;&#x5982;C&#x8BED;&#x8A00;&#x4E2D;&#x7684;&#x7A7A;&#x6307;&#x9488;&#x5B9A;&#x4E49;&#xFF0C;&#x5F3A;&#x5236;&#x7C7B;&#x578B;&#x8F6C;&#x6362;&#xFF0C;&#x51FD;&#x6570;&#x8C03;&#x7528;&#xFF0C;&#x53EF;&#x53D8;&#x53C2;&#x6570;&#x51FD;&#x6570;&#xFF0C;&#x53C2;&#x6570;&#x7684;&#x4F30;&#x503C;&#x987A;&#x5E8F;&#xFF0C;&#x7ED3;&#x6784;&#x4F53;&#x4E2D;&#x6570;&#x636E;&#x7684;&#x5BF9;&#x9F50;&#xFF0C;C&#x8BED;&#x8A00;&#x4E2D;&#x590D;&#x6742;&#x7684;&#x58F0;&#x660E;&#x7B49;&#x7B49;&#x3002;&#x4ECE;&#x7F16;&#x8BD1;&#x5668;&#x89D2;&#x5EA6;&#x770B;&#x8FD9;&#x4E9B;&#x95EE;&#x9898;&#xFF0C;&#x7684;&#x786E;&#x7ED9;&#x4EBA;&#x8033;&#x76EE;&#x4E00;&#x65B0;&#x7684;&#x611F;&#x89C9;&#xFF0C;&#x4F46;&#x662F;&#x4EC5;&#x4EC5;&#x8BFB;&#x5230;&#x8FD9;&#x91CC;&#xFF0C;&#x4ECD;&#x7136;&#x4F1A;&#x6709;&#x8BB8;&#x591A;&#x7591;&#x60D1;&#x5C1A;&#x672A;&#x88AB;&#x89E3;&#x91CA;&#x3002;&#x4F8B;&#x5982;&#x51FD;&#x6570;&#x8C03;&#x7528;&#x3001;&#x53C2;&#x6570;&#x4F20;&#x9012;&#xFF0C;&#x8FD9;&#x4E9B;&#x90FD;&#x9700;&#x8981;&#x548C;&#x8BA1;&#x7B97;&#x5E73;&#x53F0;&#x914D;&#x5408;&#xFF0C;&#x8FD9;&#x4E9B;&#x529F;&#x80FD;&#x7684;&#x5177;&#x4F53;&#x5B9E;&#x73B0;&#xFF0C;&#x8FD8;&#x8981;&#x7EE7;&#x7EED;&#x6DF1;&#x5165;&#x4E86;&#x89E3;&#x3002;&#x6211;&#x8BFB;&#x5230;&#x8FD9;&#x91CC;&#x7684;&#x65F6;&#x5019;&#xFF0C;&#x6700;&#x5927;&#x7684;&#x7591;&#x60D1;&#x5C31;&#x662F;&#x7A0B;&#x5E8F;&#x4E2D;&#x7684;&#x6570;&#x636E;&#x662F;&#x5982;&#x4F55;&#x548C;&#x5404;&#x4E2A;&#x6807;&#x8BC6;&#x7B26;&#x76F8;&#x5173;&#x8054;&#x7684;&#xFF0C;&#x5185;&#x5B58;&#x7684;&#x5730;&#x5740;&#x662F;&#x5982;&#x4F55;&#x548C;&#x53D8;&#x91CF;&#x540D;&#x76F8;&#x5173;&#x8054;&#x7684;&#x3002;</p>
+<p>&#x7EE7;&#x7EED;&#x6DF1;&#x5165;&#x4E0B;&#x53BB;&#xFF0C;lcc&#x7684;&#x7ED3;&#x6784;&#x5C31;&#x6E10;&#x6E10;&#x6D6E;&#x51FA;&#x6C34;&#x9762;&#x3002;&#x6309;&#x7167;c&#x8BED;&#x8A00;&#x7684;&#x6587;&#x6CD5;&#xFF0C;&#x4E00;&#x4E2A;translation unit&#x662F;c&#x8BED;&#x8A00;&#x7A0B;&#x5E8F;&#x7684;&#x57FA;&#x672C;&#x5904;&#x7406;&#x5355;&#x5143;&#xFF0C;translation unit &#x5305;&#x62EC;&#x58F0;&#x660E;&#xFF0C;&#x53EF;&#x4EE5;&#x662F;&#x53D8;&#x91CF;&#x6216;&#x8005;&#x662F;&#x51FD;&#x6570;&#x7684;&#x58F0;&#x660E;&#xFF0C;&#x4E00;&#x4E2A;c&#x8BED;&#x8A00;&#x6587;&#x4EF6;&#x53EF;&#x4EE5;&#x5305;&#x62EC;&#x82E5;&#x5E72;translation unit&#x3002;&#x53D8;&#x91CF;&#x7684;&#x58F0;&#x660E;&#xFF0C;&#x53EA;&#x662F;&#x5904;&#x7406;&#x4E86;&#x6807;&#x8BC6;&#x7B26;&#x3001;&#x7C7B;&#x578B;&#x3001;&#x503C;&#x5728;&#x7F16;&#x8BD1;&#x5668;&#x5185;&#x7684;&#x5185;&#x90E8;&#x8868;&#x793A;&#x3002;&#x5BF9;&#x4E8E;&#x53D8;&#x91CF;&#x7684;&#x521D;&#x59CB;&#x5316;&#xFF0C;&#x5168;&#x5C40;&#x53D8;&#x91CF;&#x4E0D;&#x4EA7;&#x751F;&#x4EE3;&#x7801;&#xFF0C;&#x800C;&#x662F;&#x76F4;&#x63A5;&#x5C06;&#x7B26;&#x53F7;&#x548C;&#x503C;&#x76F8;&#x4E92;&#x5BF9;&#x5E94;&#x8D77;&#x6765;&#x3002;&#x53EA;&#x6709;&#x8FDB;&#x884C;&#x51FD;&#x6570;&#x5B9A;&#x4E49;&#x7684;&#x65F6;&#x5019;&#xFF0C;&#x624D;&#x4F1A;&#x751F;&#x6210;&#x4EE3;&#x7801;&#x3002;&#x6240;&#x4EE5;&#x5206;&#x6790;lcc&#x7684;&#x6574;&#x4F53;&#x8109;&#x7EDC;&#xFF0C;&#x9700;&#x8981;&#x77E5;&#x9053;&#x4E66;&#x4E2D;&#x8BA8;&#x8BBA;&#x7684;&#x5404;&#x79CD;&#x529F;&#x80FD;&#x6A21;&#x5757;&#xFF0C;&#x5B9E;&#x9645;&#x4E0A;&#x662F;&#x4EE5;&#x51FD;&#x6570;&#x5B9A;&#x4E49;&#x4E3A;&#x5355;&#x5143;&#xFF0C;&#x5F80;&#x590D;&#x8FDB;&#x884C;&#x8C03;&#x7528;&#x3002;&#x6240;&#x4EE5;&#x5206;&#x6790;&#x5E94;&#x4ECE;&#x51FD;&#x6570;&#x5B9A;&#x4E49;&#x5F00;&#x59CB;&#xFF0C;&#x9010;&#x6B65;&#x6DF1;&#x5165;&#x3002;&#x4FBF;&#x53EF;&#x7406;&#x89E3;&#x4E00;&#x4E2A;&#x7B80;&#x5355;&#x7684;c&#x8BED;&#x8A00;&#x7A0B;&#x5E8F;&#x662F;&#x5982;&#x4F55;&#x88AB;lcc&#x5904;&#x7406;&#x7684;&#x3002;</p>
+<p>&#x5904;&#x7406;&#x51FD;&#x6570;&#x5B9A;&#x4E49;&#x7684;&#x51FD;&#x6570;funcdefn&#x7B2C;&#x4E00;&#x90E8;&#x5206;&#x5904;&#x7406;&#x8981;&#x5B9A;&#x4E49;&#x7684;&#x51FD;&#x6570;&#x7684;&#x7C7B;&#x578B;&#xFF0C;&#x53C2;&#x6570;&#x5217;&#x8868;&#xFF0C;&#x5904;&#x7406;&#x5C40;&#x90E8;&#x53D8;&#x91CF;&#x548C;&#x53C2;&#x6570;&#xFF08;&#x4E3B;&#x8981;&#x662F;&#x901A;&#x8FC7;&#x540E;&#x7AEF;&#x6307;&#x5B9A;&#x540D;&#x5B57;&#xFF0C;&#x5C06;&#x540D;&#x5B57;&#x6307;&#x5B9A;&#x4E3A;&#x76F8;&#x5BF9;&#x4E8E;&#x6808;&#x7684;offset&#xFF09;&#xFF0C;&#x7136;&#x540E;&#x5BF9;&#x51FD;&#x6570;&#x5B9A;&#x4E49;&#x7684;compound statement&#x8FDB;&#x884C;&#x8BED;&#x6CD5;&#x8BED;&#x4E49;&#x5206;&#x6790;&#xFF0C;&#x4E00;&#x8FB9;&#x5206;&#x6790;&#xFF0C;&#x4E00;&#x8FB9;&#x751F;&#x6210;&#x4E2D;&#x95F4;&#x8BED;&#x8A00;&#xFF08;&#x68EE;&#x6797;&#x5F62;&#x5F0F;&#x7684;&#x4E2D;&#x95F4;&#x8BED;&#x8A00;&#xFF09;&#xFF0C;&#x751F;&#x6210;&#x4E2D;&#x95F4;&#x8BED;&#x8A00;&#x7684;&#x8FC7;&#x7A0B;&#x52A0;&#x4EE5;&#x4F18;&#x5316;&#xFF08;&#x5982;&#x6D88;&#x9664;&#x516C;&#x5171;&#x5B50;&#x5F0F;&#xFF0C;&#x5E38;&#x91CF;&#x6298;&#x53E0;&#xFF09;&#x3002;&#x7136;&#x540E;&#x8C03;&#x7528;&#x540E;&#x7AEF;function&#x51FD;&#x6570;&#xFF0C;&#x5BF9;&#x4E2D;&#x95F4;&#x8BED;&#x8A00;&#x8FDB;&#x884C;&#x5904;&#x7406;&#x3002;</p>
+<p>function&#x51FD;&#x6570;&#xFF0C;&#x9996;&#x5148;&#x6839;&#x636E;funcdefn&#x4F20;&#x9012;&#x8FC7;&#x6765;&#x7684;&#x53C2;&#x6570;&#x548C;&#x5C40;&#x90E8;&#x53D8;&#x91CF;offset&#x8BA1;&#x7B97;&#x6808;&#x504F;&#x79FB;&#xFF0C;&#x5982;&#x679C;&#x9700;&#x8981;&#xFF0C;&#x5219;&#x4E3A;&#x751F;&#x6210;&#x590D;&#x5236;&#x53C2;&#x6570;&#x7684;&#x4EE3;&#x7801;&#xFF08;&#x5982;&#x539F;&#x6765;&#x53C2;&#x6570;&#x7531;&#x5BC4;&#x5B58;&#x5668;&#x4F20;&#x5165;&#xFF0C;&#x9700;&#x8981;&#x7528;&#x53E6;&#x4E00;&#x4E2A;&#x5BC4;&#x5B58;&#x5668;&#x6216;&#x653E;&#x5165;&#x6808;&#x4E2D;&#xFF09;&#xFF0C;&#x4E3A;&#x751F;&#x6210;&#x4FDD;&#x5B58;&#x51FD;&#x6570;&#x8C03;&#x7528;&#x7EA6;&#x5B9A;&#x4E2D;&#x8981;&#x4FDD;&#x5B58;&#x7684;&#x5BC4;&#x5B58;&#x5668;&#x7684;&#x4EE3;&#x7801;&#x505A;&#x51C6;&#x5907;&#xFF0C;&#x7136;&#x540E;&#x8C03;&#x7528;gencode&#xFF0C;&#x5BF9;&#x4E2D;&#x95F4;&#x8BED;&#x8A00;&#x8FDB;&#x884C;&#x5904;&#x7406;&#x3002;</p>
+<p>gencode&#x9996;&#x5148;&#x751F;&#x6210;&#x5BF9;&#x53C2;&#x6570;&#x8FDB;&#x884C;&#x590D;&#x5236;&#x7684;&#x4E2D;&#x95F4;&#x8BED;&#x8A00;&#xFF0C;&#x7136;&#x540E;&#x6839;&#x636E;&#x4E2D;&#x95F4;&#x4EE3;&#x7801;&#x68EE;&#x6797;&#x4E2D;&#x6811;&#x7684;&#x7C7B;&#x578B;&#xFF0C;&#x8C03;&#x7528;&#x76F8;&#x5E94;&#x7684;&#x540E;&#x7AEF;&#x51FD;&#x6570;&#x3002;Blockbeg&#x5BF9;&#x4E8E;compound statement&#x4E2D;&#x7684;&#x5C40;&#x90E8;&#x53D8;&#x91CF;&#x4EE5;for&#x5FAA;&#x73AF;&#x7684;&#x5F62;&#x5F0F;&#x9010;&#x4E2A;&#x8C03;&#x7528;local&#xFF0C;&#x5206;&#x914D;&#x5BC4;&#x5B58;&#x5668;&#x53D8;&#x91CF;&#x6216;&#x5728;&#x6808;&#x4E2D;&#x5212;&#x5206;&#x7A7A;&#x95F4;&#xFF1B;Local&#xFF0C;address&#x8282;&#x70B9;&#x4E13;&#x95E8;&#x5904;&#x7406;&#x4E34;&#x65F6;&#x751F;&#x6210;&#x7684;local&#x53D8;&#x91CF;&#x3002;gen&#x8282;&#x70B9;&#x662F;&#x91CD;&#x4E2D;&#x4E4B;&#x91CD;&#xFF0C;&#x8D1F;&#x8D23;&#x751F;&#x6210;&#x4E3B;&#x8981;&#x7684;&#x4EE3;&#x7801;&#x3002;</p>
+<p>gencode&#x2014;&gt;gen,&#x5904;&#x7406;&#x6811;&#x72B6;&#x7684;&#x4E2D;&#x95F4;&#x8BED;&#x8A00;&#x3002;&#x8FD9;&#x90E8;&#x5206;&#x4E66;&#x4E2D;&#x8868;13.1&#x63CF;&#x8FF0;&#x7684;&#x8F83;&#x4E3A;&#x6E05;&#x6670;&#xFF0C;prelabel&#x5904;&#x7406;&#x5DF2;&#x7ECF;&#x786E;&#x5B9A;&#x4E86;&#x5BC4;&#x5B58;&#x5668;&#x7684;&#x8282;&#x70B9;&#x7684;target&#xFF0C;_label&#x5728;&#x6811;&#x4E0A;&#x7528;&#x6811;&#x6587;&#x6CD5;&#x4E0E;&#x540E;&#x7AEF;&#x6A21;&#x677F;&#x8FDB;&#x884C;&#x5339;&#x914D;&#xFF0C;reduce&#x9009;&#x62E9;&#x6700;&#x597D;&#x7684;&#x6307;&#x4EE4;&#x8F93;&#x51FA;&#x3002;prune&#x5220;&#x53BB;&#x4E00;&#x4E9B;&#x4E0D;&#x751F;&#x6210;&#x6307;&#x4EE4;&#x7684;&#x5B50;&#x8282;&#x70B9;&#xFF0C;linerize&#x5BF9;&#x6307;&#x4EE4;&#x8FDB;&#x884C;&#x6392;&#x5E8F;&#xFF0C;&#x6700;&#x540E;ralloc&#x5BF9;&#x9700;&#x8981;&#x5BC4;&#x5B58;&#x5668;&#x7684;&#x8282;&#x70B9;&#x5206;&#x914D;&#x5BC4;&#x5B58;&#x5668;&#x3002;</p>
+<p>&#x7136;&#x540E;function &#x51FD;&#x6570;&#x5F00;&#x59CB;&#x771F;&#x6B63;&#x751F;&#x6210;&#x4EE3;&#x7801;&#xFF0C;&#x9996;&#x5148;&#x5148;&#x8F93;&#x51FA;&#x51FD;&#x6570;&#x540D;&#x4F5C;&#x4E3A;label&#xFF0C;&#x4F5C;&#x4E3A;&#x51FD;&#x6570;&#x7684;&#x5165;&#x53E3;&#xFF0C;&#x7136;&#x540E;&#x8BA1;&#x7B97;framesize&#x548C;sp&#xFF0C;&#x5E76;&#x5C06;sp&#x79FB;&#x52A8;&#x7684;&#x6307;&#x4EE4;&#x8F93;&#x51FA;&#xFF08;&#x5212;&#x5206;&#x6808;&#x7A7A;&#x95F4;&#xFF09;&#xFF0C;&#x7136;&#x540E;&#x8F93;&#x51FA;&#x4FDD;&#x5B58;&#x5BC4;&#x5B58;&#x5668;&#x7684;&#x4EE3;&#x7801;&#xFF0C;&#x63A5;&#x4E0B;&#x6765;&#x662F;&#x79FB;&#x52A8;&#x53C2;&#x6570;&#x7684;&#x4EE3;&#x7801;&#x3002;&#x8FD9;&#x4E9B;&#x5DE5;&#x4F5C;&#x505A;&#x5B8C;&#xFF0C;function&#x8C03;&#x7528;emitcode&#x51FD;&#x6570;&#xFF0C;&#x751F;&#x6210;&#x51FD;&#x6570;&#x4E2D;&#x7684;&#x8BED;&#x53E5;&#x751F;&#x6210;&#x7684;&#x4EE3;&#x7801;&#xFF08;&#x4ECE;&#x5DF2;&#x7ECF;&#x88AB;&#x6807;&#x8BB0;&#x4FEE;&#x51CF;&#x7684;&#x4E2D;&#x95F4;&#x8BED;&#x8A00;&#x6811;&#x4E2D;&#xFF0C;&#x6309;&#x6A21;&#x677F;&#x751F;&#x6210;&#x6C47;&#x7F16;&#x6307;&#x4EE4;&#xFF09;&#x3002;&#x6700;&#x540E;&#x751F;&#x6210;&#x51FD;&#x6570;&#x7684;&#x51FA;&#x53E3;&#xFF0C;&#x5305;&#x62EC;&#x6062;&#x590D;&#x4FDD;&#x5B58;&#x7684;&#x5BC4;&#x5B58;&#x5668;&#xFF0C;&#x6808;&#x5F39;&#x51FA;&#xFF0C;&#x8DF3;&#x8F6C;&#x8FD4;&#x56DE;&#x6307;&#x4EE4;&#x3002;</p>
+<h1 id="&#x53D8;&#x91CF;&#x7684;&#x6807;&#x8BC6;&#x7B26;&#x548C;&#x503C;"><a href="#&#x53D8;&#x91CF;&#x7684;&#x6807;&#x8BC6;&#x7B26;&#x548C;&#x503C;" class="headerlink" title="&#x53D8;&#x91CF;&#x7684;&#x6807;&#x8BC6;&#x7B26;&#x548C;&#x503C;"></a>&#x53D8;&#x91CF;&#x7684;&#x6807;&#x8BC6;&#x7B26;&#x548C;&#x503C;</h1><p>&#x6211;&#x5728;&#x9605;&#x8BFB;&#x4EE3;&#x7801;&#x7684;&#x65F6;&#x5019;&#xFF0C;&#x5341;&#x5206;&#x5173;&#x6CE8;&#x6807;&#x8BC6;&#x7B26;&#x548C;&#x503C;&#x662F;&#x5982;&#x4F55;&#x5173;&#x8054;&#x7684;&#x3002;&#x5B9E;&#x9645;&#x4E0A;lcc&#x5C06;&#x4E8E;C&#x8BED;&#x8A00;&#x7684;&#x53D8;&#x91CF;&#x540D;&#xFF0C;&#x5904;&#x7406;&#x4E3A;&#x5728;&#x6570;&#x636E;&#x6BB5;&#x4E2D;&#x7684;&#x4E00;&#x4E2A;&#x6807;&#x7B7E;&#x3002;&#x5BF9;&#x4E8E;&#x672A;&#x521D;&#x59CB;&#x5316;&#x7684;&#x5168;&#x5C40;&#x53D8;&#x91CF;&#xFF0C;lcc&#x5C06;&#x53D8;&#x91CF;&#x540D;&#x6807;&#x7B7E;&#x653E;&#x5165;bss&#x6BB5;&#xFF1B;&#x5BF9;&#x4E8E;&#x521D;&#x59CB;&#x5316;&#x7684;&#x5168;&#x5C40;&#x53D8;&#x91CF;&#xFF0C;lcc&#x6839;&#x636E;&#x60C5;&#x51B5;&#x5C06;&#x3010;&#x53D8;&#x91CF;&#x540D;&#x6807;&#x7B7E;&#xFF1A;&#x503C;&#x3011;&#x5BF9;&#x653E;&#x5165;LIT&#xFF08;read only&#xFF09;&#x6216;data&#x6BB5;&#xFF0C;&#x5B9E;&#x9645;&#x7684;&#x5730;&#x5740;&#x751F;&#x6210;&#x662F;&#x6C47;&#x7F16;&#x5668;&#x7684;&#x5DE5;&#x4F5C;&#x3002;&#x5BF9;&#x4E8E;&#x5C40;&#x90E8;&#x53D8;&#x91CF;&#xFF0C;&#x5219;&#x5168;&#x90E8;&#x8868;&#x793A;&#x4E3A;&#x6808;&#x504F;&#x79FB;&#x7684;&#x5F62;&#x5F0F;&#x3002;&#x8FD9;&#x6837;&#x505A;&#x7684;&#x539F;&#x56E0;&#x662F;&#x663E;&#x800C;&#x6613;&#x89C1;&#x7684;&#xFF1A;&#x7A0B;&#x5E8F;&#x8FD0;&#x884C;&#x65F6;&#x7684;&#x51FD;&#x6570;&#x8C03;&#x7528;&#x662F;&#x52A8;&#x6001;&#x7684;&#xFF0C;&#x5F88;&#x96BE;&#x786E;&#x5B9A;&#x5C40;&#x90E8;&#x53D8;&#x91CF;&#x7684;&#x7EDD;&#x5BF9;&#x5730;&#x5740;&#xFF0C;&#x6240;&#x4EE5;&#x4F7F;&#x7528;&#x76F8;&#x5BF9;&#x4E8E;&#x6808;&#x7684;&#x504F;&#x79FB;&#x6765;&#x89E3;&#x51B3;&#x95EE;&#x9898;&#x3002;&#x4E0D;&#x540C;&#x4E8E;&#x5168;&#x5C40;&#x53D8;&#x91CF;&#xFF0C;&#x5C40;&#x90E8;&#x53D8;&#x91CF;&#x7684;&#x521D;&#x59CB;&#x5316;&#x662F;&#x7528;&#x751F;&#x6210;&#x7684;&#x4EE3;&#x7801;&#x5B9E;&#x73B0;&#x7684;&#x3002;</p>
+<p>&#x5BF9;&#x4E8E;&#x4E00;&#x4E9B;&#x7279;&#x6B8A;&#x7684;&#x53D8;&#x91CF;&#xFF0C;&#x5982;&#x6570;&#x7EC4;&#x3001;&#x5B57;&#x7B26;&#x4E32;&#x7684;&#x521D;&#x59CB;&#x5316;&#xFF0C;&#x9996;&#x5148;&#x5C06;&#x5E38;&#x91CF;&#x7684;&#x5185;&#x5BB9;&#x653E;&#x5165;LIT&#x6BB5;&#xFF0C;&#x7136;&#x540E;&#x751F;&#x6210;&#x4E00;&#x4E2A;&#x4E34;&#x65F6;&#x53D8;&#x91CF;&#x4FDD;&#x5B58;&#x8FD9;&#x4E2A;&#x5E38;&#x91CF;&#x5185;&#x5BB9;&#x7684;&#x6807;&#x7B7E;&#x3002;</p>
+<h1 id="lcc&#x4E2D;mips&#x540E;&#x7AEF;&#x7684;&#x5E27;&#x7ED3;&#x6784;"><a href="#lcc&#x4E2D;mips&#x540E;&#x7AEF;&#x7684;&#x5E27;&#x7ED3;&#x6784;" class="headerlink" title="lcc&#x4E2D;mips&#x540E;&#x7AEF;&#x7684;&#x5E27;&#x7ED3;&#x6784;"></a>lcc&#x4E2D;mips&#x540E;&#x7AEF;&#x7684;&#x5E27;&#x7ED3;&#x6784;</h1><pre><code>&#x9AD8;&#x5730;&#x5740;
+    --------------------------------
+    | &#x8C03;&#x7528;&#x8005;&#x7684;&#x5E27;                    |
+    --------------------------------
+    |&#x8C03;&#x7528;&#x8005;&#x4F20;&#x9012;&#x7684;&#x53C2;&#x6570;               |
+    --------------------------------        &#x2014;&#x2014;
+    |&#x5C40;&#x90E8;&#x53D8;&#x91CF;                       |        |
+    --------------------------------
+    |&#x88AB;&#x8C03;&#x7528;&#x8005;&#x4FDD;&#x5B58;&#x7684;&#x73B0;&#x573A;             |       Framesize
+    -------------------------------
+    |&#x88AB;&#x8C03;&#x7528;&#x8005;&#x8C03;&#x7528;&#x5176;&#x4ED6;&#x51FD;&#x6570;&#x65F6;&#x4F20;&#x9012;&#x7684;&#x53C2;&#x6570;|         |
+    -------------------------------         &#x2014;&#x2014;-----&gt;sp
+    |&#x53E6;&#x4E00;&#x4E2A;&#x5E27;                       |
+&#x4F4E;&#x5730;&#x5740;        </code></pre><p>&#x8FD9;&#x91CC;&#x503C;&#x5F97;&#x4E00;&#x63D0;&#x7684;&#x662F;&#xFF0C;&#x53C2;&#x6570;&#x7684;&#x504F;&#x79FB;&#x662F;&#x76F8;&#x5BF9;&#x4E8E;sp+framesize&#x7684;&#x6B63;&#x504F;&#x79FB;&#xFF0C;&#x56E0;&#x6B64;&#x662F;&#x4ECE;&#x8C03;&#x7528;&#x8005;&#x7684;&#x5E27;&#x4E2D;&#x83B7;&#x53D6;&#x53C2;&#x6570;&#x7684;&#x503C;&#xFF08;&#x53C2;&#x6570;&#x4F20;&#x9012;&#xFF09;&#xFF0C;&#x800C;&#x5C40;&#x90E8;&#x53D8;&#x91CF;&#x7684;&#x504F;&#x79FB;&#x662F;&#x76F8;&#x5BF9;&#x4E8E;sp+framesize&#x7684;&#x8D1F;&#x504F;&#x79FB;&#x3002;</p>
+<p>&#x53E6;&#x4E00;&#x5904;&#x503C;&#x5F97;&#x8BF4;&#x660E;&#x7684;&#x662F;&#xFF0C;&#x88AB;&#x8C03;&#x7528;&#x8005;&#x5982;&#x679C;&#x8C03;&#x7528;&#x4E86;&#x5176;&#x4ED6;&#x7684;&#x51FD;&#x6570;&#xFF0C;&#x90A3;&#x4E48;&#x5C31;&#x9700;&#x8981;&#x5728;&#x5F53;&#x524D;&#x6808;&#x4E2D;&#x5F00;&#x8F9F;&#x5B58;&#x653E;outgoing argument&#x7684;&#x7A7A;&#x95F4;&#xFF0C;&#x4E00;&#x4E2A;&#x51FD;&#x6570;&#x53EF;&#x4EE5;&#x8C03;&#x7528;&#x5F88;&#x591A;&#x4E2A;&#x5176;&#x4ED6;&#x7684;&#x51FD;&#x6570;&#xFF0C;&#x8FD9;&#x4E2A;&#x7A7A;&#x95F4;&#x5982;&#x4F55;&#x786E;&#x5B9A;&#xFF1F;&#x5728;&#x751F;&#x6210;&#x51FD;&#x6570;&#x7684;&#x4EE3;&#x7801;&#x7684;&#x8FC7;&#x7A0B;&#x4E2D;&#xFF0C;&#x5BF9;&#x6240;&#x6709;&#x7684;&#x5B50;&#x51FD;&#x6570;&#x8C03;&#x7528;&#x7684;&#x53C2;&#x6570;&#x8FDB;&#x884C;&#x7EDF;&#x8BA1;&#xFF0C;&#x5F97;&#x5230;&#x6700;&#x5927;&#x7684;outgoing argument&#x6570;&#x91CF;&#xFF0C;&#x8FD9;&#x91CC;&#x8FD9;&#x4E2A;&#x7A7A;&#x95F4;&#x662F;&#x8FD9;&#x6837;&#x786E;&#x5B9A;&#x7684;&#x3002;</p>
+<h1 id="&#x5C0F;&#x7ED3;"><a href="#&#x5C0F;&#x7ED3;" class="headerlink" title="&#x5C0F;&#x7ED3;"></a>&#x5C0F;&#x7ED3;</h1><p>&#x4E86;&#x89E3;&#x4E86;lcc&#x7684;&#x7ED3;&#x6784;&#xFF0C;&#x7406;&#x89E3;&#x4E86;&#x4E00;&#x4E2A;&#x7B80;&#x5355;&#x7684;c&#x8BED;&#x8A00;&#x7A0B;&#x5E8F;&#x662F;&#x5982;&#x4F55;&#x7531;lcc&#x4E00;&#x6B65;&#x4E00;&#x6B65;&#x751F;&#x6210;&#x6C47;&#x7F16;&#x8BED;&#x8A00;&#x7684;&#xFF0C;&#x5C31;&#x53EF;&#x4EE5;&#x8FDB;&#x884C;&#x79FB;&#x690D;&#x5DE5;&#x4F5C;&#x4E86;&#x3002;</p>
+<p>&#x79FB;&#x690D;&#x5DE5;&#x4F5C;&#x4E3B;&#x8981;&#x5305;&#x62EC;&#xFF1A;&#x4FEE;&#x6539;&#x6307;&#x4EE4;&#x6A21;&#x677F;&#xFF0C;&#x4FEE;&#x6539;&#x5BC4;&#x5B58;&#x5668;&#x5206;&#x914D;&#x89C4;&#x5219;&#xFF0C;&#x4FEE;&#x6539;&#x51FD;&#x6570;&#x8C03;&#x7528;&#x89C4;&#x5219;&#xFF0C;&#x4FEE;&#x6539;&#x5404;&#x4E2A;&#x57FA;&#x672C;&#x7C7B;&#x578B;&#x7684;&#x957F;&#x5EA6;&#x548C;&#x5BF9;&#x9F50;&#xFF0C;&#x4FEE;&#x6539;&#x5404;&#x79CD;&#x540D;&#x79F0;&#x7EA6;&#x5B9A;&#xFF08;&#x5982;&#x5404;&#x6570;&#x636E;&#x6BB5;&#x7684;&#x540D;&#x5B57;&#xFF09;&#x7B49;&#x3002;</p>
+<p>&#x5BF9;&#x4E8E;&#x6211;&#x5373;&#x5C06;&#x8FDB;&#x884C;&#x7684;&#x5DE5;&#x4F5C;&#xFF0C;&#x4E3B;&#x8981;&#x7684;&#x4FEE;&#x6539;&#x5E94;&#x8BE5;&#x5305;&#x62EC;&#x4FEE;&#x6539;&#x7C7B;&#x578B;&#x7684;&#x957F;&#x5EA6;&#x548C;&#x5BF9;&#x9F50;&#xFF08;&#x7531;&#x4E8E;cpu&#x53D6;&#x6570;&#x64CD;&#x4F5C;&#x4E0E;mips&#x4E0D;&#x540C;&#xFF09;&#xFF0C;&#x5BF9;&#x4E8E;&#x4E58;&#x6CD5;&#x9664;&#x6CD5;&#x6307;&#x4EE4;&#x6A21;&#x677F;&#x5E94;&#x8BE5;&#x4E3A;&#x51FD;&#x6570;&#x8C03;&#x7528;&#xFF08;cpu&#x65E0;&#x4E58;&#x6CD5;&#x5668;&#x3001;&#x9664;&#x6CD5;&#x5668;&#xFF0C;&#x8FD9;&#x91CC;&#x8FD8;&#x9700;&#x4FEE;&#x6539;clobber&#x51FD;&#x6570;&#xFF09;&#xFF0C;&#x5BF9;&#x4E8E;&#x6D6E;&#x70B9;&#x64CD;&#x4F5C;&#xFF0C;&#x9700;&#x8981;&#x5148;&#x7528;&#x7F16;&#x8BD1;&#x5668;&#x7F16;&#x8BD1;&#x751F;&#x6210;&#x8BA1;&#x7B97;&#x51FD;&#x6570;&#xFF0C;&#x7136;&#x540E;&#x5C06;&#x6307;&#x4EE4;&#x6A21;&#x677F;&#x4FEE;&#x6539;&#x4E3A;&#x51FD;&#x6570;&#x8C03;&#x7528;&#x3002;&#x4FEE;&#x6539;&#x4E2A;&#x6570;&#x636E;&#x6BB5;&#x540D;&#x5B57;&#x4E0E;&#x6C47;&#x7F16;&#x5668;&#x914D;&#x5408;&#x3002;</p>
 
     
-  <div class="back-to-top">
-    <i class="fa fa-arrow-up"></i>
-    <span>0%</span>
-  </div>
-
-  <a href="https://github.com/gpthimble" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
-
-
-    <main class="main">
-      <div class="main-inner">
-        <div class="content-wrap">
-          
-
-          <div class="content tag">
-            
-
-  
-  
-  
-  <div class="post-block">
-    <div class="posts-collapse">
-      <div class="collection-title">
-        <h2 class="collection-header">compiler
-          <small>Tag</small>
-        </h2>
-      </div>
-
-      
-    <div class="collection-year">
-      <span class="collection-header">2020</span>
     </div>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2020-09-26T15:31:08+08:00"
-              content="2020-09-26">
-          09-26
-        </time>
-      </div>
-
-      <div class="post-title">
-          <a class="post-title-link" href="/2020/%E8%AF%BB%E5%AE%8CLCC%E5%AE%8C%E6%95%B4%E6%BA%90%E4%BB%A3%E7%A0%81/" itemprop="url">
-            <span itemprop="name">读完LCC完整源代码</span>
-          </a>
-      </div>
-
-    </header>
-  </article>
-
-    </div>
-  </div>
-  
-  
-  
-
-  
+    
+    
+</article>
 
 
 
-          </div>
-          
 
-<script>
-  window.addEventListener('tabs:register', () => {
-    let { activeClass } = CONFIG.comments;
-    if (CONFIG.comments.storage) {
-      activeClass = localStorage.getItem('comments_active') || activeClass;
-    }
-    if (activeClass) {
-      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
-      if (activeTab) {
-        activeTab.click();
+
+
+    <script src='https://unpkg.com/mermaid@8.8.0/dist/mermaid.min.js'></script>
+    <script>
+      if (window.mermaid) {
+        mermaid.initialize({theme: 'forest'});
       }
-    }
-  });
-  if (CONFIG.comments.storage) {
-    window.addEventListener('tabs:click', event => {
-      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
-      let commentClass = event.target.classList[1];
-      localStorage.setItem('comments_active', commentClass);
-    });
-  }
-</script>
+    </script>
+  
+
+    
+    
+    </div>
+</section>
+    <footer class="footer">
+    <div class="container">
+        <div class="columns content">
+            <div class="column is-narrow has-text-centered">
+                &copy; 2020 Thimble&nbsp;
+                Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> & <a
+                        href="http://github.com/ppoffice/hexo-theme-minos">Minos</a>
+            </div>
+            <div class="column is-hidden-mobile"></div>
+
+            
+            <div class="column is-narrow">
+                <div class="columns is-mobile is-multiline is-centered">
+                
+                    
+                <a class="column is-narrow has-text-black" title="GitHub" href="https://github.com/ppoffice/hexo-theme-minos" target="_blank" rel="noopener">
+                    
+                    GitHub
+                    
+                </a>
+                
+                </div>
+            </div>
+            
+            
+<div class="column is-narrow has-text-centered">
+    <div class="dropdown is-up is-right is-hoverable" style="margin-top: -0.2em;">
+        <div class="dropdown-trigger">
+            <button class="button is-small" aria-haspopup="true" aria-controls="dropdown-menu7">
+                <span class="icon">
+                    <i class="fas fa-globe"></i>
+                </span>
+                <span>English</span>
+                <span class="icon is-small">
+            <i class="fas fa-angle-down" aria-hidden="true"></i>
+          </span>
+            </button>
+        </div>
+        <div class="dropdown-menu has-text-left" role="menu">
+            <div class="dropdown-content">
+            
+                <a href="/tags/compiler/index.html" class="dropdown-item">
+                    English
+                </a>
+            
+                <a href="/zh-ch/tags/compiler/index.html" class="dropdown-item">
+                    zh-ch
+                </a>
+            
+            </div>
+        </div>
+    </div>
+</div>
 
         </div>
-          
-  
-  <div class="toggle sidebar-toggle">
-    <span class="toggle-line toggle-line-first"></span>
-    <span class="toggle-line toggle-line-middle"></span>
-    <span class="toggle-line toggle-line-last"></span>
-  </div>
-
-  <aside class="sidebar">
-    <div class="sidebar-inner">
-
-      <ul class="sidebar-nav motion-element">
-        <li class="sidebar-nav-toc">
-          Table of Contents
-        </li>
-        <li class="sidebar-nav-overview">
-          Overview
-        </li>
-      </ul>
-
-      <!--noindex-->
-      <div class="post-toc-wrap sidebar-panel">
-      </div>
-      <!--/noindex-->
-
-      <div class="site-overview-wrap sidebar-panel">
-        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
-  <p class="site-author-name" itemprop="name">Thimble</p>
-  <div class="site-description" itemprop="description"></div>
-</div>
-<div class="site-state-wrap motion-element">
-  <nav class="site-state">
-      <div class="site-state-item site-state-posts">
-          <a href="/archives/">
-        
-          <span class="site-state-item-count">4</span>
-          <span class="site-state-item-name">posts</span>
-        </a>
-      </div>
-      <div class="site-state-item site-state-categories">
-            <a href="/categories/">
-          
-        <span class="site-state-item-count">1</span>
-        <span class="site-state-item-name">categories</span></a>
-      </div>
-      <div class="site-state-item site-state-tags">
-            <a href="/tags/">
-          
-        <span class="site-state-item-count">7</span>
-        <span class="site-state-item-name">tags</span></a>
-      </div>
-  </nav>
-</div>
-
-
-
-      </div>
-
     </div>
-  </aside>
-  <div id="sidebar-dimmer"></div>
+</footer>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment-with-locales.min.js"></script>
 
-
-      </div>
-    </main>
-
-    <footer class="footer">
-      <div class="footer-inner">
-        
-
-        
-
-<div class="copyright">
-  
-  &copy; 
-  <span itemprop="copyrightYear">2020</span>
-  <span class="with-love">
-    <i class="fa fa-heart"></i>
-  </span>
-  <span class="author" itemprop="copyrightHolder">Thimble</span>
-    <span class="post-meta-divider">|</span>
-    <span class="post-meta-item-icon">
-      <i class="fa fa-chart-area"></i>
-    </span>
-      <span class="post-meta-item-text">Symbols count total: </span>
-    <span title="Symbols count total">12k</span>
-    <span class="post-meta-divider">|</span>
-    <span class="post-meta-item-icon">
-      <i class="fa fa-coffee"></i>
-    </span>
-      <span class="post-meta-item-text">Reading time total &asymp;</span>
-    <span title="Reading time total">11 mins.</span>
+<!-- test if the browser is outdated -->
+<div id="outdated">
+    <h6>Your browser is out-of-date!</h6>
+    <p>Update your browser to view this website correctly. <a id="btnUpdateBrowser" href="http://outdatedbrowser.com/" target="_blank" rel="noopener">Update my browser now </a></p>
+    <p class="last"><a href="#" id="btnCloseUpdateBrowser" title="Close">&times;</a></p>
 </div>
-  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://mist.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a>
-  </div>
-
-        
-
-
-
-
-
-
-
-
-      </div>
-    </footer>
-  </div>
-
-  
-  <script src="/lib/anime.min.js"></script>
-  <script src="/lib/velocity/velocity.min.js"></script>
-  <script src="/lib/velocity/velocity.ui.min.js"></script>
-
-<script src="/js/utils.js"></script>
-
-<script src="/js/motion.js"></script>
-
-
-<script src="/js/schemes/muse.js"></script>
-
-
-<script src="/js/next-boot.js"></script>
-
-
-
-
-  
-
-
-
-
-  
-<script src="/js/local-search.js"></script>
-
-
-
-
-
-
-
-
-
-
+<script src="//cdnjs.cloudflare.com/ajax/libs/outdated-browser/1.1.5/outdatedbrowser.min.js"></script>
+<script>
+    $(document).ready(function () {
+        // plugin function, place inside DOM ready function
+        outdatedBrowser({
+            bgColor: '#f25648',
+            color: '#ffffff',
+            lowerThan: 'flex'
+        })
+    });
+</script>
 
 <script>
-if (document.querySelectorAll('pre.mermaid').length) {
-  NexT.utils.getScript('//cdn.jsdelivr.net/npm/mermaid@8/dist/mermaid.min.js', () => {
-    mermaid.initialize({
-      theme    : 'forest',
-      logLevel : 3,
-      flowchart: { curve     : 'linear' },
-      gantt    : { axisFormat: '%m/%d/%Y' },
-      sequence : { actorMargin: 50 }
-    });
-  }, window.mermaid);
-}
+    window.FontAwesomeConfig = {
+        searchPseudoElements: true
+    }
+    moment.locale("en-AU");
 </script>
 
 
-  
-
-  
-
-  
 
 
+<script src="/js/script.js"></script>
+
+
+    
+    <div class="searchbox ins-search">
+    <div class="searchbox-mask"></div>
+    <div class="searchbox-container ins-search-container">
+        <div class="searchbox-input-wrapper">
+            <input type="text" class="searchbox-input ins-search-input" placeholder="Type something..." />
+            <span class="searchbox-close ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="searchbox-result-wrapper ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+    (function (window) {
+        var INSIGHT_CONFIG = {
+            TRANSLATION: {
+                POSTS: 'Posts',
+                PAGES: 'Pages',
+                CATEGORIES: 'Categories',
+                TAGS: 'Tags',
+                UNTITLED: '(Untitled)',
+            },
+            CONTENT_URL: '/content.json',
+        };
+        window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+    })(window);
+</script>
+
+<script src="/js/insight.js"></script>
+
+    
 </body>
 </html>

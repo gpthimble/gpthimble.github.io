@@ -1,293 +1,163 @@
 <!DOCTYPE html>
-<html lang="en,zh-ch,default">
+<html class="has-navbar-fixed-top">
 <head>
-  <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
-<meta name="theme-color" content="#222">
-<meta name="generator" content="Hexo 4.2.0">
-  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
-  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
-  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+    <meta charset="utf-8">
+<title>在MIPS CPU中引入微代码 - Thimble&#39;s Blog</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
-<link rel="stylesheet" href="/css/main.css">
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/outdated-browser/1.1.5/outdatedbrowser.min.css">
 
 
-<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+<link href="/zh-ch/2020/%E5%9C%A8MIPS-CPU%E4%B8%AD%E5%BC%95%E5%85%A5%E5%BE%AE%E4%BB%A3%E7%A0%81/" rel="alternate" hreflang="zh-CH" />
+    
 
-<script id="hexo-configurations">
-    var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"gpthimble.github.io","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"left","width":280,"display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"gitalk","storage":true,"lazyload":false,"nav":null,"activeClass":"gitalk"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":true,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
-  </script>
 
-  <meta name="description" content="本项目所设计的CPU，与李亚民书中所描述的CPU主要区别是在MIPS CPU中引入了微代码，方便指令集的扩展、编译器的移植和系统编程。 带有微指令的IF级 由原理图可知，主要的修改是加入了：  微指令存储器 uprog 微指令寄存器 uPC 下一个微指令选择器 IF控制器 IF Control 状态寄存器 State  微指令存储器的结构本平台使用的微指令有如下结构： classDiagram c">
+<meta name="description" content="">
+
+
+
+
+
+    <meta name="description" content="&amp;#x672C;&amp;#x9879;&amp;#x76EE;&amp;#x6240;&amp;#x8BBE;&amp;#x8BA1;&amp;#x7684;CPU&amp;#xFF0C;&amp;#x4E0E;&amp;#x674E;&amp;#x4E9A;&amp;#x6C11;&amp;#x4E66;&amp;#x4E2D;&amp;#x6240;&amp;#x63CF;&amp;#x8FF0;&amp;#x7684;CPU&amp;#x4E3B;&amp;#x8981;&amp;#x533A;&amp;#x522B;&amp;#x662F;&amp;#x5728;MI">
 <meta property="og:type" content="article">
 <meta property="og:title" content="在MIPS CPU中引入微代码">
 <meta property="og:url" content="https://gpthimble.github.io/2020/%E5%9C%A8MIPS-CPU%E4%B8%AD%E5%BC%95%E5%85%A5%E5%BE%AE%E4%BB%A3%E7%A0%81/index.html">
 <meta property="og:site_name" content="Thimble&#39;s Blog">
-<meta property="og:description" content="本项目所设计的CPU，与李亚民书中所描述的CPU主要区别是在MIPS CPU中引入了微代码，方便指令集的扩展、编译器的移植和系统编程。 带有微指令的IF级 由原理图可知，主要的修改是加入了：  微指令存储器 uprog 微指令寄存器 uPC 下一个微指令选择器 IF控制器 IF Control 状态寄存器 State  微指令存储器的结构本平台使用的微指令有如下结构： classDiagram c">
+<meta property="og:description" content="&amp;#x672C;&amp;#x9879;&amp;#x76EE;&amp;#x6240;&amp;#x8BBE;&amp;#x8BA1;&amp;#x7684;CPU&amp;#xFF0C;&amp;#x4E0E;&amp;#x674E;&amp;#x4E9A;&amp;#x6C11;&amp;#x4E66;&amp;#x4E2D;&amp;#x6240;&amp;#x63CF;&amp;#x8FF0;&amp;#x7684;CPU&amp;#x4E3B;&amp;#x8981;&amp;#x533A;&amp;#x522B;&amp;#x662F;&amp;#x5728;MI">
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="https://gpthimble.github.io/2020/%E5%9C%A8MIPS-CPU%E4%B8%AD%E5%BC%95%E5%85%A5%E5%BE%AE%E4%BB%A3%E7%A0%81/IF_with_micro_code.png">
 <meta property="article:published_time" content="2020-05-04T04:44:34.000Z">
-<meta property="article:modified_time" content="2020-05-05T06:17:18.000Z">
+<meta property="article:modified_time" content="2020-09-30T08:47:51.280Z">
 <meta property="article:author" content="Thimble">
+<meta property="article:tag" content="development log">
 <meta property="article:tag" content="home brew computer system">
 <meta property="article:tag" content="cpu design">
 <meta property="article:tag" content="micro program">
-<meta property="article:tag" content="development log">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://gpthimble.github.io/2020/%E5%9C%A8MIPS-CPU%E4%B8%AD%E5%BC%95%E5%85%A5%E5%BE%AE%E4%BB%A3%E7%A0%81/IF_with_micro_code.png">
 
-<link rel="canonical" href="https://gpthimble.github.io/2020/%E5%9C%A8MIPS-CPU%E4%B8%AD%E5%BC%95%E5%85%A5%E5%BE%AE%E4%BB%A3%E7%A0%81/">
-
-
-<script id="page-configurations">
-  // https://hexo.io/docs/variables.html
-  CONFIG.page = {
-    sidebar: "",
-    isHome : false,
-    isPost : true,
-    lang   : 'en'
-  };
-</script>
-
-  <title>在MIPS CPU中引入微代码 | Thimble's Blog</title>
-  
-    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-20637187-2"></script>
-    <script>
-      if (CONFIG.hostname === location.hostname) {
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-        gtag('config', 'UA-20637187-2');
-      }
-    </script>
 
 
 
 
+<link rel="icon" href="/favicon.png">
 
 
-  <noscript>
-  <style>
-  .use-motion .brand,
-  .use-motion .menu-item,
-  .sidebar-inner,
-  .use-motion .post-block,
-  .use-motion .pagination,
-  .use-motion .comments,
-  .use-motion .post-header,
-  .use-motion .post-body,
-  .use-motion .collection-header { opacity: initial; }
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Ovo|Source+Code+Pro">
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bulma/0.6.2/css/bulma.min.css">
 
-  .use-motion .site-title,
-  .use-motion .site-subtitle {
-    opacity: initial;
-    top: initial;
-  }
 
-  .use-motion .logo-line-before i { left: initial; }
-  .use-motion .logo-line-after i { right: initial; }
-  </style>
-</noscript>
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/lightgallery/1.6.8/css/lightgallery.min.css">
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/justifiedGallery/3.6.5/css/justifiedGallery.min.css">
 
-</head>
 
-<body itemscope itemtype="http://schema.org/WebPage">
-  <div class="container use-motion">
-    <div class="headband"></div>
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/atom-one-light.min.css">
 
-    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
-      <div class="header-inner"><div class="site-brand-container">
-  <div class="site-nav-toggle">
-    <div class="toggle" aria-label="Toggle navigation bar">
-      <span class="toggle-line toggle-line-first"></span>
-      <span class="toggle-line toggle-line-middle"></span>
-      <span class="toggle-line toggle-line-last"></span>
+
+<link rel="stylesheet" href="/css/style.css">
+
+
+<script defer src="//use.fontawesome.com/releases/v5.0.8/js/all.js"></script>
+
+
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+<body>
+    
+<nav class="navbar is-transparent is-fixed-top navbar-main" role="navigation" aria-label="main navigation">
+    <div class="container">
+        <div class="navbar-brand">
+            <a class="navbar-item navbar-logo" href="/">
+                
+                <img src="/images/logo.png" alt="" height="28">
+                
+            </a>
+            <div class="navbar-burger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+        
+        <div class="navbar-menu navbar-start">
+            
+            <a class="navbar-item "
+               href="/archives">Archives</a>
+            
+            <a class="navbar-item "
+               href="/categories/LifeStyle">Lifestyle</a>
+            
+            <a class="navbar-item "
+               href="/categories/Music">Music</a>
+            
+            <a class="navbar-item "
+               href="/categories/Technology">Technology</a>
+            
+            <a class="navbar-item "
+               href="/about">About</a>
+            
+        </div>
+        
+        <div class="navbar-menu navbar-end">
+            
+            <a class="navbar-item search" title="Search" href="javascript:;">
+                <i class="fas fa-search"></i>
+            </a>
+            
+            
+            
+            <a class="navbar-item" title="GitHub" href="https://github.com/ppoffice/hexo-theme-minos" target="_blank" rel="noopener">
+                
+                <i class="fab fa-github"></i>
+                
+            </a>
+               
+            
+        </div>
     </div>
-  </div>
-
-  <div class="site-meta">
-
-    <a href="/" class="brand" rel="start">
-      <span class="logo-line-before"><i></i></span>
-      <h1 class="site-title">Thimble's Blog</h1>
-      <span class="logo-line-after"><i></i></span>
-    </a>
-  </div>
-
-  <div class="site-nav-right">
-    <div class="toggle popup-trigger">
-        <i class="fa fa-search fa-fw fa-lg"></i>
-    </div>
-  </div>
-</div>
-
-
-
-
-<nav class="site-nav">
-  <ul id="menu" class="main-menu menu">
-        <li class="menu-item menu-item-home">
-
-    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
-
-  </li>
-        <li class="menu-item menu-item-about">
-
-    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a>
-
-  </li>
-        <li class="menu-item menu-item-tags">
-
-    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a>
-
-  </li>
-        <li class="menu-item menu-item-categories">
-
-    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a>
-
-  </li>
-        <li class="menu-item menu-item-archives">
-
-    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
-
-  </li>
-      <li class="menu-item menu-item-search">
-        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
-        </a>
-      </li>
-  </ul>
 </nav>
 
-
-
-  <div class="search-pop-overlay">
-    <div class="popup search-popup">
-        <div class="search-header">
-  <span class="search-icon">
-    <i class="fa fa-search"></i>
-  </span>
-  <div class="search-input-container">
-    <input autocomplete="off" autocapitalize="off"
-           placeholder="Searching..." spellcheck="false"
-           type="search" class="search-input">
-  </div>
-  <span class="popup-btn-close">
-    <i class="fa fa-times-circle"></i>
-  </span>
-</div>
-<div id="search-result">
-  <div id="no-result">
-    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
-  </div>
-</div>
-
-    </div>
-  </div>
-
-</div>
-    </header>
-
-    
-  <div class="back-to-top">
-    <i class="fa fa-arrow-up"></i>
-    <span>0%</span>
-  </div>
-
-  <a href="https://github.com/gpthimble" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
-
-
-    <main class="main">
-      <div class="main-inner">
-        <div class="content-wrap">
-          
-
-          <div class="content post posts-expand">
+    <section class="section">
+    <div class="container">
+    <article class="article content gallery" itemscope itemprop="blogPost">
+    <h1 class="article-title is-size-3 is-size-4-mobile" itemprop="name">
+        
+            在MIPS CPU中引入微代码
+        
+    </h1>
+    <div class="article-meta columns is-variable is-1 is-multiline is-mobile is-size-7-mobile">
+        <span class="column is-narrow">
             
-
+                <time datetime="2020-05-04T04:44:34.000Z" itemprop="datePublished">May 4 2020</time>
+            
+        </span>
+        
+        <span class="column is-narrow article-category">
+            <i class="far fa-folder"></i>
+            <a class="article-category-link" href="/categories/home-brew-computer-system/">home brew computer system</a>
+        </span>
+        
+        
+        <span class="column is-narrow">
+            
+            
+            28 minutes read (About 4129 words)
+        </span>
+        
+    </div>
+    <div class="article-entry is-size-6-mobile" itemprop="articleBody">
     
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="https://gpthimble.github.io/2020/%E5%9C%A8MIPS-CPU%E4%B8%AD%E5%BC%95%E5%85%A5%E5%BE%AE%E4%BB%A3%E7%A0%81/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="Thimble">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Thimble's Blog">
-    </span>
-      <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">
-          在MIPS CPU中引入微代码
-        </h1>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2020-05-04 12:44:34" itemprop="dateCreated datePublished" datetime="2020-05-04T12:44:34+08:00">2020-05-04</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-05-05 14:17:18" itemprop="dateModified" datetime="2020-05-05T14:17:18+08:00">2020-05-05</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/home-brew-computer-system/" itemprop="url" rel="index"><span itemprop="name">home brew computer system</span></a>
-                </span>
-            </span>
-
-          <br>
-            <span class="post-meta-item" title="Symbols count in article">
-              <span class="post-meta-item-icon">
-                <i class="far fa-file-word"></i>
-              </span>
-                <span class="post-meta-item-text">Symbols count in article: </span>
-              <span>4.9k</span>
-            </span>
-            <span class="post-meta-item" title="Reading time">
-              <span class="post-meta-item-icon">
-                <i class="far fa-clock"></i>
-              </span>
-                <span class="post-meta-item-text">Reading time &asymp;</span>
-              <span>4 mins.</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-        <p>本项目所设计的CPU，与李亚民书中所描述的CPU主要区别是在MIPS CPU中引入了微代码，方便指令集的扩展、编译器的移植和系统编程。</p>
-<h2 id="带有微指令的IF级"><a href="#带有微指令的IF级" class="headerlink" title="带有微指令的IF级"></a>带有微指令的IF级</h2><p><img src="/2020/%E5%9C%A8MIPS-CPU%E4%B8%AD%E5%BC%95%E5%85%A5%E5%BE%AE%E4%BB%A3%E7%A0%81/IF_with_micro_code.png" alt="原理图"></p>
-<p>由原理图可知，主要的修改是加入了：</p>
+        <p>&#x672C;&#x9879;&#x76EE;&#x6240;&#x8BBE;&#x8BA1;&#x7684;CPU&#xFF0C;&#x4E0E;&#x674E;&#x4E9A;&#x6C11;&#x4E66;&#x4E2D;&#x6240;&#x63CF;&#x8FF0;&#x7684;CPU&#x4E3B;&#x8981;&#x533A;&#x522B;&#x662F;&#x5728;MIPS CPU&#x4E2D;&#x5F15;&#x5165;&#x4E86;&#x5FAE;&#x4EE3;&#x7801;&#xFF0C;&#x65B9;&#x4FBF;&#x6307;&#x4EE4;&#x96C6;&#x7684;&#x6269;&#x5C55;&#x3001;&#x7F16;&#x8BD1;&#x5668;&#x7684;&#x79FB;&#x690D;&#x548C;&#x7CFB;&#x7EDF;&#x7F16;&#x7A0B;&#x3002;</p>
+<h2 id="&#x5E26;&#x6709;&#x5FAE;&#x6307;&#x4EE4;&#x7684;IF&#x7EA7;"><a href="#&#x5E26;&#x6709;&#x5FAE;&#x6307;&#x4EE4;&#x7684;IF&#x7EA7;" class="headerlink" title="&#x5E26;&#x6709;&#x5FAE;&#x6307;&#x4EE4;&#x7684;IF&#x7EA7;"></a>&#x5E26;&#x6709;&#x5FAE;&#x6307;&#x4EE4;&#x7684;IF&#x7EA7;</h2><p><img src="/2020/%E5%9C%A8MIPS-CPU%E4%B8%AD%E5%BC%95%E5%85%A5%E5%BE%AE%E4%BB%A3%E7%A0%81/IF_with_micro_code.png" alt="&#x539F;&#x7406;&#x56FE;"></p>
+<p>&#x7531;&#x539F;&#x7406;&#x56FE;&#x53EF;&#x77E5;&#xFF0C;&#x4E3B;&#x8981;&#x7684;&#x4FEE;&#x6539;&#x662F;&#x52A0;&#x5165;&#x4E86;&#xFF1A;</p>
 <ul>
-<li>微指令存储器 uprog</li>
-<li>微指令寄存器 uPC</li>
-<li>下一个微指令选择器</li>
-<li>IF控制器 IF Control</li>
-<li>状态寄存器 State</li>
+<li>&#x5FAE;&#x6307;&#x4EE4;&#x5B58;&#x50A8;&#x5668; uprog</li>
+<li>&#x5FAE;&#x6307;&#x4EE4;&#x5BC4;&#x5B58;&#x5668; uPC</li>
+<li>&#x4E0B;&#x4E00;&#x4E2A;&#x5FAE;&#x6307;&#x4EE4;&#x9009;&#x62E9;&#x5668;</li>
+<li>IF&#x63A7;&#x5236;&#x5668; IF Control</li>
+<li>&#x72B6;&#x6001;&#x5BC4;&#x5B58;&#x5668; State</li>
 </ul>
-<h2 id="微指令存储器的结构"><a href="#微指令存储器的结构" class="headerlink" title="微指令存储器的结构"></a>微指令存储器的结构</h2><p>本平台使用的微指令有如下结构：</p>
+<h2 id="&#x5FAE;&#x6307;&#x4EE4;&#x5B58;&#x50A8;&#x5668;&#x7684;&#x7ED3;&#x6784;"><a href="#&#x5FAE;&#x6307;&#x4EE4;&#x5B58;&#x50A8;&#x5668;&#x7684;&#x7ED3;&#x6784;" class="headerlink" title="&#x5FAE;&#x6307;&#x4EE4;&#x5B58;&#x50A8;&#x5668;&#x7684;&#x7ED3;&#x6784;"></a>&#x5FAE;&#x6307;&#x4EE4;&#x5B58;&#x50A8;&#x5668;&#x7684;&#x7ED3;&#x6784;</h2><p>&#x672C;&#x5E73;&#x53F0;&#x4F7F;&#x7528;&#x7684;&#x5FAE;&#x6307;&#x4EE4;&#x6709;&#x5982;&#x4E0B;&#x7ED3;&#x6784;&#xFF1A;</p>
 <pre class="mermaid">classDiagram
 class MicroCode{
     head 1
@@ -305,31 +175,31 @@ class Head{
 }</pre>
 
 
-<p>微指令存储器包括两个部分,头部按照指令号寻址，按顺序存放在存储器中。每个头部域有两行，第一行是一个跳转指令，跳转到对应的代码域，第二行是为了满足延时槽的特点，将代码域的第一行代码放置在延时槽中。</p>
-<p>由于微指令的头部有两行，所以在使用指令中的指令号作为地址对微代码存储器寻址时，要先向左位移一位。</p>
-<p>如此设计微指令存储器，可以方便寻址，并且最大限度地利用微指令存储器的空间，头部和代码之间没有分割。</p>
-<p>微指令存储器的代码域由一个终结指令分割。这个终结指令供IF控制器判断一个微指令是否结束。代码域中可以使用任何一条用硬线逻辑实现的指令，一旦进入微指令状态，微指令中的跳转指令将只修改微指令计数器uPC。每个微指令代码域的最后一条指令（终止符前）不能是跳转指令。</p>
-<h2 id="微指令工作过程"><a href="#微指令工作过程" class="headerlink" title="微指令工作过程"></a>微指令工作过程</h2><p>在不考虑中断或异常的情况下，整个IF阶段实际上分为两个个状态：</p>
+<p>&#x5FAE;&#x6307;&#x4EE4;&#x5B58;&#x50A8;&#x5668;&#x5305;&#x62EC;&#x4E24;&#x4E2A;&#x90E8;&#x5206;,&#x5934;&#x90E8;&#x6309;&#x7167;&#x6307;&#x4EE4;&#x53F7;&#x5BFB;&#x5740;&#xFF0C;&#x6309;&#x987A;&#x5E8F;&#x5B58;&#x653E;&#x5728;&#x5B58;&#x50A8;&#x5668;&#x4E2D;&#x3002;&#x6BCF;&#x4E2A;&#x5934;&#x90E8;&#x57DF;&#x6709;&#x4E24;&#x884C;&#xFF0C;&#x7B2C;&#x4E00;&#x884C;&#x662F;&#x4E00;&#x4E2A;&#x8DF3;&#x8F6C;&#x6307;&#x4EE4;&#xFF0C;&#x8DF3;&#x8F6C;&#x5230;&#x5BF9;&#x5E94;&#x7684;&#x4EE3;&#x7801;&#x57DF;&#xFF0C;&#x7B2C;&#x4E8C;&#x884C;&#x662F;&#x4E3A;&#x4E86;&#x6EE1;&#x8DB3;&#x5EF6;&#x65F6;&#x69FD;&#x7684;&#x7279;&#x70B9;&#xFF0C;&#x5C06;&#x4EE3;&#x7801;&#x57DF;&#x7684;&#x7B2C;&#x4E00;&#x884C;&#x4EE3;&#x7801;&#x653E;&#x7F6E;&#x5728;&#x5EF6;&#x65F6;&#x69FD;&#x4E2D;&#x3002;</p>
+<p>&#x7531;&#x4E8E;&#x5FAE;&#x6307;&#x4EE4;&#x7684;&#x5934;&#x90E8;&#x6709;&#x4E24;&#x884C;&#xFF0C;&#x6240;&#x4EE5;&#x5728;&#x4F7F;&#x7528;&#x6307;&#x4EE4;&#x4E2D;&#x7684;&#x6307;&#x4EE4;&#x53F7;&#x4F5C;&#x4E3A;&#x5730;&#x5740;&#x5BF9;&#x5FAE;&#x4EE3;&#x7801;&#x5B58;&#x50A8;&#x5668;&#x5BFB;&#x5740;&#x65F6;&#xFF0C;&#x8981;&#x5148;&#x5411;&#x5DE6;&#x4F4D;&#x79FB;&#x4E00;&#x4F4D;&#x3002;</p>
+<p>&#x5982;&#x6B64;&#x8BBE;&#x8BA1;&#x5FAE;&#x6307;&#x4EE4;&#x5B58;&#x50A8;&#x5668;&#xFF0C;&#x53EF;&#x4EE5;&#x65B9;&#x4FBF;&#x5BFB;&#x5740;&#xFF0C;&#x5E76;&#x4E14;&#x6700;&#x5927;&#x9650;&#x5EA6;&#x5730;&#x5229;&#x7528;&#x5FAE;&#x6307;&#x4EE4;&#x5B58;&#x50A8;&#x5668;&#x7684;&#x7A7A;&#x95F4;&#xFF0C;&#x5934;&#x90E8;&#x548C;&#x4EE3;&#x7801;&#x4E4B;&#x95F4;&#x6CA1;&#x6709;&#x5206;&#x5272;&#x3002;</p>
+<p>&#x5FAE;&#x6307;&#x4EE4;&#x5B58;&#x50A8;&#x5668;&#x7684;&#x4EE3;&#x7801;&#x57DF;&#x7531;&#x4E00;&#x4E2A;&#x7EC8;&#x7ED3;&#x6307;&#x4EE4;&#x5206;&#x5272;&#x3002;&#x8FD9;&#x4E2A;&#x7EC8;&#x7ED3;&#x6307;&#x4EE4;&#x4F9B;IF&#x63A7;&#x5236;&#x5668;&#x5224;&#x65AD;&#x4E00;&#x4E2A;&#x5FAE;&#x6307;&#x4EE4;&#x662F;&#x5426;&#x7ED3;&#x675F;&#x3002;&#x4EE3;&#x7801;&#x57DF;&#x4E2D;&#x53EF;&#x4EE5;&#x4F7F;&#x7528;&#x4EFB;&#x4F55;&#x4E00;&#x6761;&#x7528;&#x786C;&#x7EBF;&#x903B;&#x8F91;&#x5B9E;&#x73B0;&#x7684;&#x6307;&#x4EE4;&#xFF0C;&#x4E00;&#x65E6;&#x8FDB;&#x5165;&#x5FAE;&#x6307;&#x4EE4;&#x72B6;&#x6001;&#xFF0C;&#x5FAE;&#x6307;&#x4EE4;&#x4E2D;&#x7684;&#x8DF3;&#x8F6C;&#x6307;&#x4EE4;&#x5C06;&#x53EA;&#x4FEE;&#x6539;&#x5FAE;&#x6307;&#x4EE4;&#x8BA1;&#x6570;&#x5668;uPC&#x3002;&#x6BCF;&#x4E2A;&#x5FAE;&#x6307;&#x4EE4;&#x4EE3;&#x7801;&#x57DF;&#x7684;&#x6700;&#x540E;&#x4E00;&#x6761;&#x6307;&#x4EE4;&#xFF08;&#x7EC8;&#x6B62;&#x7B26;&#x524D;&#xFF09;&#x4E0D;&#x80FD;&#x662F;&#x8DF3;&#x8F6C;&#x6307;&#x4EE4;&#x3002;</p>
+<h2 id="&#x5FAE;&#x6307;&#x4EE4;&#x5DE5;&#x4F5C;&#x8FC7;&#x7A0B;"><a href="#&#x5FAE;&#x6307;&#x4EE4;&#x5DE5;&#x4F5C;&#x8FC7;&#x7A0B;" class="headerlink" title="&#x5FAE;&#x6307;&#x4EE4;&#x5DE5;&#x4F5C;&#x8FC7;&#x7A0B;"></a>&#x5FAE;&#x6307;&#x4EE4;&#x5DE5;&#x4F5C;&#x8FC7;&#x7A0B;</h2><p>&#x5728;&#x4E0D;&#x8003;&#x8651;&#x4E2D;&#x65AD;&#x6216;&#x5F02;&#x5E38;&#x7684;&#x60C5;&#x51B5;&#x4E0B;&#xFF0C;&#x6574;&#x4E2A;IF&#x9636;&#x6BB5;&#x5B9E;&#x9645;&#x4E0A;&#x5206;&#x4E3A;&#x4E24;&#x4E2A;&#x4E2A;&#x72B6;&#x6001;&#xFF1A;</p>
 <ol>
-<li>正常状态<ul>
-<li>该状态是指现在没有微指令在执行</li>
+<li>&#x6B63;&#x5E38;&#x72B6;&#x6001;<ul>
+<li>&#x8BE5;&#x72B6;&#x6001;&#x662F;&#x6307;&#x73B0;&#x5728;&#x6CA1;&#x6709;&#x5FAE;&#x6307;&#x4EE4;&#x5728;&#x6267;&#x884C;</li>
 </ul>
 </li>
-<li>伪指令状态<ul>
-<li>该状态指现在正在执行微指令</li>
+<li>&#x4F2A;&#x6307;&#x4EE4;&#x72B6;&#x6001;<ul>
+<li>&#x8BE5;&#x72B6;&#x6001;&#x6307;&#x73B0;&#x5728;&#x6B63;&#x5728;&#x6267;&#x884C;&#x5FAE;&#x6307;&#x4EE4;</li>
 </ul>
 </li>
 </ol>
-<p>与此同时，还要判断两个动作：</p>
+<p>&#x4E0E;&#x6B64;&#x540C;&#x65F6;&#xFF0C;&#x8FD8;&#x8981;&#x5224;&#x65AD;&#x4E24;&#x4E2A;&#x52A8;&#x4F5C;&#xFF1A;</p>
 <ol>
-<li>正常状态–&gt;微指令状态（enter）</li>
-<li>微指令状态–&gt;正常状态（exit）</li>
+<li>&#x6B63;&#x5E38;&#x72B6;&#x6001;&#x2013;&gt;&#x5FAE;&#x6307;&#x4EE4;&#x72B6;&#x6001;&#xFF08;enter&#xFF09;</li>
+<li>&#x5FAE;&#x6307;&#x4EE4;&#x72B6;&#x6001;&#x2013;&gt;&#x6B63;&#x5E38;&#x72B6;&#x6001;&#xFF08;exit&#xFF09;</li>
 </ol>
-<p>IF的状态由State Register记录，动作由state和正在输入的指令（INS_in, uINS_in）判断。</p>
+<p>IF&#x7684;&#x72B6;&#x6001;&#x7531;State Register&#x8BB0;&#x5F55;&#xFF0C;&#x52A8;&#x4F5C;&#x7531;state&#x548C;&#x6B63;&#x5728;&#x8F93;&#x5165;&#x7684;&#x6307;&#x4EE4;&#xFF08;INS_in, uINS_in&#xFF09;&#x5224;&#x65AD;&#x3002;</p>
 <table>
 <thead>
 <tr>
-<th>状态转换</th>
+<th>&#x72B6;&#x6001;&#x8F6C;&#x6362;</th>
 <th>State</th>
 <th>nState</th>
 <th>INS_in</th>
@@ -396,320 +266,266 @@ class Head{
 <td>1</td>
 </tr>
 </tbody></table>
-<p>上表中，表头对应原理图中的信号。state=0表示正常状态，state=1表示进入微指令状态。nState表示下一个状态。INS_in=0 表示当前指令以硬件方法实现，INS_in=1 表示当前指令是以微指令方式实现。uINS_in=0表示当前微指令不是结束符，uINS_in=1表示当前微指令是结束符。wpc和wupc分别控制pc和upc的写入使能。</p>
-<p>enter为进入微指令状态时的指示信号，为了提高ipc，一旦发现一条指令时使用微指令实现的，就应当直接输出对应的微指令，所以进入微指令状态需要额外处理：微指令存储器的地址直接由enter信号选择为指令中的地址位，微指令存储器输出head中对应的跳转指令，下个时钟周期到来时，该地址+4放入upc，微指令状态延时槽仍然保留。之后的upc由ID阶段的upcSource更新。</p>
-<p>out_sl标志输出是微指令存储器内的内容还是指令cache中的内容。当状态发生转换时，n-&gt;u时，若将指令cache中的指令直接传入ID，ID是无法识别的，这个时候因为enter信号的作用，使得该指令对应的微指令已准备好，所以out_sl为1，即当微指令实现的指令出现时，直接传入其对应的微指令。同理，当u-&gt;n时，若将微指令结束符传入ID，ID也是无法识别的，这个时候急需要使out_sl=0选择输出下一条指令。这里还有一个特殊情况，就是当下一个输入的指令也是由微指令实现的，那么实际上IF阶段再一次进入了微指令状态（reenter），这时enter信号选择了新的微指令地址，向ID级输入正确的指令。</p>
-<p>关于pc和upc的控制有些复杂，简单来说，就是消耗一条指令，就要写一次pc，消耗一条微指令就要写一次upc。所以可以看到当enter和reenter的情况发生时，等于说既消耗了一条指令，又消耗了一条微指令，所以在这种情况下pc和upc均被写入。</p>
-<p>由于延时槽和流水线的存在，使得下一个pc和upc的值的判断变得复杂。而我的设计又希望尽可能地将修改停留在IF级，所以才把pc和upc地写入限制加在了IF级。由于ID级要计算跳转指令的目标地址，所以当前PC或者uPC要传入ID级。改进的IF级中，nPC和nuPC的两个多路复用器，除了+4这一项输入分别对应pc和upc自身外，其余三个输入是相同的，均由ID级直接给出，选择信号也是相同的，也由ID级直接给出。这样做的好处是对于ID级不需要做任何修改，就能实现在微指令状态中的跳转修改upc，而在正常状态下的跳转指令修改pc。考虑下面几种情况中pc和upc的变化。</p>
+<p>&#x4E0A;&#x8868;&#x4E2D;&#xFF0C;&#x8868;&#x5934;&#x5BF9;&#x5E94;&#x539F;&#x7406;&#x56FE;&#x4E2D;&#x7684;&#x4FE1;&#x53F7;&#x3002;state=0&#x8868;&#x793A;&#x6B63;&#x5E38;&#x72B6;&#x6001;&#xFF0C;state=1&#x8868;&#x793A;&#x8FDB;&#x5165;&#x5FAE;&#x6307;&#x4EE4;&#x72B6;&#x6001;&#x3002;nState&#x8868;&#x793A;&#x4E0B;&#x4E00;&#x4E2A;&#x72B6;&#x6001;&#x3002;INS_in=0 &#x8868;&#x793A;&#x5F53;&#x524D;&#x6307;&#x4EE4;&#x4EE5;&#x786C;&#x4EF6;&#x65B9;&#x6CD5;&#x5B9E;&#x73B0;&#xFF0C;INS_in=1 &#x8868;&#x793A;&#x5F53;&#x524D;&#x6307;&#x4EE4;&#x662F;&#x4EE5;&#x5FAE;&#x6307;&#x4EE4;&#x65B9;&#x5F0F;&#x5B9E;&#x73B0;&#x3002;uINS_in=0&#x8868;&#x793A;&#x5F53;&#x524D;&#x5FAE;&#x6307;&#x4EE4;&#x4E0D;&#x662F;&#x7ED3;&#x675F;&#x7B26;&#xFF0C;uINS_in=1&#x8868;&#x793A;&#x5F53;&#x524D;&#x5FAE;&#x6307;&#x4EE4;&#x662F;&#x7ED3;&#x675F;&#x7B26;&#x3002;wpc&#x548C;wupc&#x5206;&#x522B;&#x63A7;&#x5236;pc&#x548C;upc&#x7684;&#x5199;&#x5165;&#x4F7F;&#x80FD;&#x3002;</p>
+<p>enter&#x4E3A;&#x8FDB;&#x5165;&#x5FAE;&#x6307;&#x4EE4;&#x72B6;&#x6001;&#x65F6;&#x7684;&#x6307;&#x793A;&#x4FE1;&#x53F7;&#xFF0C;&#x4E3A;&#x4E86;&#x63D0;&#x9AD8;ipc&#xFF0C;&#x4E00;&#x65E6;&#x53D1;&#x73B0;&#x4E00;&#x6761;&#x6307;&#x4EE4;&#x65F6;&#x4F7F;&#x7528;&#x5FAE;&#x6307;&#x4EE4;&#x5B9E;&#x73B0;&#x7684;&#xFF0C;&#x5C31;&#x5E94;&#x5F53;&#x76F4;&#x63A5;&#x8F93;&#x51FA;&#x5BF9;&#x5E94;&#x7684;&#x5FAE;&#x6307;&#x4EE4;&#xFF0C;&#x6240;&#x4EE5;&#x8FDB;&#x5165;&#x5FAE;&#x6307;&#x4EE4;&#x72B6;&#x6001;&#x9700;&#x8981;&#x989D;&#x5916;&#x5904;&#x7406;&#xFF1A;&#x5FAE;&#x6307;&#x4EE4;&#x5B58;&#x50A8;&#x5668;&#x7684;&#x5730;&#x5740;&#x76F4;&#x63A5;&#x7531;enter&#x4FE1;&#x53F7;&#x9009;&#x62E9;&#x4E3A;&#x6307;&#x4EE4;&#x4E2D;&#x7684;&#x5730;&#x5740;&#x4F4D;&#xFF0C;&#x5FAE;&#x6307;&#x4EE4;&#x5B58;&#x50A8;&#x5668;&#x8F93;&#x51FA;head&#x4E2D;&#x5BF9;&#x5E94;&#x7684;&#x8DF3;&#x8F6C;&#x6307;&#x4EE4;&#xFF0C;&#x4E0B;&#x4E2A;&#x65F6;&#x949F;&#x5468;&#x671F;&#x5230;&#x6765;&#x65F6;&#xFF0C;&#x8BE5;&#x5730;&#x5740;+4&#x653E;&#x5165;upc&#xFF0C;&#x5FAE;&#x6307;&#x4EE4;&#x72B6;&#x6001;&#x5EF6;&#x65F6;&#x69FD;&#x4ECD;&#x7136;&#x4FDD;&#x7559;&#x3002;&#x4E4B;&#x540E;&#x7684;upc&#x7531;ID&#x9636;&#x6BB5;&#x7684;upcSource&#x66F4;&#x65B0;&#x3002;</p>
+<p>out_sl&#x6807;&#x5FD7;&#x8F93;&#x51FA;&#x662F;&#x5FAE;&#x6307;&#x4EE4;&#x5B58;&#x50A8;&#x5668;&#x5185;&#x7684;&#x5185;&#x5BB9;&#x8FD8;&#x662F;&#x6307;&#x4EE4;cache&#x4E2D;&#x7684;&#x5185;&#x5BB9;&#x3002;&#x5F53;&#x72B6;&#x6001;&#x53D1;&#x751F;&#x8F6C;&#x6362;&#x65F6;&#xFF0C;n-&gt;u&#x65F6;&#xFF0C;&#x82E5;&#x5C06;&#x6307;&#x4EE4;cache&#x4E2D;&#x7684;&#x6307;&#x4EE4;&#x76F4;&#x63A5;&#x4F20;&#x5165;ID&#xFF0C;ID&#x662F;&#x65E0;&#x6CD5;&#x8BC6;&#x522B;&#x7684;&#xFF0C;&#x8FD9;&#x4E2A;&#x65F6;&#x5019;&#x56E0;&#x4E3A;enter&#x4FE1;&#x53F7;&#x7684;&#x4F5C;&#x7528;&#xFF0C;&#x4F7F;&#x5F97;&#x8BE5;&#x6307;&#x4EE4;&#x5BF9;&#x5E94;&#x7684;&#x5FAE;&#x6307;&#x4EE4;&#x5DF2;&#x51C6;&#x5907;&#x597D;&#xFF0C;&#x6240;&#x4EE5;out_sl&#x4E3A;1&#xFF0C;&#x5373;&#x5F53;&#x5FAE;&#x6307;&#x4EE4;&#x5B9E;&#x73B0;&#x7684;&#x6307;&#x4EE4;&#x51FA;&#x73B0;&#x65F6;&#xFF0C;&#x76F4;&#x63A5;&#x4F20;&#x5165;&#x5176;&#x5BF9;&#x5E94;&#x7684;&#x5FAE;&#x6307;&#x4EE4;&#x3002;&#x540C;&#x7406;&#xFF0C;&#x5F53;u-&gt;n&#x65F6;&#xFF0C;&#x82E5;&#x5C06;&#x5FAE;&#x6307;&#x4EE4;&#x7ED3;&#x675F;&#x7B26;&#x4F20;&#x5165;ID&#xFF0C;ID&#x4E5F;&#x662F;&#x65E0;&#x6CD5;&#x8BC6;&#x522B;&#x7684;&#xFF0C;&#x8FD9;&#x4E2A;&#x65F6;&#x5019;&#x6025;&#x9700;&#x8981;&#x4F7F;out_sl=0&#x9009;&#x62E9;&#x8F93;&#x51FA;&#x4E0B;&#x4E00;&#x6761;&#x6307;&#x4EE4;&#x3002;&#x8FD9;&#x91CC;&#x8FD8;&#x6709;&#x4E00;&#x4E2A;&#x7279;&#x6B8A;&#x60C5;&#x51B5;&#xFF0C;&#x5C31;&#x662F;&#x5F53;&#x4E0B;&#x4E00;&#x4E2A;&#x8F93;&#x5165;&#x7684;&#x6307;&#x4EE4;&#x4E5F;&#x662F;&#x7531;&#x5FAE;&#x6307;&#x4EE4;&#x5B9E;&#x73B0;&#x7684;&#xFF0C;&#x90A3;&#x4E48;&#x5B9E;&#x9645;&#x4E0A;IF&#x9636;&#x6BB5;&#x518D;&#x4E00;&#x6B21;&#x8FDB;&#x5165;&#x4E86;&#x5FAE;&#x6307;&#x4EE4;&#x72B6;&#x6001;&#xFF08;reenter&#xFF09;&#xFF0C;&#x8FD9;&#x65F6;enter&#x4FE1;&#x53F7;&#x9009;&#x62E9;&#x4E86;&#x65B0;&#x7684;&#x5FAE;&#x6307;&#x4EE4;&#x5730;&#x5740;&#xFF0C;&#x5411;ID&#x7EA7;&#x8F93;&#x5165;&#x6B63;&#x786E;&#x7684;&#x6307;&#x4EE4;&#x3002;</p>
+<p>&#x5173;&#x4E8E;pc&#x548C;upc&#x7684;&#x63A7;&#x5236;&#x6709;&#x4E9B;&#x590D;&#x6742;&#xFF0C;&#x7B80;&#x5355;&#x6765;&#x8BF4;&#xFF0C;&#x5C31;&#x662F;&#x6D88;&#x8017;&#x4E00;&#x6761;&#x6307;&#x4EE4;&#xFF0C;&#x5C31;&#x8981;&#x5199;&#x4E00;&#x6B21;pc&#xFF0C;&#x6D88;&#x8017;&#x4E00;&#x6761;&#x5FAE;&#x6307;&#x4EE4;&#x5C31;&#x8981;&#x5199;&#x4E00;&#x6B21;upc&#x3002;&#x6240;&#x4EE5;&#x53EF;&#x4EE5;&#x770B;&#x5230;&#x5F53;enter&#x548C;reenter&#x7684;&#x60C5;&#x51B5;&#x53D1;&#x751F;&#x65F6;&#xFF0C;&#x7B49;&#x4E8E;&#x8BF4;&#x65E2;&#x6D88;&#x8017;&#x4E86;&#x4E00;&#x6761;&#x6307;&#x4EE4;&#xFF0C;&#x53C8;&#x6D88;&#x8017;&#x4E86;&#x4E00;&#x6761;&#x5FAE;&#x6307;&#x4EE4;&#xFF0C;&#x6240;&#x4EE5;&#x5728;&#x8FD9;&#x79CD;&#x60C5;&#x51B5;&#x4E0B;pc&#x548C;upc&#x5747;&#x88AB;&#x5199;&#x5165;&#x3002;</p>
+<p>&#x7531;&#x4E8E;&#x5EF6;&#x65F6;&#x69FD;&#x548C;&#x6D41;&#x6C34;&#x7EBF;&#x7684;&#x5B58;&#x5728;&#xFF0C;&#x4F7F;&#x5F97;&#x4E0B;&#x4E00;&#x4E2A;pc&#x548C;upc&#x7684;&#x503C;&#x7684;&#x5224;&#x65AD;&#x53D8;&#x5F97;&#x590D;&#x6742;&#x3002;&#x800C;&#x6211;&#x7684;&#x8BBE;&#x8BA1;&#x53C8;&#x5E0C;&#x671B;&#x5C3D;&#x53EF;&#x80FD;&#x5730;&#x5C06;&#x4FEE;&#x6539;&#x505C;&#x7559;&#x5728;IF&#x7EA7;&#xFF0C;&#x6240;&#x4EE5;&#x624D;&#x628A;pc&#x548C;upc&#x5730;&#x5199;&#x5165;&#x9650;&#x5236;&#x52A0;&#x5728;&#x4E86;IF&#x7EA7;&#x3002;&#x7531;&#x4E8E;ID&#x7EA7;&#x8981;&#x8BA1;&#x7B97;&#x8DF3;&#x8F6C;&#x6307;&#x4EE4;&#x7684;&#x76EE;&#x6807;&#x5730;&#x5740;&#xFF0C;&#x6240;&#x4EE5;&#x5F53;&#x524D;PC&#x6216;&#x8005;uPC&#x8981;&#x4F20;&#x5165;ID&#x7EA7;&#x3002;&#x6539;&#x8FDB;&#x7684;IF&#x7EA7;&#x4E2D;&#xFF0C;nPC&#x548C;nuPC&#x7684;&#x4E24;&#x4E2A;&#x591A;&#x8DEF;&#x590D;&#x7528;&#x5668;&#xFF0C;&#x9664;&#x4E86;+4&#x8FD9;&#x4E00;&#x9879;&#x8F93;&#x5165;&#x5206;&#x522B;&#x5BF9;&#x5E94;pc&#x548C;upc&#x81EA;&#x8EAB;&#x5916;&#xFF0C;&#x5176;&#x4F59;&#x4E09;&#x4E2A;&#x8F93;&#x5165;&#x662F;&#x76F8;&#x540C;&#x7684;&#xFF0C;&#x5747;&#x7531;ID&#x7EA7;&#x76F4;&#x63A5;&#x7ED9;&#x51FA;&#xFF0C;&#x9009;&#x62E9;&#x4FE1;&#x53F7;&#x4E5F;&#x662F;&#x76F8;&#x540C;&#x7684;&#xFF0C;&#x4E5F;&#x7531;ID&#x7EA7;&#x76F4;&#x63A5;&#x7ED9;&#x51FA;&#x3002;&#x8FD9;&#x6837;&#x505A;&#x7684;&#x597D;&#x5904;&#x662F;&#x5BF9;&#x4E8E;ID&#x7EA7;&#x4E0D;&#x9700;&#x8981;&#x505A;&#x4EFB;&#x4F55;&#x4FEE;&#x6539;&#xFF0C;&#x5C31;&#x80FD;&#x5B9E;&#x73B0;&#x5728;&#x5FAE;&#x6307;&#x4EE4;&#x72B6;&#x6001;&#x4E2D;&#x7684;&#x8DF3;&#x8F6C;&#x4FEE;&#x6539;upc&#xFF0C;&#x800C;&#x5728;&#x6B63;&#x5E38;&#x72B6;&#x6001;&#x4E0B;&#x7684;&#x8DF3;&#x8F6C;&#x6307;&#x4EE4;&#x4FEE;&#x6539;pc&#x3002;&#x8003;&#x8651;&#x4E0B;&#x9762;&#x51E0;&#x79CD;&#x60C5;&#x51B5;&#x4E2D;pc&#x548C;upc&#x7684;&#x53D8;&#x5316;&#x3002;</p>
 <table>
 <thead>
 <tr>
-<th>存储器位置</th>
-<th>情况一</th>
-<th>情况二</th>
-<th>情况三</th>
+<th>&#x5B58;&#x50A8;&#x5668;&#x4F4D;&#x7F6E;</th>
+<th>&#x60C5;&#x51B5;&#x4E00;</th>
+<th>&#x60C5;&#x51B5;&#x4E8C;</th>
+<th>&#x60C5;&#x51B5;&#x4E09;</th>
 </tr>
 </thead>
 <tbody><tr>
 <td>01</td>
-<td>硬件实现指令（非跳转）</td>
-<td>跳转指令</td>
-<td>硬件实现指令（非跳转）</td>
+<td>&#x786C;&#x4EF6;&#x5B9E;&#x73B0;&#x6307;&#x4EE4;&#xFF08;&#x975E;&#x8DF3;&#x8F6C;&#xFF09;</td>
+<td>&#x8DF3;&#x8F6C;&#x6307;&#x4EE4;</td>
+<td>&#x786C;&#x4EF6;&#x5B9E;&#x73B0;&#x6307;&#x4EE4;&#xFF08;&#x975E;&#x8DF3;&#x8F6C;&#xFF09;</td>
 </tr>
 <tr>
 <td>02</td>
-<td>微指令实现指令</td>
-<td>微指令实现指令</td>
-<td>微指令实现指令</td>
+<td>&#x5FAE;&#x6307;&#x4EE4;&#x5B9E;&#x73B0;&#x6307;&#x4EE4;</td>
+<td>&#x5FAE;&#x6307;&#x4EE4;&#x5B9E;&#x73B0;&#x6307;&#x4EE4;</td>
+<td>&#x5FAE;&#x6307;&#x4EE4;&#x5B9E;&#x73B0;&#x6307;&#x4EE4;</td>
 </tr>
 <tr>
 <td>03</td>
-<td>硬件实现治指令</td>
-<td>跳转指令的目标</td>
-<td>微指令实现指令</td>
+<td>&#x786C;&#x4EF6;&#x5B9E;&#x73B0;&#x6CBB;&#x6307;&#x4EE4;</td>
+<td>&#x8DF3;&#x8F6C;&#x6307;&#x4EE4;&#x7684;&#x76EE;&#x6807;</td>
+<td>&#x5FAE;&#x6307;&#x4EE4;&#x5B9E;&#x73B0;&#x6307;&#x4EE4;</td>
 </tr>
 </tbody></table>
-<p>情况一是比较正常的情况，pc=01，该指令是一个硬件实现指令，所以直接输出，这时候向下一级输出PC。下一个时钟到来，若当前指令是延时槽中的指令，pc等于其目标；若当前指令不处于延时槽中，则pc=pc+4。若跳转的目标是一条普通指令，这种情况比较正常，不涉及到状态切换，在这里不考虑。</p>
-<p>当pc=pc+4 或者当前指令是延时槽中的指令，并且跳转的目标刚好是02，这时候要发生状态切换。此时01指令已在ID级，它不是跳转指令，所以pc_source被ID级设置成pc+4。而此时是enter的情况，所以upc被设置成指令中所知的位置，而upc_source和pc_source公用一个信号，所以upc_source也被设置成upc+4.当 下一个时钟周期到来时，由微指令存储器指出的微指令被送入ID，而pc和upc分别被写入为03和微指令头部延时槽的地址。并且IF级向ID级送入upc，供微指令中的跳转指令参考。</p>
-<p>当微指令执行结束，也就是upc指向了一个终止符。这时上一条指令（ID级中的指令），由于一定不是跳转指令，所以会把pc_source设置成pc+4，准备向ID级输出pc所指的指令03。下一个时钟到来，upc+4，pc+4=04，而upc指向结束符的下一个指令，脱离结束符的状态。</p>
-<p>情况二比较特殊，02位置的指令是一个延时槽。我们考虑这种情况下upc和pc如何变化。pc=01，该指令是一个硬件指令，所以直接输出，这时候向下一级输出pc，此时时钟到来，pc+4=02指向微指令实现的指令。由于ID级是跳转指令，所以ID级将pc_source设置成响应的跳转目标，这里是03。所以时钟到来后，pc=03，upc为指令中所指示的地址+4。可以看出，这种情况实际上和上一种情况是等价的，只是看起来比较特殊。在微指令执行结束后，exit情况也同上一种情况等价。</p>
-<p>情况三考虑重进入这种情况。pc=01该指令是一个正常的指令，与情况一相同，在这就不详细分析了。考虑重进入的时刻，将02所代表的微指令送入ID时，pc已被设置为03，此时02中的微指令执行完毕，upc指向终止符，由于此时ID级一定不是跳转指令，因此pc_source被设置成pc+4，由于是重进入，当时钟到来时，IF会选出03所指的微指令中的跳转指令，并将upc设置为03中指令所指的位置+4（微指令头部的延时槽），同时会将pc设置为04.</p>
-<p>由对上述三种情况的分析可以知道，我所设计的微指令系统时可以正常工作的。对这些情况的分析是多余的，是因为npc和nupc的值是由ID级的指令决定的。ID级是硬件指令，IF正在处理微指令，这种情况（enter）upc是特殊处理的，并不会影响pc的更新。同理ID级时微指令，IF级正在处理硬件指令，这种情况下upc和pc都直接加4，upc+4后跨越了终结符，其值在下一次进入时在被更新。其余的情况ID级时硬件指令，IF级也是硬件指令或者ID级是微指令，IF级也是微指令，这两种情况与未加入微指令系统的情况相同，只是选择性的对pc和upc的写入进行使能控制。</p>
-<h2 id="微指令系统对精确中断的影响"><a href="#微指令系统对精确中断的影响" class="headerlink" title="微指令系统对精确中断的影响"></a>微指令系统对精确中断的影响</h2><p>在流水线中实现精确中断并不是一件容易的事，尤其是在有分支、有延时槽的情况下。所以笔者不打算采用列举各种情况来分析引入微指令对精确中断的影响，而是试图从更高的层面去思考这个问题，以对终端系统进行针对性的修改。</p>
-<p>中断和异常会在ID级或者EXE级到来。ID级的异常，可以是硬件中断，未实现的指令或者是系统调用systemcall。EXE级的异常可以是算术指令的溢出。</p>
-<h3 id="该微指令系统对原有精确中断的兼容性分析"><a href="#该微指令系统对原有精确中断的兼容性分析" class="headerlink" title="该微指令系统对原有精确中断的兼容性分析"></a>该微指令系统对原有精确中断的兼容性分析</h3><p>分析引入微指令对精确中断的影响，要分析IF阶段的取指结果，和那些因素有关。如果中断到来，所保存的现场能够在恢复时确保取出的指令是正确的，那么引入微指令对中断就是兼容的。</p>
-<p>时钟到来时，存入IR的指令与下面因素有关：</p>
+<p>&#x60C5;&#x51B5;&#x4E00;&#x662F;&#x6BD4;&#x8F83;&#x6B63;&#x5E38;&#x7684;&#x60C5;&#x51B5;&#xFF0C;pc=01&#xFF0C;&#x8BE5;&#x6307;&#x4EE4;&#x662F;&#x4E00;&#x4E2A;&#x786C;&#x4EF6;&#x5B9E;&#x73B0;&#x6307;&#x4EE4;&#xFF0C;&#x6240;&#x4EE5;&#x76F4;&#x63A5;&#x8F93;&#x51FA;&#xFF0C;&#x8FD9;&#x65F6;&#x5019;&#x5411;&#x4E0B;&#x4E00;&#x7EA7;&#x8F93;&#x51FA;PC&#x3002;&#x4E0B;&#x4E00;&#x4E2A;&#x65F6;&#x949F;&#x5230;&#x6765;&#xFF0C;&#x82E5;&#x5F53;&#x524D;&#x6307;&#x4EE4;&#x662F;&#x5EF6;&#x65F6;&#x69FD;&#x4E2D;&#x7684;&#x6307;&#x4EE4;&#xFF0C;pc&#x7B49;&#x4E8E;&#x5176;&#x76EE;&#x6807;&#xFF1B;&#x82E5;&#x5F53;&#x524D;&#x6307;&#x4EE4;&#x4E0D;&#x5904;&#x4E8E;&#x5EF6;&#x65F6;&#x69FD;&#x4E2D;&#xFF0C;&#x5219;pc=pc+4&#x3002;&#x82E5;&#x8DF3;&#x8F6C;&#x7684;&#x76EE;&#x6807;&#x662F;&#x4E00;&#x6761;&#x666E;&#x901A;&#x6307;&#x4EE4;&#xFF0C;&#x8FD9;&#x79CD;&#x60C5;&#x51B5;&#x6BD4;&#x8F83;&#x6B63;&#x5E38;&#xFF0C;&#x4E0D;&#x6D89;&#x53CA;&#x5230;&#x72B6;&#x6001;&#x5207;&#x6362;&#xFF0C;&#x5728;&#x8FD9;&#x91CC;&#x4E0D;&#x8003;&#x8651;&#x3002;</p>
+<p>&#x5F53;pc=pc+4 &#x6216;&#x8005;&#x5F53;&#x524D;&#x6307;&#x4EE4;&#x662F;&#x5EF6;&#x65F6;&#x69FD;&#x4E2D;&#x7684;&#x6307;&#x4EE4;&#xFF0C;&#x5E76;&#x4E14;&#x8DF3;&#x8F6C;&#x7684;&#x76EE;&#x6807;&#x521A;&#x597D;&#x662F;02&#xFF0C;&#x8FD9;&#x65F6;&#x5019;&#x8981;&#x53D1;&#x751F;&#x72B6;&#x6001;&#x5207;&#x6362;&#x3002;&#x6B64;&#x65F6;01&#x6307;&#x4EE4;&#x5DF2;&#x5728;ID&#x7EA7;&#xFF0C;&#x5B83;&#x4E0D;&#x662F;&#x8DF3;&#x8F6C;&#x6307;&#x4EE4;&#xFF0C;&#x6240;&#x4EE5;pc_source&#x88AB;ID&#x7EA7;&#x8BBE;&#x7F6E;&#x6210;pc+4&#x3002;&#x800C;&#x6B64;&#x65F6;&#x662F;enter&#x7684;&#x60C5;&#x51B5;&#xFF0C;&#x6240;&#x4EE5;upc&#x88AB;&#x8BBE;&#x7F6E;&#x6210;&#x6307;&#x4EE4;&#x4E2D;&#x6240;&#x77E5;&#x7684;&#x4F4D;&#x7F6E;&#xFF0C;&#x800C;upc_source&#x548C;pc_source&#x516C;&#x7528;&#x4E00;&#x4E2A;&#x4FE1;&#x53F7;&#xFF0C;&#x6240;&#x4EE5;upc_source&#x4E5F;&#x88AB;&#x8BBE;&#x7F6E;&#x6210;upc+4.&#x5F53; &#x4E0B;&#x4E00;&#x4E2A;&#x65F6;&#x949F;&#x5468;&#x671F;&#x5230;&#x6765;&#x65F6;&#xFF0C;&#x7531;&#x5FAE;&#x6307;&#x4EE4;&#x5B58;&#x50A8;&#x5668;&#x6307;&#x51FA;&#x7684;&#x5FAE;&#x6307;&#x4EE4;&#x88AB;&#x9001;&#x5165;ID&#xFF0C;&#x800C;pc&#x548C;upc&#x5206;&#x522B;&#x88AB;&#x5199;&#x5165;&#x4E3A;03&#x548C;&#x5FAE;&#x6307;&#x4EE4;&#x5934;&#x90E8;&#x5EF6;&#x65F6;&#x69FD;&#x7684;&#x5730;&#x5740;&#x3002;&#x5E76;&#x4E14;IF&#x7EA7;&#x5411;ID&#x7EA7;&#x9001;&#x5165;upc&#xFF0C;&#x4F9B;&#x5FAE;&#x6307;&#x4EE4;&#x4E2D;&#x7684;&#x8DF3;&#x8F6C;&#x6307;&#x4EE4;&#x53C2;&#x8003;&#x3002;</p>
+<p>&#x5F53;&#x5FAE;&#x6307;&#x4EE4;&#x6267;&#x884C;&#x7ED3;&#x675F;&#xFF0C;&#x4E5F;&#x5C31;&#x662F;upc&#x6307;&#x5411;&#x4E86;&#x4E00;&#x4E2A;&#x7EC8;&#x6B62;&#x7B26;&#x3002;&#x8FD9;&#x65F6;&#x4E0A;&#x4E00;&#x6761;&#x6307;&#x4EE4;&#xFF08;ID&#x7EA7;&#x4E2D;&#x7684;&#x6307;&#x4EE4;&#xFF09;&#xFF0C;&#x7531;&#x4E8E;&#x4E00;&#x5B9A;&#x4E0D;&#x662F;&#x8DF3;&#x8F6C;&#x6307;&#x4EE4;&#xFF0C;&#x6240;&#x4EE5;&#x4F1A;&#x628A;pc_source&#x8BBE;&#x7F6E;&#x6210;pc+4&#xFF0C;&#x51C6;&#x5907;&#x5411;ID&#x7EA7;&#x8F93;&#x51FA;pc&#x6240;&#x6307;&#x7684;&#x6307;&#x4EE4;03&#x3002;&#x4E0B;&#x4E00;&#x4E2A;&#x65F6;&#x949F;&#x5230;&#x6765;&#xFF0C;upc+4&#xFF0C;pc+4=04&#xFF0C;&#x800C;upc&#x6307;&#x5411;&#x7ED3;&#x675F;&#x7B26;&#x7684;&#x4E0B;&#x4E00;&#x4E2A;&#x6307;&#x4EE4;&#xFF0C;&#x8131;&#x79BB;&#x7ED3;&#x675F;&#x7B26;&#x7684;&#x72B6;&#x6001;&#x3002;</p>
+<p>&#x60C5;&#x51B5;&#x4E8C;&#x6BD4;&#x8F83;&#x7279;&#x6B8A;&#xFF0C;02&#x4F4D;&#x7F6E;&#x7684;&#x6307;&#x4EE4;&#x662F;&#x4E00;&#x4E2A;&#x5EF6;&#x65F6;&#x69FD;&#x3002;&#x6211;&#x4EEC;&#x8003;&#x8651;&#x8FD9;&#x79CD;&#x60C5;&#x51B5;&#x4E0B;upc&#x548C;pc&#x5982;&#x4F55;&#x53D8;&#x5316;&#x3002;pc=01&#xFF0C;&#x8BE5;&#x6307;&#x4EE4;&#x662F;&#x4E00;&#x4E2A;&#x786C;&#x4EF6;&#x6307;&#x4EE4;&#xFF0C;&#x6240;&#x4EE5;&#x76F4;&#x63A5;&#x8F93;&#x51FA;&#xFF0C;&#x8FD9;&#x65F6;&#x5019;&#x5411;&#x4E0B;&#x4E00;&#x7EA7;&#x8F93;&#x51FA;pc&#xFF0C;&#x6B64;&#x65F6;&#x65F6;&#x949F;&#x5230;&#x6765;&#xFF0C;pc+4=02&#x6307;&#x5411;&#x5FAE;&#x6307;&#x4EE4;&#x5B9E;&#x73B0;&#x7684;&#x6307;&#x4EE4;&#x3002;&#x7531;&#x4E8E;ID&#x7EA7;&#x662F;&#x8DF3;&#x8F6C;&#x6307;&#x4EE4;&#xFF0C;&#x6240;&#x4EE5;ID&#x7EA7;&#x5C06;pc_source&#x8BBE;&#x7F6E;&#x6210;&#x54CD;&#x5E94;&#x7684;&#x8DF3;&#x8F6C;&#x76EE;&#x6807;&#xFF0C;&#x8FD9;&#x91CC;&#x662F;03&#x3002;&#x6240;&#x4EE5;&#x65F6;&#x949F;&#x5230;&#x6765;&#x540E;&#xFF0C;pc=03&#xFF0C;upc&#x4E3A;&#x6307;&#x4EE4;&#x4E2D;&#x6240;&#x6307;&#x793A;&#x7684;&#x5730;&#x5740;+4&#x3002;&#x53EF;&#x4EE5;&#x770B;&#x51FA;&#xFF0C;&#x8FD9;&#x79CD;&#x60C5;&#x51B5;&#x5B9E;&#x9645;&#x4E0A;&#x548C;&#x4E0A;&#x4E00;&#x79CD;&#x60C5;&#x51B5;&#x662F;&#x7B49;&#x4EF7;&#x7684;&#xFF0C;&#x53EA;&#x662F;&#x770B;&#x8D77;&#x6765;&#x6BD4;&#x8F83;&#x7279;&#x6B8A;&#x3002;&#x5728;&#x5FAE;&#x6307;&#x4EE4;&#x6267;&#x884C;&#x7ED3;&#x675F;&#x540E;&#xFF0C;exit&#x60C5;&#x51B5;&#x4E5F;&#x540C;&#x4E0A;&#x4E00;&#x79CD;&#x60C5;&#x51B5;&#x7B49;&#x4EF7;&#x3002;</p>
+<p>&#x60C5;&#x51B5;&#x4E09;&#x8003;&#x8651;&#x91CD;&#x8FDB;&#x5165;&#x8FD9;&#x79CD;&#x60C5;&#x51B5;&#x3002;pc=01&#x8BE5;&#x6307;&#x4EE4;&#x662F;&#x4E00;&#x4E2A;&#x6B63;&#x5E38;&#x7684;&#x6307;&#x4EE4;&#xFF0C;&#x4E0E;&#x60C5;&#x51B5;&#x4E00;&#x76F8;&#x540C;&#xFF0C;&#x5728;&#x8FD9;&#x5C31;&#x4E0D;&#x8BE6;&#x7EC6;&#x5206;&#x6790;&#x4E86;&#x3002;&#x8003;&#x8651;&#x91CD;&#x8FDB;&#x5165;&#x7684;&#x65F6;&#x523B;&#xFF0C;&#x5C06;02&#x6240;&#x4EE3;&#x8868;&#x7684;&#x5FAE;&#x6307;&#x4EE4;&#x9001;&#x5165;ID&#x65F6;&#xFF0C;pc&#x5DF2;&#x88AB;&#x8BBE;&#x7F6E;&#x4E3A;03&#xFF0C;&#x6B64;&#x65F6;02&#x4E2D;&#x7684;&#x5FAE;&#x6307;&#x4EE4;&#x6267;&#x884C;&#x5B8C;&#x6BD5;&#xFF0C;upc&#x6307;&#x5411;&#x7EC8;&#x6B62;&#x7B26;&#xFF0C;&#x7531;&#x4E8E;&#x6B64;&#x65F6;ID&#x7EA7;&#x4E00;&#x5B9A;&#x4E0D;&#x662F;&#x8DF3;&#x8F6C;&#x6307;&#x4EE4;&#xFF0C;&#x56E0;&#x6B64;pc_source&#x88AB;&#x8BBE;&#x7F6E;&#x6210;pc+4&#xFF0C;&#x7531;&#x4E8E;&#x662F;&#x91CD;&#x8FDB;&#x5165;&#xFF0C;&#x5F53;&#x65F6;&#x949F;&#x5230;&#x6765;&#x65F6;&#xFF0C;IF&#x4F1A;&#x9009;&#x51FA;03&#x6240;&#x6307;&#x7684;&#x5FAE;&#x6307;&#x4EE4;&#x4E2D;&#x7684;&#x8DF3;&#x8F6C;&#x6307;&#x4EE4;&#xFF0C;&#x5E76;&#x5C06;upc&#x8BBE;&#x7F6E;&#x4E3A;03&#x4E2D;&#x6307;&#x4EE4;&#x6240;&#x6307;&#x7684;&#x4F4D;&#x7F6E;+4&#xFF08;&#x5FAE;&#x6307;&#x4EE4;&#x5934;&#x90E8;&#x7684;&#x5EF6;&#x65F6;&#x69FD;&#xFF09;&#xFF0C;&#x540C;&#x65F6;&#x4F1A;&#x5C06;pc&#x8BBE;&#x7F6E;&#x4E3A;04.</p>
+<p>&#x7531;&#x5BF9;&#x4E0A;&#x8FF0;&#x4E09;&#x79CD;&#x60C5;&#x51B5;&#x7684;&#x5206;&#x6790;&#x53EF;&#x4EE5;&#x77E5;&#x9053;&#xFF0C;&#x6211;&#x6240;&#x8BBE;&#x8BA1;&#x7684;&#x5FAE;&#x6307;&#x4EE4;&#x7CFB;&#x7EDF;&#x65F6;&#x53EF;&#x4EE5;&#x6B63;&#x5E38;&#x5DE5;&#x4F5C;&#x7684;&#x3002;&#x5BF9;&#x8FD9;&#x4E9B;&#x60C5;&#x51B5;&#x7684;&#x5206;&#x6790;&#x662F;&#x591A;&#x4F59;&#x7684;&#xFF0C;&#x662F;&#x56E0;&#x4E3A;npc&#x548C;nupc&#x7684;&#x503C;&#x662F;&#x7531;ID&#x7EA7;&#x7684;&#x6307;&#x4EE4;&#x51B3;&#x5B9A;&#x7684;&#x3002;ID&#x7EA7;&#x662F;&#x786C;&#x4EF6;&#x6307;&#x4EE4;&#xFF0C;IF&#x6B63;&#x5728;&#x5904;&#x7406;&#x5FAE;&#x6307;&#x4EE4;&#xFF0C;&#x8FD9;&#x79CD;&#x60C5;&#x51B5;&#xFF08;enter&#xFF09;upc&#x662F;&#x7279;&#x6B8A;&#x5904;&#x7406;&#x7684;&#xFF0C;&#x5E76;&#x4E0D;&#x4F1A;&#x5F71;&#x54CD;pc&#x7684;&#x66F4;&#x65B0;&#x3002;&#x540C;&#x7406;ID&#x7EA7;&#x65F6;&#x5FAE;&#x6307;&#x4EE4;&#xFF0C;IF&#x7EA7;&#x6B63;&#x5728;&#x5904;&#x7406;&#x786C;&#x4EF6;&#x6307;&#x4EE4;&#xFF0C;&#x8FD9;&#x79CD;&#x60C5;&#x51B5;&#x4E0B;upc&#x548C;pc&#x90FD;&#x76F4;&#x63A5;&#x52A0;4&#xFF0C;upc+4&#x540E;&#x8DE8;&#x8D8A;&#x4E86;&#x7EC8;&#x7ED3;&#x7B26;&#xFF0C;&#x5176;&#x503C;&#x5728;&#x4E0B;&#x4E00;&#x6B21;&#x8FDB;&#x5165;&#x65F6;&#x5728;&#x88AB;&#x66F4;&#x65B0;&#x3002;&#x5176;&#x4F59;&#x7684;&#x60C5;&#x51B5;ID&#x7EA7;&#x65F6;&#x786C;&#x4EF6;&#x6307;&#x4EE4;&#xFF0C;IF&#x7EA7;&#x4E5F;&#x662F;&#x786C;&#x4EF6;&#x6307;&#x4EE4;&#x6216;&#x8005;ID&#x7EA7;&#x662F;&#x5FAE;&#x6307;&#x4EE4;&#xFF0C;IF&#x7EA7;&#x4E5F;&#x662F;&#x5FAE;&#x6307;&#x4EE4;&#xFF0C;&#x8FD9;&#x4E24;&#x79CD;&#x60C5;&#x51B5;&#x4E0E;&#x672A;&#x52A0;&#x5165;&#x5FAE;&#x6307;&#x4EE4;&#x7CFB;&#x7EDF;&#x7684;&#x60C5;&#x51B5;&#x76F8;&#x540C;&#xFF0C;&#x53EA;&#x662F;&#x9009;&#x62E9;&#x6027;&#x7684;&#x5BF9;pc&#x548C;upc&#x7684;&#x5199;&#x5165;&#x8FDB;&#x884C;&#x4F7F;&#x80FD;&#x63A7;&#x5236;&#x3002;</p>
+<h2 id="&#x5FAE;&#x6307;&#x4EE4;&#x7CFB;&#x7EDF;&#x5BF9;&#x7CBE;&#x786E;&#x4E2D;&#x65AD;&#x7684;&#x5F71;&#x54CD;"><a href="#&#x5FAE;&#x6307;&#x4EE4;&#x7CFB;&#x7EDF;&#x5BF9;&#x7CBE;&#x786E;&#x4E2D;&#x65AD;&#x7684;&#x5F71;&#x54CD;" class="headerlink" title="&#x5FAE;&#x6307;&#x4EE4;&#x7CFB;&#x7EDF;&#x5BF9;&#x7CBE;&#x786E;&#x4E2D;&#x65AD;&#x7684;&#x5F71;&#x54CD;"></a>&#x5FAE;&#x6307;&#x4EE4;&#x7CFB;&#x7EDF;&#x5BF9;&#x7CBE;&#x786E;&#x4E2D;&#x65AD;&#x7684;&#x5F71;&#x54CD;</h2><p>&#x5728;&#x6D41;&#x6C34;&#x7EBF;&#x4E2D;&#x5B9E;&#x73B0;&#x7CBE;&#x786E;&#x4E2D;&#x65AD;&#x5E76;&#x4E0D;&#x662F;&#x4E00;&#x4EF6;&#x5BB9;&#x6613;&#x7684;&#x4E8B;&#xFF0C;&#x5C24;&#x5176;&#x662F;&#x5728;&#x6709;&#x5206;&#x652F;&#x3001;&#x6709;&#x5EF6;&#x65F6;&#x69FD;&#x7684;&#x60C5;&#x51B5;&#x4E0B;&#x3002;&#x6240;&#x4EE5;&#x7B14;&#x8005;&#x4E0D;&#x6253;&#x7B97;&#x91C7;&#x7528;&#x5217;&#x4E3E;&#x5404;&#x79CD;&#x60C5;&#x51B5;&#x6765;&#x5206;&#x6790;&#x5F15;&#x5165;&#x5FAE;&#x6307;&#x4EE4;&#x5BF9;&#x7CBE;&#x786E;&#x4E2D;&#x65AD;&#x7684;&#x5F71;&#x54CD;&#xFF0C;&#x800C;&#x662F;&#x8BD5;&#x56FE;&#x4ECE;&#x66F4;&#x9AD8;&#x7684;&#x5C42;&#x9762;&#x53BB;&#x601D;&#x8003;&#x8FD9;&#x4E2A;&#x95EE;&#x9898;&#xFF0C;&#x4EE5;&#x5BF9;&#x7EC8;&#x7AEF;&#x7CFB;&#x7EDF;&#x8FDB;&#x884C;&#x9488;&#x5BF9;&#x6027;&#x7684;&#x4FEE;&#x6539;&#x3002;</p>
+<p>&#x4E2D;&#x65AD;&#x548C;&#x5F02;&#x5E38;&#x4F1A;&#x5728;ID&#x7EA7;&#x6216;&#x8005;EXE&#x7EA7;&#x5230;&#x6765;&#x3002;ID&#x7EA7;&#x7684;&#x5F02;&#x5E38;&#xFF0C;&#x53EF;&#x4EE5;&#x662F;&#x786C;&#x4EF6;&#x4E2D;&#x65AD;&#xFF0C;&#x672A;&#x5B9E;&#x73B0;&#x7684;&#x6307;&#x4EE4;&#x6216;&#x8005;&#x662F;&#x7CFB;&#x7EDF;&#x8C03;&#x7528;systemcall&#x3002;EXE&#x7EA7;&#x7684;&#x5F02;&#x5E38;&#x53EF;&#x4EE5;&#x662F;&#x7B97;&#x672F;&#x6307;&#x4EE4;&#x7684;&#x6EA2;&#x51FA;&#x3002;</p>
+<h3 id="&#x8BE5;&#x5FAE;&#x6307;&#x4EE4;&#x7CFB;&#x7EDF;&#x5BF9;&#x539F;&#x6709;&#x7CBE;&#x786E;&#x4E2D;&#x65AD;&#x7684;&#x517C;&#x5BB9;&#x6027;&#x5206;&#x6790;"><a href="#&#x8BE5;&#x5FAE;&#x6307;&#x4EE4;&#x7CFB;&#x7EDF;&#x5BF9;&#x539F;&#x6709;&#x7CBE;&#x786E;&#x4E2D;&#x65AD;&#x7684;&#x517C;&#x5BB9;&#x6027;&#x5206;&#x6790;" class="headerlink" title="&#x8BE5;&#x5FAE;&#x6307;&#x4EE4;&#x7CFB;&#x7EDF;&#x5BF9;&#x539F;&#x6709;&#x7CBE;&#x786E;&#x4E2D;&#x65AD;&#x7684;&#x517C;&#x5BB9;&#x6027;&#x5206;&#x6790;"></a>&#x8BE5;&#x5FAE;&#x6307;&#x4EE4;&#x7CFB;&#x7EDF;&#x5BF9;&#x539F;&#x6709;&#x7CBE;&#x786E;&#x4E2D;&#x65AD;&#x7684;&#x517C;&#x5BB9;&#x6027;&#x5206;&#x6790;</h3><p>&#x5206;&#x6790;&#x5F15;&#x5165;&#x5FAE;&#x6307;&#x4EE4;&#x5BF9;&#x7CBE;&#x786E;&#x4E2D;&#x65AD;&#x7684;&#x5F71;&#x54CD;&#xFF0C;&#x8981;&#x5206;&#x6790;IF&#x9636;&#x6BB5;&#x7684;&#x53D6;&#x6307;&#x7ED3;&#x679C;&#xFF0C;&#x548C;&#x90A3;&#x4E9B;&#x56E0;&#x7D20;&#x6709;&#x5173;&#x3002;&#x5982;&#x679C;&#x4E2D;&#x65AD;&#x5230;&#x6765;&#xFF0C;&#x6240;&#x4FDD;&#x5B58;&#x7684;&#x73B0;&#x573A;&#x80FD;&#x591F;&#x5728;&#x6062;&#x590D;&#x65F6;&#x786E;&#x4FDD;&#x53D6;&#x51FA;&#x7684;&#x6307;&#x4EE4;&#x662F;&#x6B63;&#x786E;&#x7684;&#xFF0C;&#x90A3;&#x4E48;&#x5F15;&#x5165;&#x5FAE;&#x6307;&#x4EE4;&#x5BF9;&#x4E2D;&#x65AD;&#x5C31;&#x662F;&#x517C;&#x5BB9;&#x7684;&#x3002;</p>
+<p>&#x65F6;&#x949F;&#x5230;&#x6765;&#x65F6;&#xFF0C;&#x5B58;&#x5165;IR&#x7684;&#x6307;&#x4EE4;&#x4E0E;&#x4E0B;&#x9762;&#x56E0;&#x7D20;&#x6709;&#x5173;&#xFF1A;</p>
 <ol>
-<li>pc的值</li>
-<li>upc的值</li>
-<li>IF的状态state</li>
+<li>pc&#x7684;&#x503C;</li>
+<li>upc&#x7684;&#x503C;</li>
+<li>IF&#x7684;&#x72B6;&#x6001;state</li>
 </ol>
-<p>初看上一张的真值表，可以发现存入IR的指令还和当前指令是否是硬件实现的，和当前微指令是否是结束符有关。但如果考虑存储器中的内容在是固定的（对于指令和微指令而言，存储器的内容都是固定的），那么当前指令和当前微指令均是由pc和upc决定的。</p>
-<p>也就是说，只要保存pc、upc和state，在恢复时就可以恢复这一个时钟到来时所取的指令。</p>
-<p>而精确中断的机制，就是根据发生异常的位置，保存中断返回地址取指时的IF状态，因此，对原有终端系统的修改，只需要将过去只保存PC，改为同时保存PC、uPC和state即可。</p>
-<h3 id="中断到来对取指的影响"><a href="#中断到来对取指的影响" class="headerlink" title="中断到来对取指的影响"></a>中断到来对取指的影响</h3><p>如果没有中断机制，IF级的状态转移如上一节的表格所示。但是中断机制的引入使IF级变得更加复杂。</p>
-<p>中断相当于强制跳转并保存现场，也就是说中断到来时应当强制更新pc的值。但是IF级所取的下一条指令是由上文所说的pc,upc以及state决定的，而ID给出的中断信号，只能改变PC_INT多路器的选择信号。由此可知，上文中的状态转移过程，若wpc是1，则中断来临时，pc会在时钟到来时更新到中断向量所指的位置。</p>
-<p>但有一种特殊情况，若此时IF级处于微指令状态，state=1，并且下一条微指令不是终结符，那么wpc=0，则pc在时钟到来时不会更新为中断向量所指的地址。这会造成错误。</p>
-<p>再考虑IF级的输出。IF级输出也由pc,upc以及state决定，如果只对pc进行修改，使得pc在中断来临时强制修改，仍然不能使得中断向量正确向ID级传送。</p>
-<p>所以作者在状态寄存器向IF控制器的输入处增加了一个多路器，在中断到来时强制设置state=0，但又不修改state寄存器的内容，让原有的state寄存器内容可以向下传递，使中断控制电路可以正确的保存中断前的状态，与此同时制造enter或者normal的假象，正确处理中断时的跳转问题。</p>
-<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><p>这篇文章描述了该自制计算机系统中处理器使如何处理微指令的。本文所描述的方法，可以充分利用硬线逻辑控制器的速度优势，又可以提供一个完整的微指令环境对指令集进行扩充。该方法区别于在很多书中记载的微指令实现方法，不使用微指令解码来控制各个功能部件实现不同的功能，而是直接以硬件实现的指令作为微指令。一条由微指令实现的指令，像一个汇编语言中的宏，如果没有这个微指令模块，这些功能自然可以通过汇编语言的宏来实现。但是，微指令模块的意义仍然存在，经过精心调试的微指令，可以充分利用延时槽、流水线冲突避免等特性来获得比用户自定义的宏更好的性能，也可以减少系统编程时出错的概率，还可以减少可执行代码的体积。在某些必须使用多周期才能实现的硬件指令，把他转换成这样的微指令，只需要付出极少的硬件代价，并且其执行可以高效的利用流水线。</p>
-<p>该系统实现的难点有二：</p>
+<p>&#x521D;&#x770B;&#x4E0A;&#x4E00;&#x5F20;&#x7684;&#x771F;&#x503C;&#x8868;&#xFF0C;&#x53EF;&#x4EE5;&#x53D1;&#x73B0;&#x5B58;&#x5165;IR&#x7684;&#x6307;&#x4EE4;&#x8FD8;&#x548C;&#x5F53;&#x524D;&#x6307;&#x4EE4;&#x662F;&#x5426;&#x662F;&#x786C;&#x4EF6;&#x5B9E;&#x73B0;&#x7684;&#xFF0C;&#x548C;&#x5F53;&#x524D;&#x5FAE;&#x6307;&#x4EE4;&#x662F;&#x5426;&#x662F;&#x7ED3;&#x675F;&#x7B26;&#x6709;&#x5173;&#x3002;&#x4F46;&#x5982;&#x679C;&#x8003;&#x8651;&#x5B58;&#x50A8;&#x5668;&#x4E2D;&#x7684;&#x5185;&#x5BB9;&#x5728;&#x662F;&#x56FA;&#x5B9A;&#x7684;&#xFF08;&#x5BF9;&#x4E8E;&#x6307;&#x4EE4;&#x548C;&#x5FAE;&#x6307;&#x4EE4;&#x800C;&#x8A00;&#xFF0C;&#x5B58;&#x50A8;&#x5668;&#x7684;&#x5185;&#x5BB9;&#x90FD;&#x662F;&#x56FA;&#x5B9A;&#x7684;&#xFF09;&#xFF0C;&#x90A3;&#x4E48;&#x5F53;&#x524D;&#x6307;&#x4EE4;&#x548C;&#x5F53;&#x524D;&#x5FAE;&#x6307;&#x4EE4;&#x5747;&#x662F;&#x7531;pc&#x548C;upc&#x51B3;&#x5B9A;&#x7684;&#x3002;</p>
+<p>&#x4E5F;&#x5C31;&#x662F;&#x8BF4;&#xFF0C;&#x53EA;&#x8981;&#x4FDD;&#x5B58;pc&#x3001;upc&#x548C;state&#xFF0C;&#x5728;&#x6062;&#x590D;&#x65F6;&#x5C31;&#x53EF;&#x4EE5;&#x6062;&#x590D;&#x8FD9;&#x4E00;&#x4E2A;&#x65F6;&#x949F;&#x5230;&#x6765;&#x65F6;&#x6240;&#x53D6;&#x7684;&#x6307;&#x4EE4;&#x3002;</p>
+<p>&#x800C;&#x7CBE;&#x786E;&#x4E2D;&#x65AD;&#x7684;&#x673A;&#x5236;&#xFF0C;&#x5C31;&#x662F;&#x6839;&#x636E;&#x53D1;&#x751F;&#x5F02;&#x5E38;&#x7684;&#x4F4D;&#x7F6E;&#xFF0C;&#x4FDD;&#x5B58;&#x4E2D;&#x65AD;&#x8FD4;&#x56DE;&#x5730;&#x5740;&#x53D6;&#x6307;&#x65F6;&#x7684;IF&#x72B6;&#x6001;&#xFF0C;&#x56E0;&#x6B64;&#xFF0C;&#x5BF9;&#x539F;&#x6709;&#x7EC8;&#x7AEF;&#x7CFB;&#x7EDF;&#x7684;&#x4FEE;&#x6539;&#xFF0C;&#x53EA;&#x9700;&#x8981;&#x5C06;&#x8FC7;&#x53BB;&#x53EA;&#x4FDD;&#x5B58;PC&#xFF0C;&#x6539;&#x4E3A;&#x540C;&#x65F6;&#x4FDD;&#x5B58;PC&#x3001;uPC&#x548C;state&#x5373;&#x53EF;&#x3002;</p>
+<h3 id="&#x4E2D;&#x65AD;&#x5230;&#x6765;&#x5BF9;&#x53D6;&#x6307;&#x7684;&#x5F71;&#x54CD;"><a href="#&#x4E2D;&#x65AD;&#x5230;&#x6765;&#x5BF9;&#x53D6;&#x6307;&#x7684;&#x5F71;&#x54CD;" class="headerlink" title="&#x4E2D;&#x65AD;&#x5230;&#x6765;&#x5BF9;&#x53D6;&#x6307;&#x7684;&#x5F71;&#x54CD;"></a>&#x4E2D;&#x65AD;&#x5230;&#x6765;&#x5BF9;&#x53D6;&#x6307;&#x7684;&#x5F71;&#x54CD;</h3><p>&#x5982;&#x679C;&#x6CA1;&#x6709;&#x4E2D;&#x65AD;&#x673A;&#x5236;&#xFF0C;IF&#x7EA7;&#x7684;&#x72B6;&#x6001;&#x8F6C;&#x79FB;&#x5982;&#x4E0A;&#x4E00;&#x8282;&#x7684;&#x8868;&#x683C;&#x6240;&#x793A;&#x3002;&#x4F46;&#x662F;&#x4E2D;&#x65AD;&#x673A;&#x5236;&#x7684;&#x5F15;&#x5165;&#x4F7F;IF&#x7EA7;&#x53D8;&#x5F97;&#x66F4;&#x52A0;&#x590D;&#x6742;&#x3002;</p>
+<p>&#x4E2D;&#x65AD;&#x76F8;&#x5F53;&#x4E8E;&#x5F3A;&#x5236;&#x8DF3;&#x8F6C;&#x5E76;&#x4FDD;&#x5B58;&#x73B0;&#x573A;&#xFF0C;&#x4E5F;&#x5C31;&#x662F;&#x8BF4;&#x4E2D;&#x65AD;&#x5230;&#x6765;&#x65F6;&#x5E94;&#x5F53;&#x5F3A;&#x5236;&#x66F4;&#x65B0;pc&#x7684;&#x503C;&#x3002;&#x4F46;&#x662F;IF&#x7EA7;&#x6240;&#x53D6;&#x7684;&#x4E0B;&#x4E00;&#x6761;&#x6307;&#x4EE4;&#x662F;&#x7531;&#x4E0A;&#x6587;&#x6240;&#x8BF4;&#x7684;pc,upc&#x4EE5;&#x53CA;state&#x51B3;&#x5B9A;&#x7684;&#xFF0C;&#x800C;ID&#x7ED9;&#x51FA;&#x7684;&#x4E2D;&#x65AD;&#x4FE1;&#x53F7;&#xFF0C;&#x53EA;&#x80FD;&#x6539;&#x53D8;PC_INT&#x591A;&#x8DEF;&#x5668;&#x7684;&#x9009;&#x62E9;&#x4FE1;&#x53F7;&#x3002;&#x7531;&#x6B64;&#x53EF;&#x77E5;&#xFF0C;&#x4E0A;&#x6587;&#x4E2D;&#x7684;&#x72B6;&#x6001;&#x8F6C;&#x79FB;&#x8FC7;&#x7A0B;&#xFF0C;&#x82E5;wpc&#x662F;1&#xFF0C;&#x5219;&#x4E2D;&#x65AD;&#x6765;&#x4E34;&#x65F6;&#xFF0C;pc&#x4F1A;&#x5728;&#x65F6;&#x949F;&#x5230;&#x6765;&#x65F6;&#x66F4;&#x65B0;&#x5230;&#x4E2D;&#x65AD;&#x5411;&#x91CF;&#x6240;&#x6307;&#x7684;&#x4F4D;&#x7F6E;&#x3002;</p>
+<p>&#x4F46;&#x6709;&#x4E00;&#x79CD;&#x7279;&#x6B8A;&#x60C5;&#x51B5;&#xFF0C;&#x82E5;&#x6B64;&#x65F6;IF&#x7EA7;&#x5904;&#x4E8E;&#x5FAE;&#x6307;&#x4EE4;&#x72B6;&#x6001;&#xFF0C;state=1&#xFF0C;&#x5E76;&#x4E14;&#x4E0B;&#x4E00;&#x6761;&#x5FAE;&#x6307;&#x4EE4;&#x4E0D;&#x662F;&#x7EC8;&#x7ED3;&#x7B26;&#xFF0C;&#x90A3;&#x4E48;wpc=0&#xFF0C;&#x5219;pc&#x5728;&#x65F6;&#x949F;&#x5230;&#x6765;&#x65F6;&#x4E0D;&#x4F1A;&#x66F4;&#x65B0;&#x4E3A;&#x4E2D;&#x65AD;&#x5411;&#x91CF;&#x6240;&#x6307;&#x7684;&#x5730;&#x5740;&#x3002;&#x8FD9;&#x4F1A;&#x9020;&#x6210;&#x9519;&#x8BEF;&#x3002;</p>
+<p>&#x518D;&#x8003;&#x8651;IF&#x7EA7;&#x7684;&#x8F93;&#x51FA;&#x3002;IF&#x7EA7;&#x8F93;&#x51FA;&#x4E5F;&#x7531;pc,upc&#x4EE5;&#x53CA;state&#x51B3;&#x5B9A;&#xFF0C;&#x5982;&#x679C;&#x53EA;&#x5BF9;pc&#x8FDB;&#x884C;&#x4FEE;&#x6539;&#xFF0C;&#x4F7F;&#x5F97;pc&#x5728;&#x4E2D;&#x65AD;&#x6765;&#x4E34;&#x65F6;&#x5F3A;&#x5236;&#x4FEE;&#x6539;&#xFF0C;&#x4ECD;&#x7136;&#x4E0D;&#x80FD;&#x4F7F;&#x5F97;&#x4E2D;&#x65AD;&#x5411;&#x91CF;&#x6B63;&#x786E;&#x5411;ID&#x7EA7;&#x4F20;&#x9001;&#x3002;</p>
+<p>&#x6240;&#x4EE5;&#x4F5C;&#x8005;&#x5728;&#x72B6;&#x6001;&#x5BC4;&#x5B58;&#x5668;&#x5411;IF&#x63A7;&#x5236;&#x5668;&#x7684;&#x8F93;&#x5165;&#x5904;&#x589E;&#x52A0;&#x4E86;&#x4E00;&#x4E2A;&#x591A;&#x8DEF;&#x5668;&#xFF0C;&#x5728;&#x4E2D;&#x65AD;&#x5230;&#x6765;&#x65F6;&#x5F3A;&#x5236;&#x8BBE;&#x7F6E;state=0&#xFF0C;&#x4F46;&#x53C8;&#x4E0D;&#x4FEE;&#x6539;state&#x5BC4;&#x5B58;&#x5668;&#x7684;&#x5185;&#x5BB9;&#xFF0C;&#x8BA9;&#x539F;&#x6709;&#x7684;state&#x5BC4;&#x5B58;&#x5668;&#x5185;&#x5BB9;&#x53EF;&#x4EE5;&#x5411;&#x4E0B;&#x4F20;&#x9012;&#xFF0C;&#x4F7F;&#x4E2D;&#x65AD;&#x63A7;&#x5236;&#x7535;&#x8DEF;&#x53EF;&#x4EE5;&#x6B63;&#x786E;&#x7684;&#x4FDD;&#x5B58;&#x4E2D;&#x65AD;&#x524D;&#x7684;&#x72B6;&#x6001;&#xFF0C;&#x4E0E;&#x6B64;&#x540C;&#x65F6;&#x5236;&#x9020;enter&#x6216;&#x8005;normal&#x7684;&#x5047;&#x8C61;&#xFF0C;&#x6B63;&#x786E;&#x5904;&#x7406;&#x4E2D;&#x65AD;&#x65F6;&#x7684;&#x8DF3;&#x8F6C;&#x95EE;&#x9898;&#x3002;</p>
+<h2 id="&#x5C0F;&#x7ED3;"><a href="#&#x5C0F;&#x7ED3;" class="headerlink" title="&#x5C0F;&#x7ED3;"></a>&#x5C0F;&#x7ED3;</h2><p>&#x8FD9;&#x7BC7;&#x6587;&#x7AE0;&#x63CF;&#x8FF0;&#x4E86;&#x8BE5;&#x81EA;&#x5236;&#x8BA1;&#x7B97;&#x673A;&#x7CFB;&#x7EDF;&#x4E2D;&#x5904;&#x7406;&#x5668;&#x4F7F;&#x5982;&#x4F55;&#x5904;&#x7406;&#x5FAE;&#x6307;&#x4EE4;&#x7684;&#x3002;&#x672C;&#x6587;&#x6240;&#x63CF;&#x8FF0;&#x7684;&#x65B9;&#x6CD5;&#xFF0C;&#x53EF;&#x4EE5;&#x5145;&#x5206;&#x5229;&#x7528;&#x786C;&#x7EBF;&#x903B;&#x8F91;&#x63A7;&#x5236;&#x5668;&#x7684;&#x901F;&#x5EA6;&#x4F18;&#x52BF;&#xFF0C;&#x53C8;&#x53EF;&#x4EE5;&#x63D0;&#x4F9B;&#x4E00;&#x4E2A;&#x5B8C;&#x6574;&#x7684;&#x5FAE;&#x6307;&#x4EE4;&#x73AF;&#x5883;&#x5BF9;&#x6307;&#x4EE4;&#x96C6;&#x8FDB;&#x884C;&#x6269;&#x5145;&#x3002;&#x8BE5;&#x65B9;&#x6CD5;&#x533A;&#x522B;&#x4E8E;&#x5728;&#x5F88;&#x591A;&#x4E66;&#x4E2D;&#x8BB0;&#x8F7D;&#x7684;&#x5FAE;&#x6307;&#x4EE4;&#x5B9E;&#x73B0;&#x65B9;&#x6CD5;&#xFF0C;&#x4E0D;&#x4F7F;&#x7528;&#x5FAE;&#x6307;&#x4EE4;&#x89E3;&#x7801;&#x6765;&#x63A7;&#x5236;&#x5404;&#x4E2A;&#x529F;&#x80FD;&#x90E8;&#x4EF6;&#x5B9E;&#x73B0;&#x4E0D;&#x540C;&#x7684;&#x529F;&#x80FD;&#xFF0C;&#x800C;&#x662F;&#x76F4;&#x63A5;&#x4EE5;&#x786C;&#x4EF6;&#x5B9E;&#x73B0;&#x7684;&#x6307;&#x4EE4;&#x4F5C;&#x4E3A;&#x5FAE;&#x6307;&#x4EE4;&#x3002;&#x4E00;&#x6761;&#x7531;&#x5FAE;&#x6307;&#x4EE4;&#x5B9E;&#x73B0;&#x7684;&#x6307;&#x4EE4;&#xFF0C;&#x50CF;&#x4E00;&#x4E2A;&#x6C47;&#x7F16;&#x8BED;&#x8A00;&#x4E2D;&#x7684;&#x5B8F;&#xFF0C;&#x5982;&#x679C;&#x6CA1;&#x6709;&#x8FD9;&#x4E2A;&#x5FAE;&#x6307;&#x4EE4;&#x6A21;&#x5757;&#xFF0C;&#x8FD9;&#x4E9B;&#x529F;&#x80FD;&#x81EA;&#x7136;&#x53EF;&#x4EE5;&#x901A;&#x8FC7;&#x6C47;&#x7F16;&#x8BED;&#x8A00;&#x7684;&#x5B8F;&#x6765;&#x5B9E;&#x73B0;&#x3002;&#x4F46;&#x662F;&#xFF0C;&#x5FAE;&#x6307;&#x4EE4;&#x6A21;&#x5757;&#x7684;&#x610F;&#x4E49;&#x4ECD;&#x7136;&#x5B58;&#x5728;&#xFF0C;&#x7ECF;&#x8FC7;&#x7CBE;&#x5FC3;&#x8C03;&#x8BD5;&#x7684;&#x5FAE;&#x6307;&#x4EE4;&#xFF0C;&#x53EF;&#x4EE5;&#x5145;&#x5206;&#x5229;&#x7528;&#x5EF6;&#x65F6;&#x69FD;&#x3001;&#x6D41;&#x6C34;&#x7EBF;&#x51B2;&#x7A81;&#x907F;&#x514D;&#x7B49;&#x7279;&#x6027;&#x6765;&#x83B7;&#x5F97;&#x6BD4;&#x7528;&#x6237;&#x81EA;&#x5B9A;&#x4E49;&#x7684;&#x5B8F;&#x66F4;&#x597D;&#x7684;&#x6027;&#x80FD;&#xFF0C;&#x4E5F;&#x53EF;&#x4EE5;&#x51CF;&#x5C11;&#x7CFB;&#x7EDF;&#x7F16;&#x7A0B;&#x65F6;&#x51FA;&#x9519;&#x7684;&#x6982;&#x7387;&#xFF0C;&#x8FD8;&#x53EF;&#x4EE5;&#x51CF;&#x5C11;&#x53EF;&#x6267;&#x884C;&#x4EE3;&#x7801;&#x7684;&#x4F53;&#x79EF;&#x3002;&#x5728;&#x67D0;&#x4E9B;&#x5FC5;&#x987B;&#x4F7F;&#x7528;&#x591A;&#x5468;&#x671F;&#x624D;&#x80FD;&#x5B9E;&#x73B0;&#x7684;&#x786C;&#x4EF6;&#x6307;&#x4EE4;&#xFF0C;&#x628A;&#x4ED6;&#x8F6C;&#x6362;&#x6210;&#x8FD9;&#x6837;&#x7684;&#x5FAE;&#x6307;&#x4EE4;&#xFF0C;&#x53EA;&#x9700;&#x8981;&#x4ED8;&#x51FA;&#x6781;&#x5C11;&#x7684;&#x786C;&#x4EF6;&#x4EE3;&#x4EF7;&#xFF0C;&#x5E76;&#x4E14;&#x5176;&#x6267;&#x884C;&#x53EF;&#x4EE5;&#x9AD8;&#x6548;&#x7684;&#x5229;&#x7528;&#x6D41;&#x6C34;&#x7EBF;&#x3002;</p>
+<p>&#x8BE5;&#x7CFB;&#x7EDF;&#x5B9E;&#x73B0;&#x7684;&#x96BE;&#x70B9;&#x6709;&#x4E8C;&#xFF1A;</p>
 <ol>
-<li>IF级的指令选择设计</li>
-<li>IF级的指令选择与中断系统的结合和兼容设计</li>
+<li>IF&#x7EA7;&#x7684;&#x6307;&#x4EE4;&#x9009;&#x62E9;&#x8BBE;&#x8BA1;</li>
+<li>IF&#x7EA7;&#x7684;&#x6307;&#x4EE4;&#x9009;&#x62E9;&#x4E0E;&#x4E2D;&#x65AD;&#x7CFB;&#x7EDF;&#x7684;&#x7ED3;&#x5408;&#x548C;&#x517C;&#x5BB9;&#x8BBE;&#x8BA1;</li>
 </ol>
-<p>关于该系统的进一步验证，等到具体实现，会用EDA工具仿真实验，届时笔者会把硬件逻辑描述和测试用例同步更新在文章中。</p>
+<p>&#x5173;&#x4E8E;&#x8BE5;&#x7CFB;&#x7EDF;&#x7684;&#x8FDB;&#x4E00;&#x6B65;&#x9A8C;&#x8BC1;&#xFF0C;&#x7B49;&#x5230;&#x5177;&#x4F53;&#x5B9E;&#x73B0;&#xFF0C;&#x4F1A;&#x7528;EDA&#x5DE5;&#x5177;&#x4EFF;&#x771F;&#x5B9E;&#x9A8C;&#xFF0C;&#x5C4A;&#x65F6;&#x7B14;&#x8005;&#x4F1A;&#x628A;&#x786C;&#x4EF6;&#x903B;&#x8F91;&#x63CF;&#x8FF0;&#x548C;&#x6D4B;&#x8BD5;&#x7528;&#x4F8B;&#x540C;&#x6B65;&#x66F4;&#x65B0;&#x5728;&#x6587;&#x7AE0;&#x4E2D;&#x3002;</p>
 
+    
     </div>
-
     
+    <div class="columns is-variable is-1 is-multiline is-mobile">
     
+        <span class="column is-narrow"><a class="tag is-light article-tag" href="/tags/development-log/">#development log</a></span>
     
-
-      <footer class="post-footer">
-          <div class="post-tags">
-              <a href="/tags/home-brew-computer-system/" rel="tag"># home brew computer system</a>
-              <a href="/tags/cpu-design/" rel="tag"># cpu design</a>
-              <a href="/tags/micro-program/" rel="tag"># micro program</a>
-              <a href="/tags/development-log/" rel="tag"># development log</a>
-          </div>
-
-        
-
-
-        
-    <div class="post-nav">
-      <div class="post-nav-item">
-    <a href="/2020/%E8%BF%99%E5%8F%AA%E6%98%AF%E4%B8%80%E4%B8%AA%E8%87%AA%E5%88%B6%E7%B3%BB%E7%AE%97%E8%AE%A1%E7%B3%BB%E7%BB%9F%E7%9A%84%E9%A1%B9%E7%9B%AE/" rel="prev" title="这只是一个自制计算机系统的项目">
-      <i class="fa fa-chevron-left"></i> 这只是一个自制计算机系统的项目
-    </a></div>
-      <div class="post-nav-item">
-    <a href="/2020/%E8%AF%BB%E5%AE%8CLCC%E5%AE%8C%E6%95%B4%E6%BA%90%E4%BB%A3%E7%A0%81/" rel="next" title="读完LCC完整源代码">
-      读完LCC完整源代码 <i class="fa fa-chevron-right"></i>
-    </a></div>
+        <span class="column is-narrow"><a class="tag is-light article-tag" href="/tags/home-brew-computer-system/">#home brew computer system</a></span>
+    
+        <span class="column is-narrow"><a class="tag is-light article-tag" href="/tags/cpu-design/">#cpu design</a></span>
+    
+        <span class="column is-narrow"><a class="tag is-light article-tag" href="/tags/micro-program/">#micro program</a></span>
+    
     </div>
-      </footer>
     
-  </article>
-  
-  
-  
+    
+    <div class="columns is-mobile is-multiline article-nav">
+        <span class="column is-12-mobile is-half-desktop  article-nav-prev">
+            
+            <a href="/2020/%E8%AF%BB%E5%AE%8CLCC%E5%AE%8C%E6%95%B4%E6%BA%90%E4%BB%A3%E7%A0%81/">读完LCC完整源代码</a>
+            
+        </span>
+        <span class="column is-12-mobile is-half-desktop  article-nav-next">
+            
+            <a href="/2020/%E8%BF%99%E5%8F%AA%E6%98%AF%E4%B8%80%E4%B8%AA%E8%87%AA%E5%88%B6%E7%B3%BB%E7%AE%97%E8%AE%A1%E7%B3%BB%E7%BB%9F%E7%9A%84%E9%A1%B9%E7%9B%AE/">这只是一个自制计算机系统的项目</a>
+            
+        </span>
+    </div>
+    
+</article>
+
+
+<div class="sharebox">
+    
+<div class="sharethis-inline-share-buttons"></div>
+<script type='text/javascript' src='true' async='async'></script>
+
+</div>
 
 
 
-          </div>
-          
-    <div class="comments" id="gitalk-container"></div>
-
+<div class="comments">
+    <h3 class="title is-4">Comments</h3>
+    
+<div id="comment-container"></div>
+<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
+<script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
 <script>
-  window.addEventListener('tabs:register', () => {
-    let { activeClass } = CONFIG.comments;
-    if (CONFIG.comments.storage) {
-      activeClass = localStorage.getItem('comments_active') || activeClass;
-    }
-    if (activeClass) {
-      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
-      if (activeTab) {
-        activeTab.click();
-      }
-    }
-  });
-  if (CONFIG.comments.storage) {
-    window.addEventListener('tabs:click', event => {
-      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
-      let commentClass = event.target.classList[1];
-      localStorage.setItem('comments_active', commentClass);
-    });
-  }
+	var gitment = new Gitment({
+		id: '2020/在MIPS-CPU中引入微代码/',
+		owner: 'gpthimble',
+		repo: 'gpthimble.github.io',
+		oauth: {
+			client_id: 'ad6ae0a709b4ba94e7a1',
+			client_secret: '5cffb7b459889f3bd15131de8ce1d28cd1316871',
+		},
+	})
+	gitment.render('comment-container')
 </script>
+
+</div>
+
+
+
+    <script src='https://unpkg.com/mermaid@8.8.0/dist/mermaid.min.js'></script>
+    <script>
+      if (window.mermaid) {
+        mermaid.initialize({theme: 'forest'});
+      }
+    </script>
+  
+
+    </div>
+</section>
+    <footer class="footer">
+    <div class="container">
+        <div class="columns content">
+            <div class="column is-narrow has-text-centered">
+                &copy; 2020 Thimble&nbsp;
+                Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> & <a
+                        href="http://github.com/ppoffice/hexo-theme-minos">Minos</a>
+            </div>
+            <div class="column is-hidden-mobile"></div>
+
+            
+            <div class="column is-narrow">
+                <div class="columns is-mobile is-multiline is-centered">
+                
+                    
+                <a class="column is-narrow has-text-black" title="GitHub" href="https://github.com/ppoffice/hexo-theme-minos" target="_blank" rel="noopener">
+                    
+                    GitHub
+                    
+                </a>
+                
+                </div>
+            </div>
+            
+            
+<div class="column is-narrow has-text-centered">
+    <div class="dropdown is-up is-right is-hoverable" style="margin-top: -0.2em;">
+        <div class="dropdown-trigger">
+            <button class="button is-small" aria-haspopup="true" aria-controls="dropdown-menu7">
+                <span class="icon">
+                    <i class="fas fa-globe"></i>
+                </span>
+                <span>English</span>
+                <span class="icon is-small">
+            <i class="fas fa-angle-down" aria-hidden="true"></i>
+          </span>
+            </button>
+        </div>
+        <div class="dropdown-menu has-text-left" role="menu">
+            <div class="dropdown-content">
+            
+                <a href="/2020/%E5%9C%A8MIPS-CPU%E4%B8%AD%E5%BC%95%E5%85%A5%E5%BE%AE%E4%BB%A3%E7%A0%81/" class="dropdown-item">
+                    English
+                </a>
+            
+                <a href="/zh-ch/2020/%E5%9C%A8MIPS-CPU%E4%B8%AD%E5%BC%95%E5%85%A5%E5%BE%AE%E4%BB%A3%E7%A0%81/" class="dropdown-item">
+                    zh-ch
+                </a>
+            
+            </div>
+        </div>
+    </div>
+</div>
 
         </div>
-          
-  
-  <div class="toggle sidebar-toggle">
-    <span class="toggle-line toggle-line-first"></span>
-    <span class="toggle-line toggle-line-middle"></span>
-    <span class="toggle-line toggle-line-last"></span>
-  </div>
-
-  <aside class="sidebar">
-    <div class="sidebar-inner">
-
-      <ul class="sidebar-nav motion-element">
-        <li class="sidebar-nav-toc">
-          Table of Contents
-        </li>
-        <li class="sidebar-nav-overview">
-          Overview
-        </li>
-      </ul>
-
-      <!--noindex-->
-      <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#带有微指令的IF级"><span class="nav-number">1.</span> <span class="nav-text">带有微指令的IF级</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#微指令存储器的结构"><span class="nav-number">2.</span> <span class="nav-text">微指令存储器的结构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#微指令工作过程"><span class="nav-number">3.</span> <span class="nav-text">微指令工作过程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#微指令系统对精确中断的影响"><span class="nav-number">4.</span> <span class="nav-text">微指令系统对精确中断的影响</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#该微指令系统对原有精确中断的兼容性分析"><span class="nav-number">4.1.</span> <span class="nav-text">该微指令系统对原有精确中断的兼容性分析</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#中断到来对取指的影响"><span class="nav-number">4.2.</span> <span class="nav-text">中断到来对取指的影响</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#小结"><span class="nav-number">5.</span> <span class="nav-text">小结</span></a></li></ol></div>
-      </div>
-      <!--/noindex-->
-
-      <div class="site-overview-wrap sidebar-panel">
-        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
-  <p class="site-author-name" itemprop="name">Thimble</p>
-  <div class="site-description" itemprop="description"></div>
-</div>
-<div class="site-state-wrap motion-element">
-  <nav class="site-state">
-      <div class="site-state-item site-state-posts">
-          <a href="/archives/">
-        
-          <span class="site-state-item-count">4</span>
-          <span class="site-state-item-name">posts</span>
-        </a>
-      </div>
-      <div class="site-state-item site-state-categories">
-            <a href="/categories/">
-          
-        <span class="site-state-item-count">1</span>
-        <span class="site-state-item-name">categories</span></a>
-      </div>
-      <div class="site-state-item site-state-tags">
-            <a href="/tags/">
-          
-        <span class="site-state-item-count">7</span>
-        <span class="site-state-item-name">tags</span></a>
-      </div>
-  </nav>
-</div>
-
-
-
-      </div>
-
     </div>
-  </aside>
-  <div id="sidebar-dimmer"></div>
+</footer>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment-with-locales.min.js"></script>
 
-
-      </div>
-    </main>
-
-    <footer class="footer">
-      <div class="footer-inner">
-        
-
-        
-
-<div class="copyright">
-  
-  &copy; 
-  <span itemprop="copyrightYear">2020</span>
-  <span class="with-love">
-    <i class="fa fa-heart"></i>
-  </span>
-  <span class="author" itemprop="copyrightHolder">Thimble</span>
-    <span class="post-meta-divider">|</span>
-    <span class="post-meta-item-icon">
-      <i class="fa fa-chart-area"></i>
-    </span>
-      <span class="post-meta-item-text">Symbols count total: </span>
-    <span title="Symbols count total">12k</span>
-    <span class="post-meta-divider">|</span>
-    <span class="post-meta-item-icon">
-      <i class="fa fa-coffee"></i>
-    </span>
-      <span class="post-meta-item-text">Reading time total &asymp;</span>
-    <span title="Reading time total">11 mins.</span>
+<!-- test if the browser is outdated -->
+<div id="outdated">
+    <h6>Your browser is out-of-date!</h6>
+    <p>Update your browser to view this website correctly. <a id="btnUpdateBrowser" href="http://outdatedbrowser.com/" target="_blank" rel="noopener">Update my browser now </a></p>
+    <p class="last"><a href="#" id="btnCloseUpdateBrowser" title="Close">&times;</a></p>
 </div>
-  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://mist.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a>
-  </div>
-
-        
-
-
-
-
-
-
-
-
-      </div>
-    </footer>
-  </div>
-
-  
-  <script src="/lib/anime.min.js"></script>
-  <script src="/lib/velocity/velocity.min.js"></script>
-  <script src="/lib/velocity/velocity.ui.min.js"></script>
-
-<script src="/js/utils.js"></script>
-
-<script src="/js/motion.js"></script>
-
-
-<script src="/js/schemes/muse.js"></script>
-
-
-<script src="/js/next-boot.js"></script>
-
-
-
-
-  
-
-
-
-
-  
-<script src="/js/local-search.js"></script>
-
-
-
-
-
-
-
-
-
-
+<script src="//cdnjs.cloudflare.com/ajax/libs/outdated-browser/1.1.5/outdatedbrowser.min.js"></script>
+<script>
+    $(document).ready(function () {
+        // plugin function, place inside DOM ready function
+        outdatedBrowser({
+            bgColor: '#f25648',
+            color: '#ffffff',
+            lowerThan: 'flex'
+        })
+    });
+</script>
 
 <script>
-if (document.querySelectorAll('pre.mermaid').length) {
-  NexT.utils.getScript('//cdn.jsdelivr.net/npm/mermaid@8/dist/mermaid.min.js', () => {
-    mermaid.initialize({
-      theme    : 'forest',
-      logLevel : 3,
-      flowchart: { curve     : 'linear' },
-      gantt    : { axisFormat: '%m/%d/%Y' },
-      sequence : { actorMargin: 50 }
-    });
-  }, window.mermaid);
-}
+    window.FontAwesomeConfig = {
+        searchPseudoElements: true
+    }
+    moment.locale("en-AU");
 </script>
 
 
-  
 
-  
 
-  
+<script src="/js/script.js"></script>
 
-<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
 
+    
+    <div class="searchbox ins-search">
+    <div class="searchbox-mask"></div>
+    <div class="searchbox-container ins-search-container">
+        <div class="searchbox-input-wrapper">
+            <input type="text" class="searchbox-input ins-search-input" placeholder="Type something..." />
+            <span class="searchbox-close ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="searchbox-result-wrapper ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
 <script>
-NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
-  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
-    var gitalk = new Gitalk({
-      clientID    : 'ad6ae0a709b4ba94e7a1',
-      clientSecret: '5cffb7b459889f3bd15131de8ce1d28cd1316871',
-      repo        : 'gpthimble.github.io',
-      owner       : 'gpthimble',
-      admin       : ['gpthimble'],
-      id          : 'd3ca779ba1481e2a03f1bd75eb27eb31',
-        language: '',
-      distractionFreeMode: true
-    });
-    gitalk.render('gitalk-container');
-  }, window.Gitalk);
-});
+    (function (window) {
+        var INSIGHT_CONFIG = {
+            TRANSLATION: {
+                POSTS: 'Posts',
+                PAGES: 'Pages',
+                CATEGORIES: 'Categories',
+                TAGS: 'Tags',
+                UNTITLED: '(Untitled)',
+            },
+            CONTENT_URL: '/content.json',
+        };
+        window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+    })(window);
 </script>
 
+<script src="/js/insight.js"></script>
+
+    
 </body>
 </html>
