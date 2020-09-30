@@ -8,7 +8,7 @@
 <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/outdated-browser/1.1.5/outdatedbrowser.min.css">
 
 
-<link href="/zh-ch/tags/cpu-design/index.html" rel="alternate" hreflang="zh-CH" />
+<link href="/en/tags/cpu-design/index.html" rel="alternate" hreflang="en" />
     
 
 
@@ -22,7 +22,7 @@
 <meta property="og:title" content="Thimble&#39;s Blog">
 <meta property="og:url" content="https://gpthimble.github.io/tags/cpu-design/index.html">
 <meta property="og:site_name" content="Thimble&#39;s Blog">
-<meta property="og:locale" content="en_US">
+<meta property="og:locale" content="zh_CN">
 <meta property="article:author" content="Thimble">
 <meta name="twitter:card" content="summary">
 
@@ -74,19 +74,16 @@
         <div class="navbar-menu navbar-start">
             
             <a class="navbar-item "
-               href="/archives">Archives</a>
+               href="/archives">归档</a>
             
             <a class="navbar-item "
-               href="/categories/LifeStyle">Lifestyle</a>
+               href="/categories">分类</a>
             
             <a class="navbar-item "
-               href="/categories/Music">Music</a>
+               href="/tags">标签</a>
             
             <a class="navbar-item "
-               href="/categories/Technology">Technology</a>
-            
-            <a class="navbar-item "
-               href="/about">About</a>
+               href="/about">关于</a>
             
         </div>
         
@@ -98,7 +95,7 @@
             
             
             
-            <a class="navbar-item" title="GitHub" href="https://github.com/ppoffice/hexo-theme-minos" target="_blank" rel="noopener">
+            <a class="navbar-item" title="GitHub" href="https://gpthimble.github.com" target="_blank" rel="noopener">
                 
                 <i class="fab fa-github"></i>
                 
@@ -122,13 +119,13 @@
         <article class="article content gallery" itemscope itemprop="blogPost">
     <h1 class="article-title is-size-3 is-size-4-mobile" itemprop="name">
         
-            <a href="/2020/%E5%9C%A8MIPS-CPU%E4%B8%AD%E5%BC%95%E5%85%A5%E5%BE%AE%E4%BB%A3%E7%A0%81/" itemprop="url">在MIPS CPU中引入微代码</a>
+            <a href="/%E5%9C%A8MIPS-CPU%E4%B8%AD%E5%BC%95%E5%85%A5%E5%BE%AE%E4%BB%A3%E7%A0%81/" itemprop="url">在MIPS CPU中引入微代码</a>
         
     </h1>
     <div class="article-meta columns is-variable is-1 is-multiline is-mobile is-size-7-mobile">
         <span class="column is-narrow">
             
-                <time datetime="2020-05-04T04:44:34.000Z" itemprop="datePublished">May 4 2020</time>
+                <time datetime="2020-05-04T04:44:34.000Z" itemprop="datePublished">5月 4 2020</time>
             
         </span>
         
@@ -141,14 +138,14 @@
         <span class="column is-narrow">
             
             
-            28 minutes read (About 4129 words)
+            28 分钟 read (About 4129 words)
         </span>
         
     </div>
     <div class="article-entry is-size-6-mobile" itemprop="articleBody">
     
         <p>&#x672C;&#x9879;&#x76EE;&#x6240;&#x8BBE;&#x8BA1;&#x7684;CPU&#xFF0C;&#x4E0E;&#x674E;&#x4E9A;&#x6C11;&#x4E66;&#x4E2D;&#x6240;&#x63CF;&#x8FF0;&#x7684;CPU&#x4E3B;&#x8981;&#x533A;&#x522B;&#x662F;&#x5728;MIPS CPU&#x4E2D;&#x5F15;&#x5165;&#x4E86;&#x5FAE;&#x4EE3;&#x7801;&#xFF0C;&#x65B9;&#x4FBF;&#x6307;&#x4EE4;&#x96C6;&#x7684;&#x6269;&#x5C55;&#x3001;&#x7F16;&#x8BD1;&#x5668;&#x7684;&#x79FB;&#x690D;&#x548C;&#x7CFB;&#x7EDF;&#x7F16;&#x7A0B;&#x3002;</p>
-<h2 id="&#x5E26;&#x6709;&#x5FAE;&#x6307;&#x4EE4;&#x7684;IF&#x7EA7;"><a href="#&#x5E26;&#x6709;&#x5FAE;&#x6307;&#x4EE4;&#x7684;IF&#x7EA7;" class="headerlink" title="&#x5E26;&#x6709;&#x5FAE;&#x6307;&#x4EE4;&#x7684;IF&#x7EA7;"></a>&#x5E26;&#x6709;&#x5FAE;&#x6307;&#x4EE4;&#x7684;IF&#x7EA7;</h2><p><img src="/2020/%E5%9C%A8MIPS-CPU%E4%B8%AD%E5%BC%95%E5%85%A5%E5%BE%AE%E4%BB%A3%E7%A0%81/IF_with_micro_code.png" alt="&#x539F;&#x7406;&#x56FE;"></p>
+<h2 id="&#x5E26;&#x6709;&#x5FAE;&#x6307;&#x4EE4;&#x7684;IF&#x7EA7;"><a href="#&#x5E26;&#x6709;&#x5FAE;&#x6307;&#x4EE4;&#x7684;IF&#x7EA7;" class="headerlink" title="&#x5E26;&#x6709;&#x5FAE;&#x6307;&#x4EE4;&#x7684;IF&#x7EA7;"></a>&#x5E26;&#x6709;&#x5FAE;&#x6307;&#x4EE4;&#x7684;IF&#x7EA7;</h2><p><img src="/%E5%9C%A8MIPS-CPU%E4%B8%AD%E5%BC%95%E5%85%A5%E5%BE%AE%E4%BB%A3%E7%A0%81/IF_with_micro_code.png" alt="&#x539F;&#x7406;&#x56FE;"></p>
 <p>&#x7531;&#x539F;&#x7406;&#x56FE;&#x53EF;&#x77E5;&#xFF0C;&#x4E3B;&#x8981;&#x7684;&#x4FEE;&#x6539;&#x662F;&#x52A0;&#x5165;&#x4E86;&#xFF1A;</p>
 <ul>
 <li>&#x5FAE;&#x6307;&#x4EE4;&#x5B58;&#x50A8;&#x5668; uprog</li>
@@ -369,7 +366,7 @@ class Head{
                 <div class="columns is-mobile is-multiline is-centered">
                 
                     
-                <a class="column is-narrow has-text-black" title="GitHub" href="https://github.com/ppoffice/hexo-theme-minos" target="_blank" rel="noopener">
+                <a class="column is-narrow has-text-black" title="GitHub" href="https://gpthimble.github.com" target="_blank" rel="noopener">
                     
                     GitHub
                     
@@ -386,7 +383,7 @@ class Head{
                 <span class="icon">
                     <i class="fas fa-globe"></i>
                 </span>
-                <span>English</span>
+                <span>zh-CN</span>
                 <span class="icon is-small">
             <i class="fas fa-angle-down" aria-hidden="true"></i>
           </span>
@@ -396,11 +393,11 @@ class Head{
             <div class="dropdown-content">
             
                 <a href="/tags/cpu-design/index.html" class="dropdown-item">
-                    English
+                    zh-CN
                 </a>
             
-                <a href="/zh-ch/tags/cpu-design/index.html" class="dropdown-item">
-                    zh-ch
+                <a href="/en/tags/cpu-design/index.html" class="dropdown-item">
+                    English
                 </a>
             
             </div>
@@ -436,7 +433,7 @@ class Head{
     window.FontAwesomeConfig = {
         searchPseudoElements: true
     }
-    moment.locale("en-AU");
+    moment.locale("zh-CN");
 </script>
 
 

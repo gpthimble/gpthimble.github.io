@@ -8,7 +8,7 @@
 <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/outdated-browser/1.1.5/outdatedbrowser.min.css">
 
 
-<link href="/zh-ch/2020/%E5%9C%A8MIPS-CPU%E4%B8%AD%E5%BC%95%E5%85%A5%E5%BE%AE%E4%BB%A3%E7%A0%81/" rel="alternate" hreflang="zh-CH" />
+<link href="/en/%E5%9C%A8MIPS-CPU%E4%B8%AD%E5%BC%95%E5%85%A5%E5%BE%AE%E4%BB%A3%E7%A0%81/" rel="alternate" hreflang="en" />
     
 
 
@@ -21,11 +21,11 @@
     <meta name="description" content="&amp;#x672C;&amp;#x9879;&amp;#x76EE;&amp;#x6240;&amp;#x8BBE;&amp;#x8BA1;&amp;#x7684;CPU&amp;#xFF0C;&amp;#x4E0E;&amp;#x674E;&amp;#x4E9A;&amp;#x6C11;&amp;#x4E66;&amp;#x4E2D;&amp;#x6240;&amp;#x63CF;&amp;#x8FF0;&amp;#x7684;CPU&amp;#x4E3B;&amp;#x8981;&amp;#x533A;&amp;#x522B;&amp;#x662F;&amp;#x5728;MI">
 <meta property="og:type" content="article">
 <meta property="og:title" content="在MIPS CPU中引入微代码">
-<meta property="og:url" content="https://gpthimble.github.io/2020/%E5%9C%A8MIPS-CPU%E4%B8%AD%E5%BC%95%E5%85%A5%E5%BE%AE%E4%BB%A3%E7%A0%81/index.html">
+<meta property="og:url" content="https://gpthimble.github.io/%E5%9C%A8MIPS-CPU%E4%B8%AD%E5%BC%95%E5%85%A5%E5%BE%AE%E4%BB%A3%E7%A0%81/index.html">
 <meta property="og:site_name" content="Thimble&#39;s Blog">
 <meta property="og:description" content="&amp;#x672C;&amp;#x9879;&amp;#x76EE;&amp;#x6240;&amp;#x8BBE;&amp;#x8BA1;&amp;#x7684;CPU&amp;#xFF0C;&amp;#x4E0E;&amp;#x674E;&amp;#x4E9A;&amp;#x6C11;&amp;#x4E66;&amp;#x4E2D;&amp;#x6240;&amp;#x63CF;&amp;#x8FF0;&amp;#x7684;CPU&amp;#x4E3B;&amp;#x8981;&amp;#x533A;&amp;#x522B;&amp;#x662F;&amp;#x5728;MI">
-<meta property="og:locale" content="en_US">
-<meta property="og:image" content="https://gpthimble.github.io/2020/%E5%9C%A8MIPS-CPU%E4%B8%AD%E5%BC%95%E5%85%A5%E5%BE%AE%E4%BB%A3%E7%A0%81/IF_with_micro_code.png">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://gpthimble.github.io/%E5%9C%A8MIPS-CPU%E4%B8%AD%E5%BC%95%E5%85%A5%E5%BE%AE%E4%BB%A3%E7%A0%81/IF_with_micro_code.png">
 <meta property="article:published_time" content="2020-05-04T04:44:34.000Z">
 <meta property="article:modified_time" content="2020-09-30T08:47:51.280Z">
 <meta property="article:author" content="Thimble">
@@ -34,7 +34,7 @@
 <meta property="article:tag" content="cpu design">
 <meta property="article:tag" content="micro program">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://gpthimble.github.io/2020/%E5%9C%A8MIPS-CPU%E4%B8%AD%E5%BC%95%E5%85%A5%E5%BE%AE%E4%BB%A3%E7%A0%81/IF_with_micro_code.png">
+<meta name="twitter:image" content="https://gpthimble.github.io/%E5%9C%A8MIPS-CPU%E4%B8%AD%E5%BC%95%E5%85%A5%E5%BE%AE%E4%BB%A3%E7%A0%81/IF_with_micro_code.png">
 
 
 
@@ -84,19 +84,16 @@
         <div class="navbar-menu navbar-start">
             
             <a class="navbar-item "
-               href="/archives">Archives</a>
+               href="/archives">归档</a>
             
             <a class="navbar-item "
-               href="/categories/LifeStyle">Lifestyle</a>
+               href="/categories">分类</a>
             
             <a class="navbar-item "
-               href="/categories/Music">Music</a>
+               href="/tags">标签</a>
             
             <a class="navbar-item "
-               href="/categories/Technology">Technology</a>
-            
-            <a class="navbar-item "
-               href="/about">About</a>
+               href="/about">关于</a>
             
         </div>
         
@@ -108,7 +105,7 @@
             
             
             
-            <a class="navbar-item" title="GitHub" href="https://github.com/ppoffice/hexo-theme-minos" target="_blank" rel="noopener">
+            <a class="navbar-item" title="GitHub" href="https://gpthimble.github.com" target="_blank" rel="noopener">
                 
                 <i class="fab fa-github"></i>
                 
@@ -130,7 +127,7 @@
     <div class="article-meta columns is-variable is-1 is-multiline is-mobile is-size-7-mobile">
         <span class="column is-narrow">
             
-                <time datetime="2020-05-04T04:44:34.000Z" itemprop="datePublished">May 4 2020</time>
+                <time datetime="2020-05-04T04:44:34.000Z" itemprop="datePublished">5月 4 2020</time>
             
         </span>
         
@@ -143,14 +140,14 @@
         <span class="column is-narrow">
             
             
-            28 minutes read (About 4129 words)
+            28 分钟 read (About 4129 words)
         </span>
         
     </div>
     <div class="article-entry is-size-6-mobile" itemprop="articleBody">
     
         <p>&#x672C;&#x9879;&#x76EE;&#x6240;&#x8BBE;&#x8BA1;&#x7684;CPU&#xFF0C;&#x4E0E;&#x674E;&#x4E9A;&#x6C11;&#x4E66;&#x4E2D;&#x6240;&#x63CF;&#x8FF0;&#x7684;CPU&#x4E3B;&#x8981;&#x533A;&#x522B;&#x662F;&#x5728;MIPS CPU&#x4E2D;&#x5F15;&#x5165;&#x4E86;&#x5FAE;&#x4EE3;&#x7801;&#xFF0C;&#x65B9;&#x4FBF;&#x6307;&#x4EE4;&#x96C6;&#x7684;&#x6269;&#x5C55;&#x3001;&#x7F16;&#x8BD1;&#x5668;&#x7684;&#x79FB;&#x690D;&#x548C;&#x7CFB;&#x7EDF;&#x7F16;&#x7A0B;&#x3002;</p>
-<h2 id="&#x5E26;&#x6709;&#x5FAE;&#x6307;&#x4EE4;&#x7684;IF&#x7EA7;"><a href="#&#x5E26;&#x6709;&#x5FAE;&#x6307;&#x4EE4;&#x7684;IF&#x7EA7;" class="headerlink" title="&#x5E26;&#x6709;&#x5FAE;&#x6307;&#x4EE4;&#x7684;IF&#x7EA7;"></a>&#x5E26;&#x6709;&#x5FAE;&#x6307;&#x4EE4;&#x7684;IF&#x7EA7;</h2><p><img src="/2020/%E5%9C%A8MIPS-CPU%E4%B8%AD%E5%BC%95%E5%85%A5%E5%BE%AE%E4%BB%A3%E7%A0%81/IF_with_micro_code.png" alt="&#x539F;&#x7406;&#x56FE;"></p>
+<h2 id="&#x5E26;&#x6709;&#x5FAE;&#x6307;&#x4EE4;&#x7684;IF&#x7EA7;"><a href="#&#x5E26;&#x6709;&#x5FAE;&#x6307;&#x4EE4;&#x7684;IF&#x7EA7;" class="headerlink" title="&#x5E26;&#x6709;&#x5FAE;&#x6307;&#x4EE4;&#x7684;IF&#x7EA7;"></a>&#x5E26;&#x6709;&#x5FAE;&#x6307;&#x4EE4;&#x7684;IF&#x7EA7;</h2><p><img src="/%E5%9C%A8MIPS-CPU%E4%B8%AD%E5%BC%95%E5%85%A5%E5%BE%AE%E4%BB%A3%E7%A0%81/IF_with_micro_code.png" alt="&#x539F;&#x7406;&#x56FE;"></p>
 <p>&#x7531;&#x539F;&#x7406;&#x56FE;&#x53EF;&#x77E5;&#xFF0C;&#x4E3B;&#x8981;&#x7684;&#x4FEE;&#x6539;&#x662F;&#x52A0;&#x5165;&#x4E86;&#xFF1A;</p>
 <ul>
 <li>&#x5FAE;&#x6307;&#x4EE4;&#x5B58;&#x50A8;&#x5668; uprog</li>
@@ -351,12 +348,12 @@ class Head{
     <div class="columns is-mobile is-multiline article-nav">
         <span class="column is-12-mobile is-half-desktop  article-nav-prev">
             
-            <a href="/2020/%E8%AF%BB%E5%AE%8CLCC%E5%AE%8C%E6%95%B4%E6%BA%90%E4%BB%A3%E7%A0%81/">读完LCC完整源代码</a>
+            <a href="/%E8%AF%BB%E5%AE%8CLCC%E5%AE%8C%E6%95%B4%E6%BA%90%E4%BB%A3%E7%A0%81/">读完LCC完整源代码</a>
             
         </span>
         <span class="column is-12-mobile is-half-desktop  article-nav-next">
             
-            <a href="/2020/%E8%BF%99%E5%8F%AA%E6%98%AF%E4%B8%80%E4%B8%AA%E8%87%AA%E5%88%B6%E7%B3%BB%E7%AE%97%E8%AE%A1%E7%B3%BB%E7%BB%9F%E7%9A%84%E9%A1%B9%E7%9B%AE/">这只是一个自制计算机系统的项目</a>
+            <a href="/%E8%BF%99%E5%8F%AA%E6%98%AF%E4%B8%80%E4%B8%AA%E8%87%AA%E5%88%B6%E7%B3%BB%E7%AE%97%E8%AE%A1%E7%B3%BB%E7%BB%9F%E7%9A%84%E9%A1%B9%E7%9B%AE/">这只是一个自制计算机系统的项目</a>
             
         </span>
     </div>
@@ -423,7 +420,7 @@ class Head{
                 <div class="columns is-mobile is-multiline is-centered">
                 
                     
-                <a class="column is-narrow has-text-black" title="GitHub" href="https://github.com/ppoffice/hexo-theme-minos" target="_blank" rel="noopener">
+                <a class="column is-narrow has-text-black" title="GitHub" href="https://gpthimble.github.com" target="_blank" rel="noopener">
                     
                     GitHub
                     
@@ -440,7 +437,7 @@ class Head{
                 <span class="icon">
                     <i class="fas fa-globe"></i>
                 </span>
-                <span>English</span>
+                <span>zh-CN</span>
                 <span class="icon is-small">
             <i class="fas fa-angle-down" aria-hidden="true"></i>
           </span>
@@ -449,12 +446,12 @@ class Head{
         <div class="dropdown-menu has-text-left" role="menu">
             <div class="dropdown-content">
             
-                <a href="/2020/%E5%9C%A8MIPS-CPU%E4%B8%AD%E5%BC%95%E5%85%A5%E5%BE%AE%E4%BB%A3%E7%A0%81/" class="dropdown-item">
-                    English
+                <a href="/%E5%9C%A8MIPS-CPU%E4%B8%AD%E5%BC%95%E5%85%A5%E5%BE%AE%E4%BB%A3%E7%A0%81/" class="dropdown-item">
+                    zh-CN
                 </a>
             
-                <a href="/zh-ch/2020/%E5%9C%A8MIPS-CPU%E4%B8%AD%E5%BC%95%E5%85%A5%E5%BE%AE%E4%BB%A3%E7%A0%81/" class="dropdown-item">
-                    zh-ch
+                <a href="/en/%E5%9C%A8MIPS-CPU%E4%B8%AD%E5%BC%95%E5%85%A5%E5%BE%AE%E4%BB%A3%E7%A0%81/" class="dropdown-item">
+                    English
                 </a>
             
             </div>
@@ -490,7 +487,7 @@ class Head{
     window.FontAwesomeConfig = {
         searchPseudoElements: true
     }
-    moment.locale("en-AU");
+    moment.locale("zh-CN");
 </script>
 
 
