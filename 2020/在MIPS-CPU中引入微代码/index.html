@@ -389,6 +389,7 @@ class Head{
 	
 <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
 
+    <script src="https://rawgit.com/qhh0205/78e9e0b1f3114db6737f3ed8cdd51d3a/raw/3894c5be5aa2378336b1f5ee0f296fa0b22d06e9/md5.min.js"></script>
 	<script type="text/javascript">
 		var gitalk = new Gitalk({
 		  clientID: 'ad6ae0a709b4ba94e7a1',  // 这里一定要注意主题 config.yml 中 clientID 的大小写，否则参数传不过来，对应下边的 "问题一"
@@ -396,7 +397,7 @@ class Head{
 		  repo: 'gpthimble.github.io',
 		  owner: 'gpthimble',
 		  admin: 'gpthimble',
-		  id: location.pathname,      // 保持默认，官方注释（Ensure uniqueness and length less than 50），文章 URL 不能太长 "问题二"
+		  id: md5(location.pathname),      // 保持默认，官方注释（Ensure uniqueness and length less than 50），文章 URL 不能太长 "问题二"
 		  distractionFreeMode: false  // 不喜欢评论时候的遮盖层所以选择 false ，而且我觉得这个也没有必要放在 config.yml 中配置
 		})
   
