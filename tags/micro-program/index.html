@@ -347,6 +347,28 @@ class Head{
     </script>
   
 
+    // 这里判断主题是否开启评论
+	<div id="gitalk-container"></div>  // 盛放 Gitalk 的容器
+	
+<link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+
+	
+<script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+
+	<script type="text/javascript">
+		var gitalk = new Gitalk({
+		  clientID: '',  // 这里一定要注意主题 config.yml 中 clientID 的大小写，否则参数传不过来，对应下边的 "问题一"
+		  clientSecret: '',
+		  repo: 'gpthimble.github.io',
+		  owner: '',
+		  admin: [''],
+		  id: location.pathname,      // 保持默认，官方注释（Ensure uniqueness and length less than 50），文章 URL 不能太长 "问题二"
+		  distractionFreeMode: false  // 不喜欢评论时候的遮盖层所以选择 false ，而且我觉得这个也没有必要放在 config.yml 中配置
+		})
+  
+	gitalk.render('gitalk-container')
+	</script>
+  
     
     
     </div>
