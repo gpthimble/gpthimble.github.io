@@ -26,7 +26,7 @@
 <meta property="og:description" content="&amp;#x73B0;&amp;#x5728;lcc&amp;#x7684;&amp;#x4EE3;&amp;#x7801;&amp;#x5DF2;&amp;#x8BFB;&amp;#x5B8C;&amp;#xFF0C;&amp;#x4E0B;&amp;#x4E00;&amp;#x6B65;&amp;#x8981;&amp;#x505A;&amp;#x7684;&amp;#x662F;soc&amp;#x7684;&amp;#x8BBE;&amp;#x8BA1;&amp;#x548C;&amp;#x9A8C;&amp;#x8BC1;&amp;#xFF0C;&amp;#x4EE5;&amp;#">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2020-09-26T09:49:27.000Z">
-<meta property="article:modified_time" content="2020-09-27T01:52:14.195Z">
+<meta property="article:modified_time" content="2020-09-27T01:52:14.000Z">
 <meta property="article:author" content="Thimble">
 <meta property="article:tag" content="development log">
 <meta property="article:tag" content="computer architecture">
@@ -79,7 +79,7 @@
     
 
 
-<meta name="generator" content="Hexo 4.2.0"></head>
+<meta name="generator" content="Hexo 5.2.0"></head>
 <body>
     
 <nav class="navbar is-transparent is-fixed-top navbar-main" role="navigation" aria-label="main navigation">
@@ -123,7 +123,7 @@
             
             
             
-            <a class="navbar-item" title="GitHub" href="https://gpthimble.github.com" target="_blank" rel="noopener">
+            <a class="navbar-item" title="GitHub" target="_blank" rel="noopener" href="https://gpthimble.github.com">
                 
                 <i class="fab fa-github"></i>
                 
@@ -164,7 +164,7 @@
     </div>
     <div class="article-entry is-size-6-mobile" itemprop="articleBody">
     
-        <p>&#x73B0;&#x5728;lcc&#x7684;&#x4EE3;&#x7801;&#x5DF2;&#x8BFB;&#x5B8C;&#xFF0C;&#x4E0B;&#x4E00;&#x6B65;&#x8981;&#x505A;&#x7684;&#x662F;soc&#x7684;&#x8BBE;&#x8BA1;&#x548C;&#x9A8C;&#x8BC1;&#xFF0C;&#x4EE5;&#x53CA;lcc&#x7684;&#x79FB;&#x690D;&#x3001;&#x6C47;&#x7F16;&#x5668;&#x7684;&#x79FB;&#x690D;&#x3002;<br>&#x5BF9;&#x4E8E;&#x6C47;&#x7F16;&#x5668;&#xFF0C;&#x6211;&#x51C6;&#x5907;&#x4F7F;&#x7528;<a href="https://github.com/hlorenzi/customasm" target="_blank" rel="noopener">customasm</a>.<br>&#x5982;&#x679C;&#x4F7F;&#x7528;&#x8FD9;&#x4E2A;&#x6C47;&#x7F16;&#x5668;&#xFF0C;&#x53EF;&#x80FD;&#x5728;&#x79FB;&#x690D;lcc&#x65F6;&#x9700;&#x8981;&#x4FEE;&#x6539;lcc&#x6A21;&#x677F;&#x4E2D;&#x7684;&#x4E00;&#x4E9B;&#x4F2A;&#x6307;&#x4EE4;&#x5982;ld,lcomm&#x7B49;&#x3002;</p>
+        <p>&#x73B0;&#x5728;lcc&#x7684;&#x4EE3;&#x7801;&#x5DF2;&#x8BFB;&#x5B8C;&#xFF0C;&#x4E0B;&#x4E00;&#x6B65;&#x8981;&#x505A;&#x7684;&#x662F;soc&#x7684;&#x8BBE;&#x8BA1;&#x548C;&#x9A8C;&#x8BC1;&#xFF0C;&#x4EE5;&#x53CA;lcc&#x7684;&#x79FB;&#x690D;&#x3001;&#x6C47;&#x7F16;&#x5668;&#x7684;&#x79FB;&#x690D;&#x3002;<br>&#x5BF9;&#x4E8E;&#x6C47;&#x7F16;&#x5668;&#xFF0C;&#x6211;&#x51C6;&#x5907;&#x4F7F;&#x7528;<a target="_blank" rel="noopener" href="https://github.com/hlorenzi/customasm">customasm</a>.<br>&#x5982;&#x679C;&#x4F7F;&#x7528;&#x8FD9;&#x4E2A;&#x6C47;&#x7F16;&#x5668;&#xFF0C;&#x53EF;&#x80FD;&#x5728;&#x79FB;&#x690D;lcc&#x65F6;&#x9700;&#x8981;&#x4FEE;&#x6539;lcc&#x6A21;&#x677F;&#x4E2D;&#x7684;&#x4E00;&#x4E9B;&#x4F2A;&#x6307;&#x4EE4;&#x5982;ld,lcomm&#x7B49;&#x3002;</p>
 <p>&#x5BF9;&#x4E8E;soc&#x7684;&#x8BBE;&#x8BA1;&#xFF0C;&#x8FD9;&#x4E9B;&#x5929;&#x4E00;&#x76F4;&#x5728;&#x601D;&#x8003;&#x7684;&#x95EE;&#x9898;&#x662F;&#x5F02;&#x6B65;&#x901A;&#x8BAF;&#x7684;&#x95EE;&#x9898;&#x3002;&#x6211;&#x6240;&#x5E0C;&#x671B;&#x7684;&#x7CFB;&#x7EDF;&#xFF0C;cpu&#x8FD0;&#x884C;&#x7684;&#x901F;&#x5EA6;&#x5E94;&#x8BE5;&#x662F;&#x53EF;&#x53D8;&#x7684;&#xFF0C;&#x751A;&#x81F3;&#x53EF;&#x4EE5;&#x662F;&#x5355;&#x6B65;&#x7684;&#x3002;&#x800C;&#x6211;&#x53C8;&#x5E0C;&#x671B;&#x80FD;&#x4F7F;&#x7528;de0 nao&#x677F;&#x8F7D;&#x7684;SDRAM&#xFF0C;&#x56E0;&#x6B64;&#x5185;&#x5B58;&#x63A7;&#x5236;&#x7CFB;&#x7EDF;&#x4E0E;cpu&#x7684;&#x901A;&#x8BAF;&#x4E00;&#x5B9A;&#x662F;&#x5F02;&#x6B65;&#x7684;&#x3002;&#x5F02;&#x6B65;&#x901A;&#x8BAF;&#x8981;&#x6709;ready&#x4FE1;&#x53F7;&#xFF0C;&#x7531;&#x4E8E;&#x6211;&#x5E0C;&#x671B;cpu&#x8FD0;&#x884C;&#x7684;&#x901F;&#x5EA6;&#x53EF;&#x53D8;&#xFF0C;&#x56E0;&#x6B64;&#x6211;&#x9700;&#x8981;&#x5728;cache&#x63A7;&#x5236;&#x5668;&#x4E2D;&#x8BBE;&#x7F6E;&#x4E00;&#x4E2A;&#x53CC;&#x89E6;&#x53D1;&#x7684;&#x89E6;&#x53D1;&#x5668;&#xFF0C;&#x5728;ready&#x4FE1;&#x53F7;&#x53D8;&#x5316;&#x65F6;&#x8BB0;&#x5F55;&#x5E76;&#x4FDD;&#x6301;ready&#x4FE1;&#x53F7;&#xFF0C;&#x76F4;&#x81F3;cpu&#x7684;&#x4E0B;&#x4E00;&#x4E2A;&#x5468;&#x671F;&#x5230;&#x6765;&#xFF0C;&#x7528;&#x8FD9;&#x4E2A;&#x4FE1;&#x53F7;&#x63A7;&#x5236;cpu&#x4E2D;cache&#x63A7;&#x5236;&#x5668;&#x548C;ram&#x63A7;&#x5236;&#x5668;&#x7684;&#x5F02;&#x6B65;&#x901A;&#x8BAF;&#x3002;</p>
 <p>&#x7CFB;&#x7EDF;&#x5730;&#x5740;&#x7A7A;&#x95F4;&#x7684;&#x5212;&#x5206;&#xFF0C;&#x4E5F;&#x662F;&#x4E00;&#x4E2A;&#x9700;&#x8981;&#x786E;&#x5B9A;&#x7684;&#x8BBE;&#x8BA1;&#x3002;&#x76EE;&#x524D;&#x6211;&#x8BA1;&#x5212;&#x5C06;&#x5730;&#x5740;&#x7A7A;&#x95F4;&#x6309;&#x7167;| ROM | IO | RAM |&#x5212;&#x5206;&#xFF0C;&#x5177;&#x4F53;&#x5404;&#x533A;&#x57DF;&#x5C3A;&#x5BF8;&#x5C1A;&#x672A;&#x786E;&#x5B9A;&#x3002;&#x7CFB;&#x7EDF;cache&#x53EA;&#x5BF9;RAM&#x533A;&#x57DF;&#x6709;&#x6548;&#x3002;&#x76EE;&#x524D;&#x6211;&#x7684;&#x60F3;&#x6CD5;&#x662F;&#xFF0C;&#x6839;&#x636E;&#x6307;&#x4EE4;&#x548C;&#x6570;&#x636E;&#x9700;&#x6C42;&#x7684;&#x4E0D;&#x540C;&#xFF0C;&#x5728;cache&#x63A7;&#x5236;&#x5668;&#x4E0A;&#x589E;&#x52A0;&#x7247;&#x9009;&#x3001;&#x63A7;&#x5236;&#x4FE1;&#x53F7;mux&#xFF0C;&#x4EE5;&#x5B9E;&#x73B0;&#x4E0D;&#x540C;&#x533A;&#x57DF;&#x5BF9;cache&#x7684;&#x4E0D;&#x540C;&#x64CD;&#x4F5C;&#x3002;&#x5BF9;&#x4E8E;&#x6307;&#x4EE4;&#xFF0C;&#x53EA;&#x9700;&#x8981;&#x8BFB;&#x53D6;ROM&#x548C;RAM&#xFF0C;&#x6240;&#x4EE5;I cache&#x53EA;&#x9700;&#x8981;&#x5728;&#x539F;&#x6709;I cache&#x4E0A;&#x589E;&#x52A0;&#x5BF9;ROM&#x7684;&#x591A;&#x8DEF;&#x590D;&#x7528;&#xFF08;&#x76F4;&#x901A;&#xFF09;&#xFF0C;&#x7531;&#x4E8E;&#x8FD9;&#x4E2A;ROM&#x662F;&#x7528;&#x4F5C;bootloader&#x7684;&#xFF0C;&#x56E0;&#x6B64;&#x4E0D;&#x9700;&#x8981;&#x5F88;&#x5927;&#x4F53;&#x79EF;&#xFF0C;&#x53EF;&#x4EE5;&#x4F7F;&#x7528;&#x540C;&#x6B65;&#x7684;&#x65B9;&#x5F0F;&#x4E0E;I cache&#x94FE;&#x63A5;&#xFF0C;&#x56E0;&#x6B64;I cache&#x7684;&#x6539;&#x52A8;&#x5F88;&#x5C0F;&#x3002;&#x5BF9;&#x4E8E;&#x6570;&#x636E;&#xFF0C;&#x5219;&#x4E09;&#x4E2A;&#x533A;&#x57DF;&#x90FD;&#x9700;&#x8981;&#x8BFB;&#x53D6;&#x3002;<br>&#x663E;&#x7136;&#xFF0C;io&#x4E0E;cpu&#x4E4B;&#x95F4;&#x7684;&#x901A;&#x8BAF;&#x4E5F;&#x662F;&#x5F02;&#x6B65;&#x7684;&#xFF0C;&#x4F46;&#x6211;&#x5C1A;&#x672A;&#x6784;&#x601D;&#x5B8C;&#x6BD5;&#x6574;&#x4E2A;io&#x63A7;&#x5236;&#x5668;&#x7684;&#x7ED3;&#x6784;&#xFF0C;&#x56E0;&#x6B64;io&#x63A7;&#x5236;&#x5668;&#x7684;&#x8BBE;&#x8BA1;&#x5E94;&#x8BE5;&#x662F;&#x63A5;&#x4E0B;&#x6765;&#x7684;&#x5DE5;&#x4F5C;&#x4E4B;&#x4E00;&#x3002;</p>
 <p>IO&#x63A7;&#x5236;&#x5668;&#x5E94;&#x8BE5;&#x5305;&#x62EC;&#x4E00;&#x4E9B;&#x603B;&#x7EBF;&#xFF08;I2C&#xFF0C;SPI&#xFF0C;etc&#xFF09;&#xFF0C;&#x4E00;&#x4E9B;&#x901A;&#x8BAF;&#x7AEF;&#x53E3;&#xFF08;GPIO&#xFF0C;Uart&#xFF0C;etc&#xFF09;&#xFF0C;&#x4EE5;&#x53CA;&#x5411;&#x91CF;&#x4E2D;&#x65AD;&#x548C;&#x5F02;&#x6B65;&#x901A;&#x8BAF;&#x7684;&#x652F;&#x6301;&#x3002;&#x9700;&#x8981;&#x4ED4;&#x7EC6;&#x8003;&#x8651;&#x3002;</p>
@@ -258,7 +258,7 @@
             <div class="column is-narrow has-text-centered">
                 &copy; 2020 Thimble&nbsp;
                 Powered by <a href="http://hexo.io/" target="_blank">Hexo</a> & <a
-                        href="http://github.com/ppoffice/hexo-theme-minos">Minos</a>
+                        target="_blank" rel="noopener" href="http://github.com/ppoffice/hexo-theme-minos">Minos</a>
             </div>
             <div class="column is-hidden-mobile"></div>
 
@@ -267,7 +267,7 @@
                 <div class="columns is-mobile is-multiline is-centered">
                 
                     
-                <a class="column is-narrow has-text-black" title="GitHub" href="https://gpthimble.github.com" target="_blank" rel="noopener">
+                <a class="column is-narrow has-text-black" title="GitHub" target="_blank" rel="noopener" href="https://gpthimble.github.com">
                     
                     GitHub
                     
@@ -315,7 +315,7 @@
 <!-- test if the browser is outdated -->
 <div id="outdated">
     <h6>Your browser is out-of-date!</h6>
-    <p>Update your browser to view this website correctly. <a id="btnUpdateBrowser" href="http://outdatedbrowser.com/" target="_blank" rel="noopener">Update my browser now </a></p>
+    <p>Update your browser to view this website correctly. <a id="btnUpdateBrowser" target="_blank" rel="noopener" href="http://outdatedbrowser.com/">Update my browser now </a></p>
     <p class="last"><a href="#" id="btnCloseUpdateBrowser" title="Close">&times;</a></p>
 </div>
 <script src="//cdnjs.cloudflare.com/ajax/libs/outdated-browser/1.1.5/outdatedbrowser.min.js"></script>
