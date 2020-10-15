@@ -284,6 +284,7 @@ request&lt;--|  state    |--&lt;DMA 0
 <p>dummy_slave&#x7684;&#x4EFF;&#x771F;&#x7ED3;&#x679C;&#xFF1A;<br><img src="/%E6%80%BB%E7%BA%BF%E6%8E%A7%E5%88%B6%E5%99%A8%E8%AE%BE%E8%AE%A1/dummy_slave_t.JPG" alt="dummy_slave&#x4EFF;&#x771F;"></p>
 <h3 id="&#x4E3B;&#x8BBE;&#x5907;&#x6A21;&#x62DF;"><a href="#&#x4E3B;&#x8BBE;&#x5907;&#x6A21;&#x62DF;" class="headerlink" title="&#x4E3B;&#x8BBE;&#x5907;&#x6A21;&#x62DF;"></a>&#x4E3B;&#x8BBE;&#x5907;&#x6A21;&#x62DF;</h3><p>dummy master&#x6700;&#x7EC8;&#x4F1A;&#x88AB;Cache&#x3001;&#x5404;&#x79CD;DMA&#x8BBE;&#x5907;&#x66FF;&#x4EE3;&#xFF0C;&#x4F46;&#x662F;&#x8BBE;&#x8BA1;&#x4E00;&#x4E2A;dummy master&#x4ECD;&#x7136;&#x6709;&#x610F;&#x4E49;&#xFF0C;&#x5B83;&#x53EF;&#x4EE5;&#x6D4B;&#x8BD5;&#x603B;&#x7EBF;&#x7684;&#x529F;&#x80FD;&#xFF0C;&#x5C24;&#x5176;&#x662F;&#x591A;&#x4E2A;&#x4E3B;&#x8BBE;&#x5907;&#x540C;&#x65F6;&#x8BF7;&#x6C42;&#x7684;&#x60C5;&#x51B5;&#x3002;</p>
 <p>dummy master&#x5185;&#x90E8;&#x662F;&#x4E00;&#x4E2A;&#x8BF7;&#x6C42;&#x961F;&#x5217;&#xFF0C;&#x5176;&#x5C06;&#x8BF7;&#x6C42;&#x9001;&#x81F3;&#x603B;&#x7EBF;&#x63A7;&#x5236;&#x5668;&#xFF0C;&#x5728;&#x63A7;&#x5236;&#x5668;&#x5141;&#x8BB8;&#x540E;&#x5C06;&#x8BF7;&#x6C42;&#x9001;&#x81F3;&#x603B;&#x7EBF;&#xFF0C;&#x7B49;&#x5F85;&#x88AB;&#x8BF7;&#x6C42;&#x8BBE;&#x5907;&#x7684;ready&#x4FE1;&#x53F7;&#xFF0C;&#x53D6;&#x8D70;&#x6570;&#x636E;&#x540E;&#x91CD;&#x65B0;&#x6392;&#x961F;&#xFF0C;&#x51C6;&#x5907;&#x4E0B;&#x4E00;&#x4E2A;&#x8BF7;&#x6C42;&#x3002;</p>
+<p>&#x5F85;&#x7EED;&#x3002;&#x3002;&#x3002;</p>
 ]]></content>
   </entry>
   <entry>
