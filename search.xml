@@ -14,20 +14,6 @@
       </tags>
   </entry>
   <entry>
-    <title>关于中断和io控制器</title>
-    <url>/%E5%85%B3%E4%BA%8E%E4%B8%AD%E6%96%AD%E5%92%8Cio%E6%8E%A7%E5%88%B6%E5%99%A8/</url>
-    <content><![CDATA[<p>io&#x548C;&#x4E2D;&#x65AD;&#x7684;&#x8BBE;&#x8BA1;&#x5B9A;&#x578B;&#xFF0C;&#x6210;&#x4E86;&#x76EE;&#x524D;&#x6211;&#x7684;cpu&#x8BBE;&#x8BA1;&#x8FC7;&#x7A0B;&#x4E2D;&#x6700;&#x4E9F;&#x5F85;&#x89E3;&#x51B3;&#x7684;&#x95EE;&#x9898;&#x3002;&#x82E5;&#x4E0D;&#x5B9A;&#x578B;&#xFF0C;&#x53EF;&#x80FD;&#x5F71;&#x54CD;&#x63A5;&#x4E0B;&#x6765;&#x5176;&#x4ED6;&#x7EC4;&#x4EF6;&#x7684;&#x8BBE;&#x8BA1;&#x548C;&#x6D4B;&#x8BD5;&#x5DE5;&#x4F5C;&#x3002;</p>
-<p>&#x4E2D;&#x65AD;&#x63A7;&#x5236;&#x57FA;&#x672C;&#x6CA1;&#x5565;&#x53EF;&#x4FEE;&#x6539;&#x7684;&#xFF0C;cpu&#x7AEF;&#x53EA;&#x6709;&#x4E00;&#x4E2A;&#x4E2D;&#x65AD;&#x811A;&#xFF0C;cp0&#xFF08;&#x534F;&#x5904;&#x7406;&#x5668;0&#xFF0C;&#x5373;cu&#xFF09;&#x4E2D;&#x6709;&#x56DB;&#x4E2A;&#x5BC4;&#x5B58;&#x5668;&#xFF0C;cause&#x7528;&#x4E8E;&#x8BB0;&#x5F55;&#x5916;&#x90E8;&#x4E2D;&#x65AD;&#x3001;&#x5185;&#x90E8;&#x4E2D;&#x65AD;&#x548C;&#x5F02;&#x5E38;&#x7684;&#x79CD;&#x7C7B;&#xFF1B;status&#x4E2D;&#x63A7;&#x5236;&#x8FD9;&#x4E00;&#x4E2A;&#x4E2D;&#x65AD;&#x7684;&#x5F00;&#x5173;&#xFF1B;base&#x8BB0;&#x5F55;&#x4E2D;&#x65AD;&#x5904;&#x7406;&#x7A0B;&#x5E8F;&#x7684;&#x5730;&#x5740;&#xFF0C;&#x5728;&#x4E2D;&#x65AD;&#x5904;&#x7406;&#x7A0B;&#x5E8F;&#x4E2D;&#x4F7F;&#x7528;mfc0&#x6307;&#x4EE4;&#x67E5;&#x8BE2;cause&#x5BC4;&#x5B58;&#x5668;&#x8DF3;&#x8F6C;&#x5230;&#x76F8;&#x5E94;&#x4E2D;&#x65AD;&#x7684;&#x5904;&#x7406;&#x7A0B;&#x5E8F;&#x5730;&#x5740;&#xFF1B;EPC&#x7528;&#x6765;&#x4FDD;&#x5B58;&#x4E2D;&#x65AD;&#x524D;&#x7684;&#x6307;&#x4EE4;&#x5730;&#x5740;&#x3002;&#x8FD9;&#x4E00;&#x90E8;&#x5206;&#xFF0C;&#x6211;&#x53EA;&#x9700;&#x8981;&#x989D;&#x5916;&#x5B9E;&#x73B0;&#x4E09;&#x6761;&#x6307;&#x4EE4;mfc0&#xFF0C;mtc0&#x548C;eret&#x3002;</p>
-<p>io&#x6A21;&#x5757;&#x7684;&#x8F93;&#x5165;&#x8F93;&#x51FA;&#x90E8;&#x5206;&#x5E94;&#x8BE5;&#x662F;&#x4E00;&#x4E2A;&#x5BC4;&#x5B58;&#x5668;&#x7EC4;&#xFF0C;&#x5305;&#x62EC;&#x72B6;&#x6001;&#x5BC4;&#x5B58;&#x5668;&#x3001;&#x6307;&#x4EE4;&#x5BC4;&#x5B58;&#x5668;&#x3001;&#x6570;&#x636E;&#x5BC4;&#x5B58;&#x5668;&#x3002;&#x72B6;&#x6001;&#x5BC4;&#x5B58;&#x5668;&#x6807;&#x5FD7;&#x5FD9;&#x95F2;&#xFF0C;&#x6307;&#x4EE4;&#x5BC4;&#x5B58;&#x5668;&#x4E3A;&#x4ECE;cpu&#x83B7;&#x53D6;&#x6307;&#x4EE4;&#xFF0C;&#x6570;&#x636E;&#x5BC4;&#x5B58;&#x5668;&#x4F5C;&#x4E3A;io&#x63A7;&#x5236;&#x5668;&#x8F93;&#x5165;&#x8F93;&#x51FA;&#x7684;&#x901A;&#x9053;&#x3002;&#x6B64;&#x5916;&#xFF0C;io&#x6A21;&#x5757;&#x8FD8;&#x8981;&#x4E0E;cause&#x5BC4;&#x5B58;&#x5668;&#x76F8;&#x8FDE;&#xFF0C;&#x8F85;&#x52A9;&#x4E00;&#x5957;&#x4E2D;&#x65AD;&#x5C4F;&#x853D;&#x4E0E;&#x4F18;&#x5148;&#x7EA7;&#x903B;&#x8F91;&#xFF0C;&#x5B8C;&#x6210;&#x4E2D;&#x65AD;&#x5411;&#x91CF;&#x3002;IO&#x6A21;&#x5757;&#x4E2D;&#x7684;&#x4E2D;&#x65AD;&#x63A7;&#x5236;&#x53EF;&#x4EE5;&#x7EA7;&#x8054;&#x3002;</p>
-]]></content>
-      <categories>
-        <category>home brew computer system</category>
-      </categories>
-      <tags>
-        <tag>development log</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>下一步的计划</title>
     <url>/%E4%B8%8B%E4%B8%80%E6%AD%A5%E7%9A%84%E8%AE%A1%E5%88%92/</url>
     <content><![CDATA[<p>&#x73B0;&#x5728;lcc&#x7684;&#x4EE3;&#x7801;&#x5DF2;&#x8BFB;&#x5B8C;&#xFF0C;&#x4E0B;&#x4E00;&#x6B65;&#x8981;&#x505A;&#x7684;&#x662F;soc&#x7684;&#x8BBE;&#x8BA1;&#x548C;&#x9A8C;&#x8BC1;&#xFF0C;&#x4EE5;&#x53CA;lcc&#x7684;&#x79FB;&#x690D;&#x3001;&#x6C47;&#x7F16;&#x5668;&#x7684;&#x79FB;&#x690D;&#x3002;<br>&#x5BF9;&#x4E8E;&#x6C47;&#x7F16;&#x5668;&#xFF0C;&#x6211;&#x51C6;&#x5907;&#x4F7F;&#x7528;<a href="https://github.com/hlorenzi/customasm">customasm</a>.<br>&#x5982;&#x679C;&#x4F7F;&#x7528;&#x8FD9;&#x4E2A;&#x6C47;&#x7F16;&#x5668;&#xFF0C;&#x53EF;&#x80FD;&#x5728;&#x79FB;&#x690D;lcc&#x65F6;&#x9700;&#x8981;&#x4FEE;&#x6539;lcc&#x6A21;&#x677F;&#x4E2D;&#x7684;&#x4E00;&#x4E9B;&#x4F2A;&#x6307;&#x4EE4;&#x5982;ld,lcomm&#x7B49;&#x3002;</p>
@@ -52,6 +38,20 @@
       <tags>
         <tag>development log</tag>
         <tag>computer architecture</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>关于中断和io控制器</title>
+    <url>/%E5%85%B3%E4%BA%8E%E4%B8%AD%E6%96%AD%E5%92%8Cio%E6%8E%A7%E5%88%B6%E5%99%A8/</url>
+    <content><![CDATA[<p>io&#x548C;&#x4E2D;&#x65AD;&#x7684;&#x8BBE;&#x8BA1;&#x5B9A;&#x578B;&#xFF0C;&#x6210;&#x4E86;&#x76EE;&#x524D;&#x6211;&#x7684;cpu&#x8BBE;&#x8BA1;&#x8FC7;&#x7A0B;&#x4E2D;&#x6700;&#x4E9F;&#x5F85;&#x89E3;&#x51B3;&#x7684;&#x95EE;&#x9898;&#x3002;&#x82E5;&#x4E0D;&#x5B9A;&#x578B;&#xFF0C;&#x53EF;&#x80FD;&#x5F71;&#x54CD;&#x63A5;&#x4E0B;&#x6765;&#x5176;&#x4ED6;&#x7EC4;&#x4EF6;&#x7684;&#x8BBE;&#x8BA1;&#x548C;&#x6D4B;&#x8BD5;&#x5DE5;&#x4F5C;&#x3002;</p>
+<p>&#x4E2D;&#x65AD;&#x63A7;&#x5236;&#x57FA;&#x672C;&#x6CA1;&#x5565;&#x53EF;&#x4FEE;&#x6539;&#x7684;&#xFF0C;cpu&#x7AEF;&#x53EA;&#x6709;&#x4E00;&#x4E2A;&#x4E2D;&#x65AD;&#x811A;&#xFF0C;cp0&#xFF08;&#x534F;&#x5904;&#x7406;&#x5668;0&#xFF0C;&#x5373;cu&#xFF09;&#x4E2D;&#x6709;&#x56DB;&#x4E2A;&#x5BC4;&#x5B58;&#x5668;&#xFF0C;cause&#x7528;&#x4E8E;&#x8BB0;&#x5F55;&#x5916;&#x90E8;&#x4E2D;&#x65AD;&#x3001;&#x5185;&#x90E8;&#x4E2D;&#x65AD;&#x548C;&#x5F02;&#x5E38;&#x7684;&#x79CD;&#x7C7B;&#xFF1B;status&#x4E2D;&#x63A7;&#x5236;&#x8FD9;&#x4E00;&#x4E2A;&#x4E2D;&#x65AD;&#x7684;&#x5F00;&#x5173;&#xFF1B;base&#x8BB0;&#x5F55;&#x4E2D;&#x65AD;&#x5904;&#x7406;&#x7A0B;&#x5E8F;&#x7684;&#x5730;&#x5740;&#xFF0C;&#x5728;&#x4E2D;&#x65AD;&#x5904;&#x7406;&#x7A0B;&#x5E8F;&#x4E2D;&#x4F7F;&#x7528;mfc0&#x6307;&#x4EE4;&#x67E5;&#x8BE2;cause&#x5BC4;&#x5B58;&#x5668;&#x8DF3;&#x8F6C;&#x5230;&#x76F8;&#x5E94;&#x4E2D;&#x65AD;&#x7684;&#x5904;&#x7406;&#x7A0B;&#x5E8F;&#x5730;&#x5740;&#xFF1B;EPC&#x7528;&#x6765;&#x4FDD;&#x5B58;&#x4E2D;&#x65AD;&#x524D;&#x7684;&#x6307;&#x4EE4;&#x5730;&#x5740;&#x3002;&#x8FD9;&#x4E00;&#x90E8;&#x5206;&#xFF0C;&#x6211;&#x53EA;&#x9700;&#x8981;&#x989D;&#x5916;&#x5B9E;&#x73B0;&#x4E09;&#x6761;&#x6307;&#x4EE4;mfc0&#xFF0C;mtc0&#x548C;eret&#x3002;</p>
+<p>io&#x6A21;&#x5757;&#x7684;&#x8F93;&#x5165;&#x8F93;&#x51FA;&#x90E8;&#x5206;&#x5E94;&#x8BE5;&#x662F;&#x4E00;&#x4E2A;&#x5BC4;&#x5B58;&#x5668;&#x7EC4;&#xFF0C;&#x5305;&#x62EC;&#x72B6;&#x6001;&#x5BC4;&#x5B58;&#x5668;&#x3001;&#x6307;&#x4EE4;&#x5BC4;&#x5B58;&#x5668;&#x3001;&#x6570;&#x636E;&#x5BC4;&#x5B58;&#x5668;&#x3002;&#x72B6;&#x6001;&#x5BC4;&#x5B58;&#x5668;&#x6807;&#x5FD7;&#x5FD9;&#x95F2;&#xFF0C;&#x6307;&#x4EE4;&#x5BC4;&#x5B58;&#x5668;&#x4E3A;&#x4ECE;cpu&#x83B7;&#x53D6;&#x6307;&#x4EE4;&#xFF0C;&#x6570;&#x636E;&#x5BC4;&#x5B58;&#x5668;&#x4F5C;&#x4E3A;io&#x63A7;&#x5236;&#x5668;&#x8F93;&#x5165;&#x8F93;&#x51FA;&#x7684;&#x901A;&#x9053;&#x3002;&#x6B64;&#x5916;&#xFF0C;io&#x6A21;&#x5757;&#x8FD8;&#x8981;&#x4E0E;cause&#x5BC4;&#x5B58;&#x5668;&#x76F8;&#x8FDE;&#xFF0C;&#x8F85;&#x52A9;&#x4E00;&#x5957;&#x4E2D;&#x65AD;&#x5C4F;&#x853D;&#x4E0E;&#x4F18;&#x5148;&#x7EA7;&#x903B;&#x8F91;&#xFF0C;&#x5B8C;&#x6210;&#x4E2D;&#x65AD;&#x5411;&#x91CF;&#x3002;IO&#x6A21;&#x5757;&#x4E2D;&#x7684;&#x4E2D;&#x65AD;&#x63A7;&#x5236;&#x53EF;&#x4EE5;&#x7EA7;&#x8054;&#x3002;</p>
+]]></content>
+      <categories>
+        <category>home brew computer system</category>
+      </categories>
+      <tags>
+        <tag>development log</tag>
       </tags>
   </entry>
   <entry>
