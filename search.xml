@@ -1,19 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>cpu内部只采用一个时钟，对于不同速度的组件将采用clock enabler</title>
-    <url>/cpu%E5%86%85%E9%83%A8%E5%8F%AA%E9%87%87%E7%94%A8%E4%B8%80%E4%B8%AA%E6%97%B6%E9%92%9F%EF%BC%8C%E5%AF%B9%E4%BA%8E%E4%B8%8D%E5%90%8C%E9%80%9F%E5%BA%A6%E7%9A%84%E7%BB%84%E4%BB%B6%E5%B0%86%E9%87%87%E7%94%A8clock-enabler/</url>
-    <content><![CDATA[<p>&#x51E0;&#x4E4E;&#x6240;&#x6709;&#x4EBA;&#x90FD;&#x4E0D;&#x5EFA;&#x8BAE;&#xFF0C;&#x5728;FPGA&#x4E2D;&#x4F7F;&#x7528;&#x591A;&#x4E8E;&#x4E00;&#x4E2A;&#x65F6;&#x949F;&#x3002;&#x5728;FPGA&#x4E2D;&#x4F7F;&#x7528;&#x4E0D;&#x540C;&#x7684;&#x65F6;&#x949F;&#xFF0C;&#x6D89;&#x53CA;&#x5230;&#x5728;&#x4E0D;&#x540C;&#x7684;&#x65F6;&#x949F;&#x57DF;&#xFF08;clock domain&#xFF09;&#x8FDB;&#x884C;&#x540C;&#x6B65;&#xFF0C;&#x6570;&#x636E;&#x7684;&#x540C;&#x6B65;&#x901A;&#x5E38;&#x4F7F;&#x7528;&#x4E24;&#x4E2A;&#x4E32;&#x8054;&#x7684;&#x89E6;&#x53D1;&#x5668;&#xFF0C;flag&#xFF08;&#x4E00;&#x4E2A;&#x5468;&#x671F;&#x7684;&#x4FE1;&#x53F7;&#xFF09;&#x901A;&#x5E38;&#x8F6C;&#x6362;&#x6210;&#x7535;&#x5E73;&#x8F6C;&#x6362;&#xFF0C;&#x7136;&#x540E;&#x518D;&#x5230;&#x53E6;&#x4E00;&#x4E2A;&#x57DF;&#x8FDB;&#x884C;&#x540C;&#x6B65;&#xFF0C;&#x8BE6;&#x7EC6;&#x7684;&#x8BBE;&#x8BA1;&#x53EF;&#x4EE5;&#x770B;<a href="https://www.fpga4fun.com/CrossClockDomain.html">&#x8FD9;&#x91CC;</a>&#x3002;</p>
-<p>&#x56E0;&#x6B64;&#xFF0C;&#x6211;&#x4E5F;&#x51B3;&#x5B9A;&#x5728;&#x6211;&#x7684;&#x8BBE;&#x8BA1;&#x4E2D;&#x64A4;&#x9500;&#x5F02;&#x6B65;&#x7684;&#x6E05;&#x96F6;&#x3001;&#x4E0B;&#x8FB9;&#x6CBF;&#x7684;&#x6E05;&#x96F6;&#x3002;&#x5728;&#x9700;&#x8981;&#x4F7F;&#x7528;&#x4E0D;&#x540C;&#x901F;&#x5EA6;&#x7684;&#x7EC4;&#x4EF6;&#xFF0C;&#x5982;&#x8BBE;&#x8BA1;&#x76EE;&#x6807;&#x4E2D;&#x7684;&#x53EF;&#x4EE5;&#x6682;&#x505C;&#x7684;&#xFF0C;&#x53EF;&#x4EE5;&#x8C03;&#x901F;&#x7684;cpu&#xFF0C;&#x91C7;&#x7528;&#x8BA1;&#x6570;&#x5668;&#x6FC0;&#x6D3B;&#x7684;clock enabler&#xFF0C;&#x8BE6;&#x7EC6;&#x8BBE;&#x8BA1;&#x53EF;&#x4EE5;&#x770B;<a href="https://zipcpu.com/blog/2017/06/02/generating-timing.html">&#x8FD9;&#x91CC;</a>&#x3002;&#x8FD9;&#x6837;&#x5BF9;&#x6211;&#x73B0;&#x6709;&#x7684;&#x8BBE;&#x8BA1;&#x7684;&#x4FEE;&#x6539;&#x4EA7;&#x751F;&#x4E86;&#x4E00;&#x5B9A;&#x7684;&#x5DE5;&#x4F5C;&#x91CF;&#x3002;</p>
-]]></content>
-      <categories>
-        <category>home brew computer system</category>
-      </categories>
-      <tags>
-        <tag>development log</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>下一步的计划</title>
     <url>/%E4%B8%8B%E4%B8%80%E6%AD%A5%E7%9A%84%E8%AE%A1%E5%88%92/</url>
     <content><![CDATA[<p>&#x73B0;&#x5728;lcc&#x7684;&#x4EE3;&#x7801;&#x5DF2;&#x8BFB;&#x5B8C;&#xFF0C;&#x4E0B;&#x4E00;&#x6B65;&#x8981;&#x505A;&#x7684;&#x662F;soc&#x7684;&#x8BBE;&#x8BA1;&#x548C;&#x9A8C;&#x8BC1;&#xFF0C;&#x4EE5;&#x53CA;lcc&#x7684;&#x79FB;&#x690D;&#x3001;&#x6C47;&#x7F16;&#x5668;&#x7684;&#x79FB;&#x690D;&#x3002;<br>&#x5BF9;&#x4E8E;&#x6C47;&#x7F16;&#x5668;&#xFF0C;&#x6211;&#x51C6;&#x5907;&#x4F7F;&#x7528;<a href="https://github.com/hlorenzi/customasm">customasm</a>.<br>&#x5982;&#x679C;&#x4F7F;&#x7528;&#x8FD9;&#x4E2A;&#x6C47;&#x7F16;&#x5668;&#xFF0C;&#x53EF;&#x80FD;&#x5728;&#x79FB;&#x690D;lcc&#x65F6;&#x9700;&#x8981;&#x4FEE;&#x6539;lcc&#x6A21;&#x677F;&#x4E2D;&#x7684;&#x4E00;&#x4E9B;&#x4F2A;&#x6307;&#x4EE4;&#x5982;ld,lcomm&#x7B49;&#x3002;</p>
@@ -38,6 +25,19 @@
       <tags>
         <tag>development log</tag>
         <tag>computer architecture</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>cpu内部只采用一个时钟，对于不同速度的组件将采用clock enabler</title>
+    <url>/cpu%E5%86%85%E9%83%A8%E5%8F%AA%E9%87%87%E7%94%A8%E4%B8%80%E4%B8%AA%E6%97%B6%E9%92%9F%EF%BC%8C%E5%AF%B9%E4%BA%8E%E4%B8%8D%E5%90%8C%E9%80%9F%E5%BA%A6%E7%9A%84%E7%BB%84%E4%BB%B6%E5%B0%86%E9%87%87%E7%94%A8clock-enabler/</url>
+    <content><![CDATA[<p>&#x51E0;&#x4E4E;&#x6240;&#x6709;&#x4EBA;&#x90FD;&#x4E0D;&#x5EFA;&#x8BAE;&#xFF0C;&#x5728;FPGA&#x4E2D;&#x4F7F;&#x7528;&#x591A;&#x4E8E;&#x4E00;&#x4E2A;&#x65F6;&#x949F;&#x3002;&#x5728;FPGA&#x4E2D;&#x4F7F;&#x7528;&#x4E0D;&#x540C;&#x7684;&#x65F6;&#x949F;&#xFF0C;&#x6D89;&#x53CA;&#x5230;&#x5728;&#x4E0D;&#x540C;&#x7684;&#x65F6;&#x949F;&#x57DF;&#xFF08;clock domain&#xFF09;&#x8FDB;&#x884C;&#x540C;&#x6B65;&#xFF0C;&#x6570;&#x636E;&#x7684;&#x540C;&#x6B65;&#x901A;&#x5E38;&#x4F7F;&#x7528;&#x4E24;&#x4E2A;&#x4E32;&#x8054;&#x7684;&#x89E6;&#x53D1;&#x5668;&#xFF0C;flag&#xFF08;&#x4E00;&#x4E2A;&#x5468;&#x671F;&#x7684;&#x4FE1;&#x53F7;&#xFF09;&#x901A;&#x5E38;&#x8F6C;&#x6362;&#x6210;&#x7535;&#x5E73;&#x8F6C;&#x6362;&#xFF0C;&#x7136;&#x540E;&#x518D;&#x5230;&#x53E6;&#x4E00;&#x4E2A;&#x57DF;&#x8FDB;&#x884C;&#x540C;&#x6B65;&#xFF0C;&#x8BE6;&#x7EC6;&#x7684;&#x8BBE;&#x8BA1;&#x53EF;&#x4EE5;&#x770B;<a href="https://www.fpga4fun.com/CrossClockDomain.html">&#x8FD9;&#x91CC;</a>&#x3002;</p>
+<p>&#x56E0;&#x6B64;&#xFF0C;&#x6211;&#x4E5F;&#x51B3;&#x5B9A;&#x5728;&#x6211;&#x7684;&#x8BBE;&#x8BA1;&#x4E2D;&#x64A4;&#x9500;&#x5F02;&#x6B65;&#x7684;&#x6E05;&#x96F6;&#x3001;&#x4E0B;&#x8FB9;&#x6CBF;&#x7684;&#x6E05;&#x96F6;&#x3002;&#x5728;&#x9700;&#x8981;&#x4F7F;&#x7528;&#x4E0D;&#x540C;&#x901F;&#x5EA6;&#x7684;&#x7EC4;&#x4EF6;&#xFF0C;&#x5982;&#x8BBE;&#x8BA1;&#x76EE;&#x6807;&#x4E2D;&#x7684;&#x53EF;&#x4EE5;&#x6682;&#x505C;&#x7684;&#xFF0C;&#x53EF;&#x4EE5;&#x8C03;&#x901F;&#x7684;cpu&#xFF0C;&#x91C7;&#x7528;&#x8BA1;&#x6570;&#x5668;&#x6FC0;&#x6D3B;&#x7684;clock enabler&#xFF0C;&#x8BE6;&#x7EC6;&#x8BBE;&#x8BA1;&#x53EF;&#x4EE5;&#x770B;<a href="https://zipcpu.com/blog/2017/06/02/generating-timing.html">&#x8FD9;&#x91CC;</a>&#x3002;&#x8FD9;&#x6837;&#x5BF9;&#x6211;&#x73B0;&#x6709;&#x7684;&#x8BBE;&#x8BA1;&#x7684;&#x4FEE;&#x6539;&#x4EA7;&#x751F;&#x4E86;&#x4E00;&#x5B9A;&#x7684;&#x5DE5;&#x4F5C;&#x91CF;&#x3002;</p>
+]]></content>
+      <categories>
+        <category>home brew computer system</category>
+      </categories>
+      <tags>
+        <tag>development log</tag>
       </tags>
   </entry>
   <entry>
